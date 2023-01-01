@@ -19,11 +19,6 @@ export function Home() {
     setIsModalKeybindOpen,
   } = useContext(AppContext);
 
-  useEffect(() => {
-    //test
-    changeFolder('F:/_CODING_/teste');
-  }, []);
-
   return (
     <>
       <Container>
