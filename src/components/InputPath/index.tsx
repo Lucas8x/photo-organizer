@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, KeyboardEvent, useState } from 'react';
-import { useBridge } from '../../hooks/useBridge';
+import { useBridge } from '../../hooks';
 import { Container, Input, FolderIcon } from './styles';
 
 interface Props {

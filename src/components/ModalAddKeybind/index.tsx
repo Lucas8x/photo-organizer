@@ -1,11 +1,9 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'react-toastify';
 
 import { RESERVED_KEYS } from '../../constants';
-
-import { useScrollBlock } from '../../hooks/useScrollBlock';
-import { KeybindsContext } from '../../contexts/keybindsContext';
+import { useKeybinds, useScrollBlock } from '../../hooks';
 
 import { ModalBase } from '../ModalBase';
 import { InputPath } from '../InputPath';
@@ -28,7 +26,7 @@ interface Props {
 
 export function ModalAddKeybind({ isOpen, onClose }: Props) {
   useScrollBlock(true);
-  const { addKeybind } = useContext(KeybindsContext);
+  const { addKeybind } = useKeybinds();
   const [keybind, setKeybind] = useState('');
   const [outputFolder, setOutputFolder] = useState('');
 

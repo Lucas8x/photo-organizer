@@ -5,7 +5,7 @@ export const Container = styled.header`
   flex-direction: column;
   gap: 8px;
   width: 100%;
-  padding: 24px 16px;
+  padding: 16px 24px;
   //border-radius: 8px;
   background-color: #1b1c1d;
 `;

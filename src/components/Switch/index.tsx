@@ -1,15 +1,15 @@
 import RSwitch from 'react-switch';
-import { useContext } from 'react';
 
-import { AppContext } from '../../contexts/appContext';
+interface Props {
+  onChange: () => void;
+  checked: boolean;
+}
 
-export function Switch() {
-  const { isMovingFiles, switchCopyOrMove } = useContext(AppContext);
-
+export function Switch({ onChange, checked }: Props) {
   return (
     <RSwitch
-      onChange={switchCopyOrMove}
-      checked={isMovingFiles}
+      onChange={onChange}
+      checked={checked}
       height={25}
       width={50}
       handleDiameter={15}

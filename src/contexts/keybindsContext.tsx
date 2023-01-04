@@ -9,6 +9,7 @@ interface KeybindsContextData {
   keybinds: IKeybinds;
   addKeybind: (data: IKeybind) => boolean;
   deleteKeybind: (key: string) => void;
+  clearAll: () => void;
 }
 
 export const KeybindsContext = createContext({} as KeybindsContextData);
@@ -38,12 +39,17 @@ export function KeybindsProvider({ children }: KeybindsContextProps) {
     });
   }
 
+  function clearAll() {
+    setKeybinds({});
+  }
+
   return (
     <KeybindsContext.Provider
       value={{
         keybinds,
         addKeybind,
         deleteKeybind,
+        clearAll,
       }}
     >
       {children}

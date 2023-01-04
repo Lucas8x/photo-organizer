@@ -1,13 +1,14 @@
-import { useBridge } from '../../hooks/useBridge';
+import { useBridge } from '../../hooks';
 
 import { Container, Preview, Details, Keybind, Path } from './styles';
 
 interface Props {
   keybind: string;
   path: string;
+  showPreview?: boolean;
 }
 
-export function KeybindPreview({ keybind, path }: Props) {
+export function KeybindPreview({ keybind, path, showPreview }: Props) {
   const { openFolder } = useBridge();
   const pathName = path.replace('\\', '/').split('/').reverse()[0];
 
@@ -17,7 +18,7 @@ export function KeybindPreview({ keybind, path }: Props) {
 
   return (
     <Container>
-      <Preview onClick={handleClick} />
+      {showPreview && <Preview onClick={handleClick} />}
 
       <Details>
         <Keybind>

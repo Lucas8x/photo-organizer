@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+interface ContainerProps {
+  hasImg: boolean;
+}
+
+export const Container = styled.div<ContainerProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
 
-  width: 90%;
+  width: ${({ hasImg }) => hasImg && '90%'};
   padding: 20px;
   height: 100%;
   max-height: 800px;
@@ -32,6 +36,11 @@ export const Image = styled.img`
 `;
 
 export const FilesCount = styled.span`
+  font-weight: bold;
+  color: #fff;
+`;
+
+export const NoImageMessage = styled.span`
   font-weight: bold;
   color: #fff;
 `;

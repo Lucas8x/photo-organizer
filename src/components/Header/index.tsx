@@ -1,4 +1,6 @@
 import { InputPath } from '../InputPath';
+import { QuickSettingsDisplay } from '../QuickSettingsDisplay';
+
 import { Container, InstructionText } from './styles';
 
 interface Props {
@@ -11,6 +13,8 @@ export function Header({ onChange }: Props) {
       <InstructionText>Paste or select folder path</InstructionText>
 
       <InputPath onChange={onChange} />
+
+      <QuickSettingsDisplay />
     </Container>
   );
 }

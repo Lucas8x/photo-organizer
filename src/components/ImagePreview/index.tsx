@@ -1,6 +1,12 @@
-import { useBridge } from '../../hooks/useBridge';
+import { useBridge } from '../../hooks';
 
-import { Container, ImagePath, Image, FilesCount } from './styles';
+import {
+  Container,
+  ImagePath,
+  Image,
+  FilesCount,
+  NoImageMessage,
+} from './styles';
 
 interface Props {
   imagePath: string | undefined;
@@ -18,10 +24,16 @@ export function ImagePreview({ imagePath, count }: Props) {
   }
 
   return (
-    <Container>
-      <ImagePath onClick={handlePathClick}>{imagePath}</ImagePath>
-      <Image src={url} />
-      <FilesCount>{count}</FilesCount>
+    <Container hasImg={!!imagePath}>
+      {imagePath ? (
+        <>
+          <ImagePath onClick={handlePathClick}>{imagePath}</ImagePath>
+          <Image src={url} />
+          <FilesCount>{count}</FilesCount>
+        </>
+      ) : (
+        <NoImageMessage>NO FOLDER SELECTED</NoImageMessage>
+      )}
     </Container>
   );
 }

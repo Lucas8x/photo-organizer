@@ -1,12 +1,9 @@
-import { useContext, useEffect } from 'react';
-
-import { AppContext } from '../../contexts/appContext';
-
 import { Header } from '../../components/Header';
 import { ImagePreview } from '../../components/ImagePreview';
 import { KeybindsDisplay } from '../../components/KeybindsDisplay';
 import { ModalAddKeybind } from '../../components/ModalAddKeybind';
 
+import { useApp } from '../../hooks';
 import { Container } from './styles';
 
 export function Home() {
@@ -17,7 +14,7 @@ export function Home() {
     filesLength,
     isModalKeybindOpen,
     setIsModalKeybindOpen,
-  } = useContext(AppContext);
+  } = useApp();
 
   return (
     <>

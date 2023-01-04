@@ -1,7 +1,4 @@
-import { useContext } from 'react';
-import { AppContext } from '../../contexts/appContext';
-
-import { KeybindsContext } from '../../contexts/keybindsContext';
+import { useApp, useKeybinds } from '../../hooks';
 import { KeybindPreview } from '../KeybindPreview';
 
 import { Container, KeybindsContainer, Message, AddButton } from './styles';
@@ -11,8 +8,8 @@ interface Props {
 }
 
 export function KeybindsDisplay({ onOpenModal }: Props) {
-  const { keybinds } = useContext(KeybindsContext);
-  //const { showingFolderPreviews } = useContext(AppContext);
+  const { keybinds, clearAll } = useKeybinds();
+  const { showingFolderPreviews } = useApp();
 
   const keybindsArr = Object.entries(keybinds);
 
@@ -26,6 +23,7 @@ export function KeybindsDisplay({ onOpenModal }: Props) {
                 key={`${index}-keybind`}
                 keybind={k[0]}
                 path={k[1]}
+                showPreview={showingFolderPreviews}
               />
             ))}
           </KeybindsContainer>
