@@ -1,6 +1,6 @@
 import { ChangeEvent, useRef, KeyboardEvent, useState } from 'react';
 import { useBridge } from '../../hooks';
-import { Container, Input, FolderIcon } from './styles';
+import { Container, Input, FolderIcon, RefreshIcon } from './styles';
 
 interface Props {
   onChange: (path: string) => void;
@@ -34,6 +34,11 @@ export function InputPath({ onChange, onFocus, onBlur }: Props) {
     }
   }
 
+  function handleRefresh() {
+    if (!inputValue) return;
+    onChange(inputValue);
+  }
+
   return (
     <Container>
       <Input
@@ -45,7 +50,17 @@ export function InputPath({ onChange, onFocus, onBlur }: Props) {
         onBlur={onBlur}
         onKeyPress={clickPress}
       />
-      <FolderIcon onClick={openDialog} />
+
+      <FolderIcon
+        onClick={openDialog}
+        title='Open system folder selection dialog'
+      />
+
+      <RefreshIcon
+        onClick={handleRefresh}
+        disabled={!inputValue}
+        title='Refresh current folder'
+      />
     </Container>
   );
 }

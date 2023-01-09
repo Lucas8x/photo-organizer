@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Folder } from '@styled-icons/bootstrap';
+import styled, { css } from 'styled-components';
+import { Folder, ArrowClockwise } from '@styled-icons/bootstrap';
 
 export const Container = styled.div`
   display: flex;
@@ -24,4 +24,18 @@ export const FolderIcon = styled(Folder)`
   height: 25px;
   color: #fff;
   cursor: pointer;
+`;
+
+export const RefreshIcon = styled(ArrowClockwise)<{ disabled?: boolean }>`
+  width: 25px;
+  height: 25px;
+  color: #fff;
+  cursor: pointer;
+
+  ${({ disabled }) =>
+    disabled &&
+    css`
+      opacity: 0.5;
+      cursor: not-allowed;
+    `}
 `;
