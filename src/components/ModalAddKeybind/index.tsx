@@ -67,7 +67,7 @@ export function ModalAddKeybind({ isOpen, onClose }: Props) {
 
         <InputPathContainer>
           <Text>Please enter destination folder path:</Text>
-          <InputPath onChange={setOutputFolder} />
+          <InputPath onChange={setOutputFolder} hideRefreshButton />
         </InputPathContainer>
 
         <ButtonsContainer>

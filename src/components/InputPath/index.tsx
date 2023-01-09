@@ -6,9 +6,15 @@ interface Props {
   onChange: (path: string) => void;
   onFocus?: () => void;
   onBlur?: () => void;
+  hideRefreshButton?: boolean;
 }
 
-export function InputPath({ onChange, onFocus, onBlur }: Props) {
+export function InputPath({
+  onChange,
+  onFocus,
+  onBlur,
+  hideRefreshButton,
+}: Props) {
   const { openFolderDialog } = useBridge();
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -56,11 +62,13 @@ export function InputPath({ onChange, onFocus, onBlur }: Props) {
         title='Open system folder selection dialog'
       />
 
-      <RefreshIcon
-        onClick={handleRefresh}
-        disabled={!inputValue}
-        title='Refresh current folder'
-      />
+      {!hideRefreshButton && (
+        <RefreshIcon
+          onClick={handleRefresh}
+          disabled={!inputValue}
+          title='Refresh current folder'
+        />
+      )}
     </Container>
   );
 }
