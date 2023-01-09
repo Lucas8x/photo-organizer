@@ -22,8 +22,8 @@ interface AppContextData {
   setIsModalKeybindOpen: (b: boolean) => void;
   showingFolderPreviews: boolean;
   switchFolderPreview: () => void;
-  nextImgAfterAction: boolean;
-  switchNextImageAfterAction: () => void;
+  nextImgAfterCopy: boolean;
+  switchNextImageAfterCopy: () => void;
 }
 
 export const AppContext = createContext({} as AppContextData);
@@ -38,7 +38,7 @@ export function AppProvider({ children }: AppContextProps) {
   const [files, setFiles] = useState<Array<string>>([]);
   const [isMovingFiles, setIsMovingFiles] = useState(false);
   const [showingFolderPreviews, setShowingFolderPreviews] = useState(true);
-  const [nextImgAfterAction, setNextImgAfterAction] = useState(true);
+  const [nextImgAfterCopy, setNextImgAfterCopy] = useState(true);
   //const [copiedFiles, setCopiedFiles] = useState<Array<string>>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -60,7 +60,7 @@ export function AppProvider({ children }: AppContextProps) {
       isMovingFiles,
       currentIndex,
       filesLength,
-      nextImgAfterAction,
+      nextImgAfterCopy,
     ]
   );
 
@@ -105,9 +105,8 @@ export function AppProvider({ children }: AppContextProps) {
         basename(currentImagePath)
       );
       copyFile(currentImagePath, dest);
-      nextImgAfterAction
-        ? nextImage()
-        : toast.success('Copied', { autoClose: 1500 });
+      nextImgAfterCopy && nextImage();
+      toast.success('Copied', { autoClose: 1500 });
     } catch (error) {
       toast.error('Unable to copy this image.');
       console.error(error);
@@ -124,9 +123,8 @@ export function AppProvider({ children }: AppContextProps) {
       );
       moveFile(currentImagePath, dest);
       setFiles((s) => s.filter((f) => f !== currentImage));
-      nextImgAfterAction
-        ? nextImage()
-        : toast.success('Moved', { autoClose: 1500 });
+
+      toast.success('Moved', { autoClose: 1500 });
     } catch (error) {
       toast.error('Unable to move this image.');
       console.error(error);
@@ -150,8 +148,8 @@ export function AppProvider({ children }: AppContextProps) {
     setShowingFolderPreviews((s) => !s);
   }
 
-  function switchNextImageAfterAction() {
-    setNextImgAfterAction((s) => !s);
+  function switchNextImageAfterCopy() {
+    setNextImgAfterCopy((s) => !s);
   }
 
   return (
@@ -169,8 +167,8 @@ export function AppProvider({ children }: AppContextProps) {
         setIsModalKeybindOpen,
         showingFolderPreviews,
         switchFolderPreview,
-        nextImgAfterAction,
-        switchNextImageAfterAction,
+        nextImgAfterCopy,
+        switchNextImageAfterCopy,
       }}
     >
       {children}

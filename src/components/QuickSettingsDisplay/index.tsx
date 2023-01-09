@@ -8,14 +8,14 @@ export function QuickSettingsDisplay() {
     switchCopyOrMove,
     showingFolderPreviews,
     switchFolderPreview,
-    nextImgAfterAction,
-    switchNextImageAfterAction,
+    nextImgAfterCopy,
+    switchNextImageAfterCopy,
   } = useApp();
 
   return (
     <Container>
       <SwitchLabeled
-        title='Copy/Move'
+        title='Copy / Move'
         onChange={switchCopyOrMove}
         checked={isMovingFiles}
       />
@@ -25,9 +25,9 @@ export function QuickSettingsDisplay() {
         checked={showingFolderPreviews}
       />
       <SwitchLabeled
-        title='Next image after Copy/Move'
-        onChange={switchNextImageAfterAction}
-        checked={nextImgAfterAction}
+        title='Next image after Copy'
+        onChange={switchNextImageAfterCopy}
+        checked={nextImgAfterCopy}
       />
     </Container>
   );
