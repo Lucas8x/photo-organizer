@@ -75,6 +75,7 @@ export function AppProvider({ children }: AppContextProps) {
 
   function changeFolder(path: string) {
     if (!path) return;
+    setCurrentIndex(0);
     setCurerntFolderPath(path);
     loadFiles(path);
   }
