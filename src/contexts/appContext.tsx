@@ -5,6 +5,9 @@ import { toast } from 'react-toastify';
 import { useBridge } from '../hooks/useBridge';
 import { KeybindsContext } from './keybindsContext';
 
+import { filterFiles } from '../utils';
+import { FILE_TYPES } from '../constants';
+
 interface AppContextProps {
   children: ReactNode;
 }
@@ -67,7 +70,8 @@ export function AppProvider({ children }: AppContextProps) {
   function loadFiles(path: string) {
     try {
       const response = loadFolder(path);
-      setFiles(response);
+      const filteredFiles = filterFiles(response, FILE_TYPES);
+      setFiles(filteredFiles);
     } catch (error) {
       toast.error('Unable to read files in this folder.');
     }

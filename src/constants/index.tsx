@@ -1,3 +1,3 @@
 export const RESERVED_KEYS = ['ArrowLeft', 'ArrowRight'];
 
-export const fileTypes = [];
+export const FILE_TYPES = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'jfif', 'webp'];
