@@ -1,3 +1,5 @@
+import { useCallback, useMemo } from 'react';
+
 import { useBridge } from '../../hooks';
 
 import {
@@ -16,12 +18,12 @@ interface Props {
 export function ImagePreview({ imagePath, count }: Props) {
   const { openInFolder } = useBridge();
 
-  const url = `file://${imagePath}`;
+  const url = useMemo(() => `file://${imagePath}`, [imagePath]);
 
-  function handlePathClick() {
+  const handlePathClick = useCallback(() => {
     if (!imagePath) return;
     openInFolder(imagePath);
-  }
+  }, [imagePath, openInFolder]);
 
   return (
     <Container hasImg={!!imagePath}>

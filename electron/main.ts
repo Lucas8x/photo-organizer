@@ -1,12 +1,13 @@
 import { app, BrowserWindow, dialog, ipcMain, ipcRenderer } from 'electron';
 
-let mainWindow: BrowserWindow | null;
-
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
+let mainWindow: BrowserWindow | null;
+const isDev = process.env.NODE_ENV === 'production';
+
 // const assetsPath =
-//   process.env.NODE_ENV === 'production'
+//   isDev
 //     ? process.resourcesPath
 //     : app.getAppPath()
 

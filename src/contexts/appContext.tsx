@@ -1,10 +1,17 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'react-toastify';
 
-import { useBridge } from '../hooks/useBridge';
 import { KeybindsContext } from './keybindsContext';
 
+import { useBridge } from '../hooks';
 import { filterFiles } from '../utils';
 import { FILE_TYPES } from '../constants';
 
@@ -45,13 +52,20 @@ export function AppProvider({ children }: AppContextProps) {
   //const [copiedFiles, setCopiedFiles] = useState<Array<string>>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const currentImage = files[currentIndex];
-  const currentImagePath =
-    currentImage &&
-    currentFolderPath &&
-    resolveImagePath(currentFolderPath, currentImage);
+  const currentImage = useMemo(
+    () => files[currentIndex],
+    [files, currentIndex]
+  );
 
-  const filesLength = files.length;
+  const currentImagePath = useMemo(
+    () =>
+      currentImage &&
+      currentFolderPath &&
+      resolveImagePath(currentFolderPath, currentImage),
+    [currentImage, currentFolderPath, resolveImagePath]
+  );
+
+  const filesLength = useMemo(() => files.length, [files.length]);
 
   useHotkeys(
     '*',
@@ -67,82 +81,102 @@ export function AppProvider({ children }: AppContextProps) {
     ]
   );
 
-  function loadFiles(path: string) {
-    try {
-      const response = loadFolder(path);
-      const filteredFiles = filterFiles(response, FILE_TYPES);
-      setFiles(filteredFiles);
-    } catch (error) {
-      toast.error('Unable to read files in this folder.');
-    }
-  }
+  const loadFiles = useCallback(
+    (path: string) => {
+      try {
+        const response = loadFolder(path);
+        const filteredFiles = filterFiles(response, FILE_TYPES);
+        setFiles(filteredFiles);
+      } catch (error) {
+        toast.error('Unable to read files in this folder.');
+      }
+    },
+    [loadFolder]
+  );
 
-  function changeFolder(path: string) {
-    if (!path) return;
-    setCurrentIndex(0);
-    setCurerntFolderPath(path);
-    loadFiles(path);
-  }
-
-  function nextImage() {
-    if (currentIndex + 1 >= filesLength) {
+  const changeFolder = useCallback(
+    (path: string) => {
+      if (!path) return;
       setCurrentIndex(0);
-      return;
-    }
-    setCurrentIndex((s) => s + 1);
-  }
+      setCurerntFolderPath(path);
+      loadFiles(path);
+    },
+    [loadFiles]
+  );
 
-  function previousImage() {
-    if (currentIndex === 0) {
-      setCurrentIndex(filesLength - 1);
-      return;
-    }
-    setCurrentIndex((s) => s - 1);
-  }
+  const nextImage = useCallback(() => {
+    currentIndex + 1 >= filesLength
+      ? setCurrentIndex(0)
+      : setCurrentIndex((s) => s + 1);
+  }, [currentIndex, filesLength]);
 
-  async function copyImage(destinationFolder: string) {
-    if (!currentImagePath) return;
+  const previousImage = useCallback(() => {
+    currentIndex === 0
+      ? setCurrentIndex(filesLength - 1)
+      : setCurrentIndex((s) => s - 1);
+  }, [currentIndex, filesLength]);
 
-    try {
-      const dest = resolveImagePath(
-        destinationFolder,
-        basename(currentImagePath)
-      );
-      copyFile(currentImagePath, dest);
-      nextImgAfterCopy && nextImage();
-      toast.success('Copied', { autoClose: 1500 });
-    } catch (error) {
-      toast.error('Unable to copy this image.');
-      console.error(error);
-    }
-  }
+  const copyImage = useCallback(
+    (destinationFolder: string) => {
+      if (!currentImagePath) return;
 
-  function moveImage(destinationFolder: string) {
-    if (!currentImagePath) return;
+      try {
+        const dest = resolveImagePath(
+          destinationFolder,
+          basename(currentImagePath)
+        );
+        copyFile(currentImagePath, dest);
+        nextImgAfterCopy && nextImage();
+        toast.success('Copied', { autoClose: 1500 });
+      } catch (error) {
+        toast.error('Unable to copy this image.');
+        console.error(error);
+      }
+    },
+    [
+      currentImagePath,
+      resolveImagePath,
+      basename,
+      copyFile,
+      nextImgAfterCopy,
+      nextImage,
+    ]
+  );
 
-    try {
-      const dest = resolveImagePath(
-        destinationFolder,
-        basename(currentImagePath)
-      );
-      moveFile(currentImagePath, dest);
-      setFiles((s) => s.filter((f) => f !== currentImage));
+  const moveImage = useCallback(
+    (destinationFolder: string) => {
+      if (!currentImagePath) return;
 
-      toast.success('Moved', { autoClose: 1500 });
-    } catch (error) {
-      toast.error('Unable to move this image.');
-      console.error(error);
-    }
-  }
+      try {
+        const dest = resolveImagePath(
+          destinationFolder,
+          basename(currentImagePath)
+        );
+        moveFile(currentImagePath, dest);
+        setFiles((s) => s.filter((f) => f !== currentImage));
 
-  function triggerKeybind(key: string) {
-    if (key === 'ArrowLeft') return previousImage();
-    if (key === 'ArrowRight') return nextImage();
+        toast.success('Moved', { autoClose: 1500 });
+      } catch (error) {
+        toast.error('Unable to move this image.');
+        console.error(error);
+      }
+    },
+    [currentImagePath, resolveImagePath, basename, moveFile, currentImage]
+  );
 
-    const destinationFolder = keybinds[key];
-    if (!destinationFolder) return;
-    isMovingFiles ? moveImage(destinationFolder) : copyImage(destinationFolder);
-  }
+  const triggerKeybind = useCallback(
+    (key: string) => {
+      if (key === 'ArrowLeft') return previousImage();
+      if (key === 'ArrowRight') return nextImage();
+
+      const destinationFolder = keybinds[key];
+      if (!destinationFolder) return;
+      isMovingFiles
+        ? moveImage(destinationFolder)
+        : copyImage(destinationFolder);
+    },
+    [isMovingFiles, moveImage, copyImage, previousImage, nextImage, keybinds]
+  );
 
   function switchCopyOrMove() {
     setIsMovingFiles((s) => !s);

@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react';
+import { createContext, ReactNode, useCallback, useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface KeybindsContextProps {
@@ -17,20 +17,23 @@ export const KeybindsContext = createContext({} as KeybindsContextData);
 export function KeybindsProvider({ children }: KeybindsContextProps) {
   const [keybinds, setKeybinds] = useState<IKeybinds>({});
 
-  function addKeybind({ key, path }: IKeybind) {
-    if (keybinds[key]) {
-      toast.error('This keybind already exist.');
-      return false;
-    }
+  const addKeybind = useCallback(
+    ({ key, path }: IKeybind) => {
+      if (keybinds[key]) {
+        toast.error('This keybind already exist.');
+        return false;
+      }
 
-    setKeybinds((s) => ({
-      ...s,
-      [key]: path,
-    }));
-    toast.success('Keybind registered.');
+      setKeybinds((s) => ({
+        ...s,
+        [key]: path,
+      }));
+      toast.success('Keybind registered.');
 
-    return true;
-  }
+      return true;
+    },
+    [keybinds]
+  );
 
   function deleteKeybind(key: string) {
     setKeybinds((s) => {

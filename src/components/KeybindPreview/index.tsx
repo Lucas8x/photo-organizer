@@ -1,16 +1,37 @@
+import { useMemo } from 'react';
+
 import { useBridge } from '../../hooks';
 
-import { Container, Preview, Details, Keybind, Path } from './styles';
+import {
+  Container,
+  Preview,
+  FakePreview,
+  Details,
+  Keybind,
+  Path,
+  QuestionIcon,
+} from './styles';
 
 interface Props {
   keybind: string;
   path: string;
   showPreview?: boolean;
+  previewPath?: string;
 }
 
-export function KeybindPreview({ keybind, path, showPreview }: Props) {
+export function KeybindPreview({
+  keybind,
+  path,
+  previewPath,
+  showPreview,
+}: Props) {
   const { openFolder } = useBridge();
-  const pathName = path.replace('\\', '/').split('/').reverse()[0];
+  const pathName = useMemo(
+    () => path.replace('\\', '/').split('/').reverse()[0],
+    [path]
+  );
+
+  const url = useMemo(() => `file://${previewPath}`, [previewPath]);
 
   function handleClick() {
     openFolder(path);
@@ -18,14 +39,23 @@ export function KeybindPreview({ keybind, path, showPreview }: Props) {
 
   return (
     <Container>
-      {showPreview && <Preview onClick={handleClick} />}
+      {showPreview &&
+        (previewPath ? (
+          <Preview src={url} onClick={handleClick} title='Open folder' />
+        ) : (
+          <FakePreview>
+            <QuestionIcon onClick={handleClick} title='Open folder' />
+          </FakePreview>
+        ))}
 
       <Details>
         <Keybind>
           Keybind: <b>{keybind}</b>
         </Keybind>
 
-        <Path onClick={handleClick}>{pathName}</Path>
+        <Path onClick={handleClick} title='Open folder'>
+          {pathName}
+        </Path>
       </Details>
     </Container>
   );
