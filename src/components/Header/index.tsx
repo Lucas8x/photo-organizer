@@ -11,8 +11,7 @@ export function Header({ onChange }: Props) {
   return (
     <Container>
       <InstructionText>Paste or select folder path</InstructionText>
-
-      <InputPath onChange={onChange} />
+      <InputPath onChange={onChange} id='joyride-input' />
 
       <QuickSettingsDisplay />
     </Container>

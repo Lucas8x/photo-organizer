@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AppProvider } from './contexts/appContext';
 import { KeybindsProvider } from './contexts/keybindsContext';
 import { Home } from './pages/Home';
+import { AppJoyride } from './components/AppJoyride';
 
 import { GlobalStyle } from './styles/GlobalStyle';
 
@@ -21,6 +22,8 @@ export function App() {
           </AppProvider>
         </KeybindsProvider>
       </HotkeysProvider>
+
+      {/* <AppJoyride /> */}
     </>
   );
 }

@@ -14,6 +14,7 @@ export function InputPath({
   onFocus,
   onBlur,
   hideRefreshButton,
+  ...rest
 }: Props) {
   const { openFolderDialog } = useBridge();
   const [inputValue, setInputValue] = useState('');
@@ -46,7 +47,7 @@ export function InputPath({
   }
 
   return (
-    <Container>
+    <Container {...rest}>
       <Input
         ref={inputRef}
         placeholder='Folder path'
