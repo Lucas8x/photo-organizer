@@ -12,6 +12,7 @@ import {
   Container,
   KeybindContainer,
   CurrentKeybind,
+  Keycap,
   InputPathContainer,
   Text,
   ButtonsContainer,
@@ -59,9 +60,10 @@ export function ModalAddKeybind({ isOpen, onClose }: Props) {
         <KeybindContainer>
           <Text>Please press any key</Text>
           {keybind && (
-            <CurrentKeybind>
-              You pressed: <b>{keybind.toLocaleUpperCase()}</b>
-            </CurrentKeybind>
+            <>
+              <CurrentKeybind>You pressed:</CurrentKeybind>
+              <Keycap>{keybind.toLocaleUpperCase()}</Keycap>
+            </>
           )}
         </KeybindContainer>
 

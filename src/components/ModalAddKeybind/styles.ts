@@ -18,11 +18,26 @@ export const KeybindContainer = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-  gap: 6px;
+  gap: 4px;
 `;
 
 export const CurrentKeybind = styled.span`
   color: #fff;
+`;
+
+export const Keycap = styled.span`
+  align-self: center;
+  padding: 2px 4px;
+
+  border-radius: 3px;
+  border: 1px solid #b4b4b4;
+
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+
+  color: #333;
+  background-color: #eee;
 `;
 
 export const InputPathContainer = styled.div`
