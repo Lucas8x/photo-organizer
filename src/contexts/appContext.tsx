@@ -104,17 +104,15 @@ export function AppProvider({ children }: AppContextProps) {
     [loadFiles]
   );
 
-  const nextImage = useCallback(() => {
-    currentIndex + 1 >= filesLength
-      ? setCurrentIndex(0)
-      : setCurrentIndex((s) => s + 1);
-  }, [currentIndex, filesLength]);
+  const nextImage = useCallback(
+    () => setCurrentIndex((s) => (s + 1 >= filesLength ? 0 : s + 1)),
+    [filesLength]
+  );
 
-  const previousImage = useCallback(() => {
-    currentIndex === 0
-      ? setCurrentIndex(filesLength - 1)
-      : setCurrentIndex((s) => s - 1);
-  }, [currentIndex, filesLength]);
+  const previousImage = useCallback(
+    () => setCurrentIndex((s) => (s === 0 ? filesLength - 1 : s - 1)),
+    [filesLength]
+  );
 
   const copyImage = useCallback(
     (destinationFolder: string) => {

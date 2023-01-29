@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { Header } from '../../components/Header';
 import { ImagePreview } from '../../components/ImagePreview';
+import { BasicControls } from '../../components/BasicControls';
 import { KeybindsDisplay } from '../../components/KeybindsDisplay';
 import { ModalAddKeybind } from '../../components/ModalAddKeybind';
 
@@ -29,7 +30,10 @@ export function Home() {
     <>
       <Container>
         <Header onChange={changeFolder} />
+
         <ImagePreview imagePath={currentImagePath} count={count} />
+        {currentImagePath && <BasicControls />}
+
         <KeybindsDisplay onOpenModal={() => setIsModalKeybindOpen(true)} />
       </Container>
 

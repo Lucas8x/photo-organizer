@@ -14,6 +14,8 @@ export const Container = styled.div`
 export const KeybindsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  row-gap: 10px;
+  column-gap: 20px;
 `;
 
 export const Message = styled.span`
