@@ -41,7 +41,7 @@ export const AppContext = createContext({} as AppContextData);
 export function AppProvider({ children }: AppContextProps) {
   const { loadFolder, resolveImagePath, basename, copyFile, moveFile } =
     useBridge();
-  const { keybinds } = useContext(KeybindsContext);
+  const { keybinds, updateKeyPreview } = useContext(KeybindsContext);
 
   const [isModalKeybindOpen, setIsModalKeybindOpen] = useState(false);
   const [currentFolderPath, setCurerntFolderPath] = useState<string>();
@@ -49,7 +49,6 @@ export function AppProvider({ children }: AppContextProps) {
   const [isMovingFiles, setIsMovingFiles] = useState(false);
   const [showingFolderPreviews, setShowingFolderPreviews] = useState(true);
   const [nextImgAfterCopy, setNextImgAfterCopy] = useState(true);
-  //const [copiedFiles, setCopiedFiles] = useState<Array<string>>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const currentImage = useMemo(
@@ -126,6 +125,7 @@ export function AppProvider({ children }: AppContextProps) {
         copyFile(currentImagePath, dest);
         nextImgAfterCopy && nextImage();
         toast.success('Copied', { autoClose: 1500 });
+        return dest;
       } catch (error) {
         toast.error('Unable to copy this image.');
         console.error(error);
@@ -154,6 +154,7 @@ export function AppProvider({ children }: AppContextProps) {
         setFiles((s) => s.filter((f) => f !== currentImage));
 
         toast.success('Moved', { autoClose: 1500 });
+        return dest;
       } catch (error) {
         toast.error('Unable to move this image.');
         console.error(error);
@@ -167,26 +168,41 @@ export function AppProvider({ children }: AppContextProps) {
       if (key === 'ArrowLeft') return previousImage();
       if (key === 'ArrowRight') return nextImage();
 
-      const destinationFolder = keybinds[key];
+      const destinationFolder = keybinds[key].path;
       if (!destinationFolder) return;
-      isMovingFiles
+
+      const dest = isMovingFiles
         ? moveImage(destinationFolder)
         : copyImage(destinationFolder);
+
+      dest &&
+        updateKeyPreview({
+          key,
+          previewPath: dest,
+        });
     },
-    [isMovingFiles, moveImage, copyImage, previousImage, nextImage, keybinds]
+    [
+      isMovingFiles,
+      moveImage,
+      copyImage,
+      previousImage,
+      nextImage,
+      keybinds,
+      updateKeyPreview,
+    ]
   );
 
-  function switchCopyOrMove() {
-    setIsMovingFiles((s) => !s);
-  }
+  const switchCopyOrMove = useCallback(() => setIsMovingFiles((s) => !s), []);
 
-  function switchFolderPreview() {
-    setShowingFolderPreviews((s) => !s);
-  }
+  const switchFolderPreview = useCallback(
+    () => setShowingFolderPreviews((s) => !s),
+    []
+  );
 
-  function switchNextImageAfterCopy() {
-    setNextImgAfterCopy((s) => !s);
-  }
+  const switchNextImageAfterCopy = useCallback(
+    () => setNextImgAfterCopy((s) => !s),
+    []
+  );
 
   return (
     <AppContext.Provider

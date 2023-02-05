@@ -15,18 +15,19 @@ export function KeybindsDisplay({ onOpenModal }: Props) {
   const { showingFolderPreviews } = useApp();
 
   const keybindsArr = useMemo(() => Object.entries(keybinds), [keybinds]);
+  const hasKeys = useMemo(() => keybindsArr.length > 0, [keybindsArr.length]);
 
   return (
     <Container>
-      {keybindsArr.length > 0 ? (
+      {hasKeys ? (
         <KeybindsContainer>
           {keybindsArr.map((k, index) => (
             <KeybindPreview
               key={`${index}-keybind`}
               keybind={k[0]}
-              path={k[1]}
+              path={k[1].path}
+              previewPath={k[1].previewPath}
               showPreview={showingFolderPreviews}
-              //previewPath={''}
             />
           ))}
         </KeybindsContainer>

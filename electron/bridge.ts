@@ -8,6 +8,19 @@ interface DialogResponse {
   filePaths: Array<string>;
 }
 
+function getNewestFile(folderPath: string, files: string[]) {
+  const arr = files
+    .map((file) => {
+      const stats = fs.statSync(path.join(folderPath, file));
+      if (stats.isFile()) {
+        return { path: file, mtime: stats.mtime.getTime() };
+      }
+    })
+    .sort((a, b) => (b?.mtime || 0) - (a?.mtime || 0));
+
+  return arr[0]?.path;
+}
+
 export const api = {
   sendMessage: (message: string) => {
     ipcRenderer.send('message', message);
@@ -30,6 +43,8 @@ export const api = {
   moveFile: (src: string, dest: string) => fs.renameSync(src, dest),
 
   copyFile: (src: string, dest: string) => fs.copyFileSync(src, dest),
+
+  getNewestFile,
 
   on: (channel: string, callback: Function) => {
     ipcRenderer.on(channel, (_, data) => callback(data));
