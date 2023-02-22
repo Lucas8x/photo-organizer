@@ -15,17 +15,20 @@ export function QuickSettingsDisplay() {
   return (
     <Container>
       <SwitchLabeled
-        title='Copy / Move'
+        text='Copy / Move'
+        title='Switch between copy or move images'
         onChange={switchCopyOrMove}
         checked={isMovingFiles}
       />
       <SwitchLabeled
-        title='Folder Preview'
+        text='Folder Preview'
+        title='Switch keybind folder preview'
         onChange={switchFolderPreview}
         checked={showingFolderPreviews}
       />
       <SwitchLabeled
-        title='Next image after Copy'
+        text='Next image after Copy'
+        title='Go to next image after press keybind'
         onChange={switchNextImageAfterCopy}
         checked={nextImgAfterCopy}
       />

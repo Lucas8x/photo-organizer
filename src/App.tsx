@@ -19,11 +19,10 @@ export function App() {
         <KeybindsProvider>
           <AppProvider>
             <Home />
+            {/* <AppJoyride /> */}
           </AppProvider>
         </KeybindsProvider>
       </HotkeysProvider>
-
-      {/* <AppJoyride /> */}
     </>
   );
 }

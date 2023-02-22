@@ -1,5 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import Joyride, { CallBackProps, STATUS, Step, Styles } from 'react-joyride';
+
+import { useApp } from '../../hooks';
 
 const STYLES: Styles = {
   options: {
@@ -20,29 +22,48 @@ const STEPS: Step[] = [
     spotlightPadding: 10,
     target: '#joyride-input',
   },
+  {
+    content: <h3>Images will show here</h3>,
+    spotlightPadding: 10,
+    target: '#joyride-image',
+  },
+  {
+    content: <h3>Control images with these keys</h3>,
+    spotlightPadding: 10,
+    target: '#joyride-controls',
+  },
+  {
+    content: <h3>Register your folders keybind here</h3>,
+    spotlightPadding: 0,
+    target: '#joyride-keybinds',
+  },
 ];
 
 const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
 
 export function AppJoyride() {
-  const [isRunning, setIsRunning] = useState(true);
+  const { isJoyrideRunning, setIsJoyrideRunning } = useApp();
 
-  const handleJoyrideCallback = useCallback((data: CallBackProps) => {
-    const { status, index } = data;
+  const handleJoyrideCallback = useCallback(
+    (data: CallBackProps) => {
+      const { status, index } = data;
 
-    if (finishedStatuses.includes(status)) {
-      setIsRunning(false);
-    }
-  }, []);
+      if (finishedStatuses.includes(status)) {
+        setIsJoyrideRunning(false);
+      }
+    },
+    [setIsJoyrideRunning]
+  );
 
   return (
     /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
     /* @ts-ignore */
     <Joyride
+      disableScrolling
       callback={handleJoyrideCallback}
       continuous
       hideCloseButton
-      run={isRunning}
+      run={isJoyrideRunning}
       scrollToFirstStep
       showProgress
       showSkipButton

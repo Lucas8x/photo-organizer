@@ -5,6 +5,7 @@ import {
   useState,
   useMemo,
   useCallback,
+  Dispatch,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'react-toastify';
@@ -34,6 +35,8 @@ interface AppContextData {
   switchFolderPreview: () => void;
   nextImgAfterCopy: boolean;
   switchNextImageAfterCopy: () => void;
+  isJoyrideRunning: boolean;
+  setIsJoyrideRunning: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext({} as AppContextData);
@@ -42,6 +45,7 @@ export function AppProvider({ children }: AppContextProps) {
   const { loadFolder, resolveImagePath, basename, copyFile, moveFile } =
     useBridge();
   const { keybinds, updateKeyPreview } = useContext(KeybindsContext);
+  const [isJoyrideRunning, setIsJoyrideRunning] = useState(false);
 
   const [isModalKeybindOpen, setIsModalKeybindOpen] = useState(false);
   const [currentFolderPath, setCurerntFolderPath] = useState<string>();
@@ -221,6 +225,8 @@ export function AppProvider({ children }: AppContextProps) {
         switchFolderPreview,
         nextImgAfterCopy,
         switchNextImageAfterCopy,
+        isJoyrideRunning,
+        setIsJoyrideRunning,
       }}
     >
       {children}

@@ -18,7 +18,7 @@ export function KeybindsDisplay({ onOpenModal }: Props) {
   const hasKeys = useMemo(() => keybindsArr.length > 0, [keybindsArr.length]);
 
   return (
-    <Container>
+    <Container id='joyride-keybinds'>
       {hasKeys ? (
         <KeybindsContainer>
           {keybindsArr.map((k, index) => (

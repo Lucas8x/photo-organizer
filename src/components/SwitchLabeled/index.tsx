@@ -2,15 +2,16 @@ import { Switch } from '../Switch';
 import { Container, Label } from './styles';
 
 interface Props {
-  title: string;
+  text: string;
+  title?: string;
   onChange: () => void;
   checked: boolean;
 }
 
-export function SwitchLabeled({ title, onChange, checked }: Props) {
+export function SwitchLabeled({ text, title, onChange, checked }: Props) {
   return (
-    <Container>
-      <Label>{title}</Label>
+    <Container title={title}>
+      <Label>{text}</Label>
       <Switch onChange={onChange} checked={checked} />
     </Container>
   );

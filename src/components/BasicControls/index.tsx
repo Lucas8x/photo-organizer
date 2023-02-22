@@ -7,7 +7,7 @@ const CONTROLS = [
 
 export function BasicControls() {
   return (
-    <Container>
+    <Container id='joyride-controls'>
       <Title>Basic Controls</Title>
 
       <Controls>

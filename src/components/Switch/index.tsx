@@ -7,6 +7,7 @@ interface Props {
 
 export function Switch({ onChange, checked }: Props) {
   return (
+    /* @ts-expect-error: Switch cannot be used as a JSX component.  */
     <RSwitch
       onChange={onChange}
       checked={checked}

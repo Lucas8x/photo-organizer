@@ -32,7 +32,7 @@ export const Image = styled.img`
   height: auto;
   max-height: 700px;
 
-  border-radius: 10px;
+  border-radius: 8px;
 `;
 
 export const FilesCount = styled.span`

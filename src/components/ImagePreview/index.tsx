@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react';
 
-import { useBridge } from '../../hooks';
+import { PREVIEW_IMAGE } from '../../constants';
+import { useApp, useBridge } from '../../hooks';
 
 import {
   Container,
@@ -10,27 +11,33 @@ import {
   NoImageMessage,
 } from './styles';
 
-interface Props {
-  imagePath: string | undefined;
-  count: string;
-}
-
-export function ImagePreview({ imagePath, count }: Props) {
+export function ImagePreview() {
   const { openInFolder } = useBridge();
+  const { currentIndex, filesLength, currentImagePath, isJoyrideRunning } =
+    useApp();
 
-  const url = useMemo(() => `file://${imagePath}`, [imagePath]);
+  const url = useMemo(
+    () => (isJoyrideRunning ? PREVIEW_IMAGE : `file://${currentImagePath}`),
+    [isJoyrideRunning, currentImagePath]
+  );
+
+  const count = useMemo(
+    () =>
+      `${currentIndex !== undefined ? currentIndex + 1 : '-'}/${filesLength}`,
+    [currentIndex, filesLength]
+  );
 
   const handlePathClick = useCallback(() => {
-    if (!imagePath) return;
-    openInFolder(imagePath);
-  }, [imagePath, openInFolder]);
+    if (!currentImagePath) return;
+    openInFolder(currentImagePath);
+  }, [currentImagePath, openInFolder]);
 
   return (
-    <Container hasImg={!!imagePath}>
-      {imagePath ? (
+    <Container hasImg={!!currentImagePath}>
+      {currentImagePath || isJoyrideRunning ? (
         <>
-          <ImagePath onClick={handlePathClick}>{imagePath}</ImagePath>
-          <Image src={url} />
+          <ImagePath onClick={handlePathClick}>{currentImagePath}</ImagePath>
+          <Image src={url} id='joyride-image' />
           <FilesCount>{count}</FilesCount>
         </>
       ) : (
