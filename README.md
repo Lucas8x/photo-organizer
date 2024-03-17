@@ -2,10 +2,9 @@
 
 Organize your photos choosing destination folder with keybinds.
 
-![Electron](https://img.shields.io/badge/Electron-000000?style=for-the-badge&logo=electron&logoColor=white)
+![Tauri](https://img.shields.io/badge/tauri-000000.svg?style=for-the-badge&logo=tauri&logoColor=%23FFFFFF)
 ![React](https://img.shields.io/badge/React-000000?style=for-the-badge&logo=react&logoColor=white)
-![StyledComponents](https://img.shields.io/badge/styled--components-000000?style=for-the-badge&logo=styled-components&logoColor=white)
-![Node](https://img.shields.io/badge/Node.js-000000?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-000000.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Typescript](https://img.shields.io/badge/TypeScript-000000?style=for-the-badge&logo=typescript&logoColor=white)
 ![Prettier](https://img.shields.io/badge/prettier-000000?style=for-the-badge&logo=prettier&logoColor=white)
 ![Eslint](https://img.shields.io/badge/eslint-000000?style=for-the-badge&logo=eslint&logoColor=white)
@@ -14,28 +13,18 @@ Organize your photos choosing destination folder with keybinds.
 
 ## 🚀 Installation
 
-Clone Repository:
-
 ```shell
+# Clone Repository
 git clone https://github.com/Lucas8x/photo-organizer.git
-```
 
-Enter project folder:
-
-```shell
+# Enter project folder
 cd photo-organizer
-```
 
-Install dependencies
-
-```shell
+# Install dependencies
 npm install
-```
 
-Start project with:
-
-```shell
-npm run start
+# Start project with
+npm run td
 ```
 
 ## 📝 License

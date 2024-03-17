@@ -12,6 +12,12 @@ interface IKeybinds {
   };
 }
 
+interface IUpdateKeybindParams {
+  previousKey: string;
+  key: string;
+  path: string;
+}
+
 interface IUpdateKeyPreviewParams {
   key: string;
   previewPath: string;

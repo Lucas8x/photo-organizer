@@ -1,20 +1,18 @@
 {
   "name": "photo-organizer",
-  "author": "Lucas Emanuel <lucasemanuel8x@gmail.com>",
-  "version": "0.1.0",
+  "private": true,
+  "version": "1.0.0",
   "description": "Organize your photos choosing destination folder with keybinds",
-  "main": "./.webpack/main/index.js",
+  "author": "Lucas Emanuel <lucasemanuel8x@gmail.com>",
+  "type": "module",
   "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "release": "electron-forge publish"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "td": "tauri dev",
+    "tb": "tauri build"
   },
-  "keywords": [
-    "photo",
-    "organizer",
-    "keybind"
-  ],
   "license": "MIT",
   "homepage": "https://github.com/Lucas8x/photo-organizer",
   "repository": {
@@ -24,106 +22,42 @@
   "bugs": {
     "url": "https://github.com/Lucas8x/photo-organizer/issues"
   },
+  "keywords": [
+    "photo",
+    "organizer",
+    "keybind",
+    "copy",
+    "move"
+  ],
   "dependencies": {
-    "body-scroll-lock": "^4.0.0-beta.0",
-    "electron-store": "^8.1.0",
-    "react": "^17.0.2",
-    "react-dom": "17.0.2",
-    "react-hot-loader": "^4.13.0",
-    "react-hotkeys-hook": "^4.0.8",
-    "react-joyride": "^2.5.3",
-    "react-switch": "^7.0.0",
-    "react-toastify": "^9.1.1",
-    "styled-components": "^5.3.0",
-    "styled-icons": "^10.46.0"
+    "@radix-ui/react-dropdown-menu": "^2.0.6",
+    "@tauri-apps/api": "^1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hotkeys-hook": "^4.5.0",
+    "react-icons": "^5.0.1",
+    "react-joyride": "^2.7.4",
+    "react-toastify": "^10.0.4",
+    "tailwind-variants": "^0.2.0",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@babel/core": "7.14.6",
-    "@babel/plugin-transform-runtime": "7.14.5",
-    "@babel/preset-env": "7.14.5",
-    "@babel/preset-react": "7.14.5",
-    "@babel/preset-typescript": "7.14.5",
-    "@electron-forge/cli": "6.0.0-beta.57",
-    "@electron-forge/maker-deb": "6.0.0-beta.57",
-    "@electron-forge/maker-rpm": "6.0.0-beta.57",
-    "@electron-forge/maker-squirrel": "6.0.0-beta.57",
-    "@electron-forge/maker-zip": "6.0.0-beta.57",
-    "@electron-forge/plugin-webpack": "6.0.0-beta.57",
-    "@marshallofsound/webpack-asset-relocator-loader": "0.5.0",
-    "@types/body-scroll-lock": "^3.1.0",
-    "@types/electron-devtools-installer": "2.2.0",
-    "@types/react": "^17.0.11",
-    "@types/react-dom": "^17.0.8",
-    "@types/styled-components": "^5.1.10",
-    "@typescript-eslint/eslint-plugin": "^5.47.0",
-    "@typescript-eslint/parser": "^5.47.0",
-    "babel-loader": "^8.2.2",
-    "css-loader": "^6.7.3",
-    "electron": "13.1.2",
-    "eslint": "^8.30.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "eslint-plugin-react": "^7.31.11",
+    "@tauri-apps/cli": "^1",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^7.1.0",
+    "@typescript-eslint/parser": "^7.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "file-loader": "^6.2.0",
-    "prettier": "^2.8.1",
-    "style-loader": "^3.3.1",
-    "typescript": "^4.9.4"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {
-        "name": "Photo Organizer",
-        "executableName": "photo-organizer",
-        "icon": "assets/icon",
-        "extraResource": [
-          "assets"
-        ]
-      },
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "mainConfig": "./webpack/main.webpack.js",
-            "renderer": {
-              "config": "./webpack/renderer.webpack.js",
-              "entryPoints": [
-                {
-                  "html": "./public/index.html",
-                  "js": "./src/index.tsx",
-                  "name": "main_window",
-                  "preload": {
-                    "js": "./electron/bridge.ts"
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      ],
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "Photo Organizer"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
+    "postcss": "^8.4.35",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.0.2",
+    "vite": "^5.0.0"
   }
 }

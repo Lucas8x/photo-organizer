@@ -1,235 +1,233 @@
+import { fs, path } from '@tauri-apps/api';
 import {
-  createContext,
   ReactNode,
-  useContext,
-  useState,
-  useMemo,
+  createContext,
   useCallback,
-  Dispatch,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'react-toastify';
-
-import { KeybindsContext } from './keybindsContext';
-
-import { useBridge } from '../hooks';
-import { filterFiles } from '../utils';
-import { FILE_TYPES } from '../constants';
+import { useKeybinds, useModal, useSettings } from '../store';
+import { fileAction, loadFolderFiles, deleteFile } from '../utils';
+import { useFileStack } from '../store/useFileStack';
 
 interface AppContextProps {
   children: ReactNode;
 }
 
 interface AppContextData {
+  currentFolderPath: string;
   files: Array<string>;
   currentIndex: number | undefined;
-  filesLength: number;
-  isMovingFiles: boolean;
   currentImagePath: string | undefined;
-  switchCopyOrMove: () => void;
   changeFolder: (path: string) => void;
-  triggerKeybind: (key: string) => void;
-  isModalKeybindOpen: boolean;
-  setIsModalKeybindOpen: (b: boolean) => void;
-  showingFolderPreviews: boolean;
-  switchFolderPreview: () => void;
-  nextImgAfterCopy: boolean;
-  switchNextImageAfterCopy: () => void;
-  isJoyrideRunning: boolean;
-  setIsJoyrideRunning: Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AppContext = createContext({} as AppContextData);
 
 export function AppProvider({ children }: AppContextProps) {
-  const { loadFolder, resolveImagePath, basename, copyFile, moveFile } =
-    useBridge();
-  const { keybinds, updateKeyPreview } = useContext(KeybindsContext);
-  const [isJoyrideRunning, setIsJoyrideRunning] = useState(false);
+  const { isModalKeybindOpen } = useModal();
+  const { isMovingFiles, nextImgAfterCopy } = useSettings();
+  const { keybinds, updateKeyPreview } = useKeybinds();
+  const { pushToFileStack, getLastStackFile, popFileStack, clearFileStack } =
+    useFileStack();
 
-  const [isModalKeybindOpen, setIsModalKeybindOpen] = useState(false);
-  const [currentFolderPath, setCurerntFolderPath] = useState<string>();
-  const [files, setFiles] = useState<Array<string>>([]);
-  const [isMovingFiles, setIsMovingFiles] = useState(false);
-  const [showingFolderPreviews, setShowingFolderPreviews] = useState(true);
-  const [nextImgAfterCopy, setNextImgAfterCopy] = useState(true);
+  const [files, setFiles] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const currentImage = useMemo(
-    () => files[currentIndex],
-    [files, currentIndex]
-  );
+  const [currentFolderPath, setCurrentFolderPath] = useState('');
 
   const currentImagePath = useMemo(
-    () =>
-      currentImage &&
-      currentFolderPath &&
-      resolveImagePath(currentFolderPath, currentImage),
-    [currentImage, currentFolderPath, resolveImagePath]
-  );
-
-  const filesLength = useMemo(() => files.length, [files.length]);
-
-  useHotkeys(
-    '*',
-    (e) => triggerKeybind(e.key),
-    { scopes: 'default', enabled: !isModalKeybindOpen },
-    [
-      keybinds,
-      isModalKeybindOpen,
-      isMovingFiles,
-      currentIndex,
-      filesLength,
-      nextImgAfterCopy,
-    ]
-  );
-
-  const loadFiles = useCallback(
-    (path: string) => {
-      try {
-        const response = loadFolder(path);
-        const filteredFiles = filterFiles(response, FILE_TYPES);
-        setFiles(filteredFiles);
-      } catch (error) {
-        toast.error('Unable to read files in this folder.');
-      }
-    },
-    [loadFolder]
+    () => files[currentIndex],
+    [files, currentIndex],
   );
 
   const changeFolder = useCallback(
-    (path: string) => {
-      if (!path) return;
+    async (path: string) => {
+      setFiles([]);
       setCurrentIndex(0);
-      setCurerntFolderPath(path);
-      loadFiles(path);
+      setCurrentFolderPath(path);
+      clearFileStack();
+      localStorage.setItem('latestPath', path);
+      if (!path) return;
+      const files = await loadFolderFiles(path);
+      setFiles(files);
     },
-    [loadFiles]
+    [clearFileStack],
   );
 
-  const nextImage = useCallback(
-    () => setCurrentIndex((s) => (s + 1 >= filesLength ? 0 : s + 1)),
-    [filesLength]
-  );
+  const nextImage = useCallback(() => {
+    setCurrentIndex((s) => {
+      const isLastImage = s === files.length - 1;
+
+      if (isMovingFiles) {
+        return isLastImage ? 0 : s;
+      }
+
+      return s + 1 >= files.length ? 0 : s + 1;
+    });
+  }, [files.length, isMovingFiles]);
 
   const previousImage = useCallback(
-    () => setCurrentIndex((s) => (s === 0 ? filesLength - 1 : s - 1)),
-    [filesLength]
+    () => setCurrentIndex((s) => (s === 0 ? files.length - 1 : s - 1)),
+    [files.length],
   );
 
-  const copyImage = useCallback(
-    (destinationFolder: string) => {
-      if (!currentImagePath) return;
-
-      try {
-        const dest = resolveImagePath(
-          destinationFolder,
-          basename(currentImagePath)
-        );
-        copyFile(currentImagePath, dest);
-        nextImgAfterCopy && nextImage();
-        toast.success('Copied', { autoClose: 1500 });
-        return dest;
-      } catch (error) {
-        toast.error('Unable to copy this image.');
-        console.error(error);
-      }
-    },
-    [
-      currentImagePath,
-      resolveImagePath,
-      basename,
-      copyFile,
-      nextImgAfterCopy,
-      nextImage,
-    ]
-  );
-
-  const moveImage = useCallback(
-    (destinationFolder: string) => {
-      if (!currentImagePath) return;
-
-      try {
-        const dest = resolveImagePath(
-          destinationFolder,
-          basename(currentImagePath)
-        );
-        moveFile(currentImagePath, dest);
-        setFiles((s) => s.filter((f) => f !== currentImage));
-
-        toast.success('Moved', { autoClose: 1500 });
-        return dest;
-      } catch (error) {
-        toast.error('Unable to move this image.');
-        console.error(error);
-      }
-    },
-    [currentImagePath, resolveImagePath, basename, moveFile, currentImage]
-  );
-
-  const triggerKeybind = useCallback(
-    (key: string) => {
-      if (key === 'ArrowLeft') return previousImage();
-      if (key === 'ArrowRight') return nextImage();
-
-      const destinationFolder = keybinds[key].path;
+  const handleKeybind = useCallback(
+    async (key: string) => {
+      const destinationFolder = keybinds[key]?.path;
       if (!destinationFolder) return;
 
-      const dest = isMovingFiles
-        ? moveImage(destinationFolder)
-        : copyImage(destinationFolder);
+      const destinationPath = await path.join(
+        destinationFolder,
+        await path.basename(currentImagePath),
+      );
 
-      dest &&
+      const { success, error } = await fileAction({
+        action: isMovingFiles ? 'move' : 'copy',
+        src: currentImagePath,
+        dest: destinationPath,
+      });
+
+      if (success) {
+        if (isMovingFiles) {
+          setFiles((s) => s.filter((f) => f !== currentImagePath));
+          nextImage();
+        } else {
+          nextImgAfterCopy && nextImage();
+        }
+
+        toast.success(isMovingFiles ? 'Moved' : 'Copied', { autoClose: 1000 });
+
         updateKeyPreview({
           key,
-          previewPath: dest,
+          previewPath: destinationPath,
         });
+
+        pushToFileStack({
+          originalPath: currentImagePath,
+          lastPath: destinationPath,
+          lastAction: isMovingFiles ? 'move' : 'copy',
+        });
+      }
+
+      if (error) {
+        toast.error(
+          `Unable to ${isMovingFiles ? 'move' : 'copy'} this image. ${error}`,
+        );
+      }
     },
     [
-      isMovingFiles,
-      moveImage,
-      copyImage,
-      previousImage,
       nextImage,
       keybinds,
+      currentImagePath,
+      isMovingFiles,
       updateKeyPreview,
-    ]
+      nextImgAfterCopy,
+      pushToFileStack,
+    ],
   );
 
-  const switchCopyOrMove = useCallback(() => setIsMovingFiles((s) => !s), []);
+  const handleUndo = useCallback(() => {
+    async function undo() {
+      const lastFile = getLastStackFile();
+      if (!lastFile) return;
 
-  const switchFolderPreview = useCallback(
-    () => setShowingFolderPreviews((s) => !s),
-    []
+      const { originalPath, lastPath, lastAction } = lastFile;
+
+      if (lastAction === 'copy') {
+        const { success } = await deleteFile(lastPath);
+
+        if (success) {
+          toast.success('Undone copy', { autoClose: 1000 });
+          popFileStack();
+        }
+      } else {
+        const { success } = await fileAction({
+          action: 'move',
+          src: lastPath,
+          dest: originalPath,
+        });
+
+        if (success) {
+          setFiles((s) => [...s, lastPath]);
+          toast.success('Undone move', { autoClose: 1000 });
+          popFileStack();
+        }
+      }
+    }
+
+    undo();
+  }, [getLastStackFile, popFileStack]);
+
+  useHotkeys(
+    Object.keys(keybinds),
+    (e) => handleKeybind(e.key),
+    {
+      enabled: !isModalKeybindOpen,
+    },
+    [keybinds, handleKeybind],
   );
 
-  const switchNextImageAfterCopy = useCallback(
-    () => setNextImgAfterCopy((s) => !s),
-    []
+  useHotkeys(
+    'ArrowLeft',
+    previousImage,
+    {
+      enabled: !isModalKeybindOpen,
+    },
+    [previousImage],
   );
+
+  useHotkeys(
+    'ArrowRight',
+    nextImage,
+    {
+      enabled: !isModalKeybindOpen,
+    },
+    [nextImage],
+  );
+
+  useHotkeys(
+    'ctrl+z',
+    handleUndo,
+    {
+      enabled: !isModalKeybindOpen,
+    },
+    [handleUndo],
+  );
+
+  useEffect(() => {
+    async function loadLatestFolder() {
+      const latestPath = localStorage.getItem('latestPath');
+      if (!latestPath) return;
+
+      const exists = await fs.exists(latestPath);
+      if (!exists) return;
+
+      changeFolder(latestPath);
+    }
+
+    loadLatestFolder();
+  }, [changeFolder]);
 
   return (
     <AppContext.Provider
       value={{
+        currentFolderPath,
         files,
         currentIndex,
-        filesLength,
         currentImagePath,
-        isMovingFiles,
-        switchCopyOrMove,
         changeFolder,
-        triggerKeybind,
-        isModalKeybindOpen,
-        setIsModalKeybindOpen,
-        showingFolderPreviews,
-        switchFolderPreview,
-        nextImgAfterCopy,
-        switchNextImageAfterCopy,
-        isJoyrideRunning,
-        setIsJoyrideRunning,
       }}
     >
       {children}
     </AppContext.Provider>
   );
+}
+
+export function useApp() {
+  const app = useContext(AppContext);
+  return app;
 }

@@ -1,7 +1,6 @@
 {
-  "files.exclude": {
-    "node_modules": true,
-    ".webpack": true
-  },
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "cSpell.words": ["keybind", "keybinds", "tauri", "toastify", "zustand"],
+  "tailwindCSS.experimental.classRegex": [
+    ["tv\\((([^()]*|\\([^()]*\\))*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+  ]
 }
