@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { ModalAddKeybind } from '../modals/ModalAddKeybind';
 import { useKeybinds, useModal, useSettings } from '../store';
 import { Button } from '../ui/Button';

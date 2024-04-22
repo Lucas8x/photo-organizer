@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "photo-organizer",
-    "version": "1.0.0"
+    "version": "../package.json"
   },
   "tauri": {
     "allowlist": {
@@ -37,6 +37,12 @@
         "scope": ["*/**"],
         "writeFile": false
       },
+      "process": {
+        "all": false,
+        "exit": false,
+        "relaunch": true,
+        "relaunchDangerousAllowSymlinkMacos": false
+      },
       "path": {
         "all": true
       },
@@ -58,6 +64,7 @@
     "bundle": {
       "active": true,
       "identifier": "com.lucas8x.photo-organizer",
+      "copyright": "Copyright 2024 Lucas Emanuel",
       "category": "Utility",
       "shortDescription": "Organize your photos choosing destination folder with keybinds",
       "longDescription": "Organize your photos choosing destination folder with keybinds",
@@ -68,12 +75,21 @@
         "icons/128x128@2x.png",
         "icons/icon.icns",
         "icons/icon.ico"
-      ]
+      ],
+      "windows": {
+        "webviewInstallMode": {
+          "silent": true,
+          "type": "offlineInstaller"
+        }
+      }
     },
     "updater": {
-      "active": false,
-      "dialog": true,
-      "pubkey": "",
+      "active": true,
+      "dialog": false,
+      "endpoints": [
+        "https://raw.githubusercontent.com/Lucas8x/photo-organizer/main/latest.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI4ODEwNUFDMTQ3QTg0MTkKUldRWmhIb1VyQVdCS01LKzk0R25Wa29mT1EybTVGeG10UDVyNElDdWdhWVVzOGJ1MjYza25BUi8K",
       "windows": {
         "installMode": "passive",
         "installerArgs": []

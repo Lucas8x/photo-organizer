@@ -6,12 +6,12 @@
   "author": "Lucas Emanuel <lucasemanuel8x@gmail.com>",
   "type": "module",
   "scripts": {
+    "td": "tauri dev",
+    "tb": "tauri build",
+    "tauri": "tauri",
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview",
-    "tauri": "tauri",
-    "td": "tauri dev",
-    "tb": "tauri build"
+    "preview": "vite preview"
   },
   "license": "MIT",
   "homepage": "https://github.com/Lucas8x/photo-organizer",

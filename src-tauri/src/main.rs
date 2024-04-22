@@ -8,23 +8,23 @@ fn show_in_folder(path: String) {
   #[cfg(target_os = "windows")]
   {
     Command::new("explorer")
-        .args(["/select,", &path]) // The comma after select is not a typo
-        .spawn()
-        .unwrap();
+      .args(["/select,", &path]) // The comma after select is not a typo
+      .spawn()
+      .unwrap();
   }
 
   #[cfg(target_os = "macos")]
   {
     Command::new("open")
-        .args(["-R", &path])
-        .spawn()
-        .unwrap();
+      .args(["-R", &path])
+      .spawn()
+      .unwrap();
   }
 }
 
 fn main() {
-    tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![show_in_folder])
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+  tauri::Builder::default()
+      .invoke_handler(tauri::generate_handler![show_in_folder])
+      .run(tauri::generate_context!())
+      .expect("error while running tauri application");
 }

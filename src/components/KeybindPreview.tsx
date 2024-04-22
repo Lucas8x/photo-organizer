@@ -44,7 +44,7 @@ export function KeybindPreview({
         <button
           className="flex items-center gap-2 outline-none"
           aria-label="Keybind actions"
-          title="Keybind actions"
+          title="Click to open keybind actions"
         >
           {showPreview && (
             <div className="flex size-11 items-center justify-center rounded-md bg-white">

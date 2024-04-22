@@ -35,6 +35,7 @@ export function ImagePreview() {
         <>
           <button
             className="flex items-center truncate text-center font-bold leading-8 text-white"
+            title="Click to show this image in file explorer"
             onClick={handlePathClick}
           >
             {currentImagePath}

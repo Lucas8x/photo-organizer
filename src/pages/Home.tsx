@@ -1,3 +1,4 @@
+import packageJson from '../../package.json';
 import { BasicControls } from '../components/BasicControls';
 import { Header } from '../components/Header';
 import { ImagePreview } from '../components/ImagePreview';
@@ -19,6 +20,12 @@ export function Home() {
       </div>
 
       <KeybindsDisplay />
+
+      <div className="relative w-full">
+        <span className="absolute bottom-0 right-0 text-xs font-bold leading-none text-white">
+          v{packageJson.version}
+        </span>
+      </div>
     </div>
   );
 }
