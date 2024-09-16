@@ -80,7 +80,7 @@ export function KeybindPreview({
           side="top"
         >
           <DropdownMenu.Item
-            className="group relative flex h-6 select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-black outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-green-600 data-[highlighted]:font-bold data-[disabled]:text-zinc-500 data-[highlighted]:text-white"
+            className="group relative flex h-6 cursor-pointer select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-black outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-green-600 data-[highlighted]:font-bold data-[disabled]:text-zinc-500 data-[highlighted]:text-white"
             onClick={handleOpenFolder}
           >
             <IoFolder className="size-4" />
@@ -89,7 +89,7 @@ export function KeybindPreview({
 
           {onEdit && (
             <DropdownMenu.Item
-              className="group relative flex h-6 select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-black outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-yellow-600 data-[highlighted]:font-bold data-[disabled]:text-zinc-500 data-[highlighted]:text-white"
+              className="group relative flex h-6 cursor-pointer select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-black outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-yellow-600 data-[highlighted]:font-bold data-[disabled]:text-zinc-500 data-[highlighted]:text-white"
               onClick={onEdit}
             >
               <IoPencilSharp className="size-4" />
@@ -99,7 +99,7 @@ export function KeybindPreview({
 
           {onDelete && (
             <DropdownMenu.Item
-              className="group relative flex h-6  select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-red-600 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-red-700 data-[highlighted]:font-bold data-[disabled]:text-zinc-500 data-[highlighted]:text-white"
+              className="group relative flex h-6 cursor-pointer select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-red-600 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-red-700 data-[highlighted]:font-bold data-[disabled]:text-zinc-500 data-[highlighted]:text-white"
               onClick={onDelete}
             >
               <IoTrash className="size-4" />
