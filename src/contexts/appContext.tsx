@@ -29,11 +29,18 @@ interface AppContextData {
 export const AppContext = createContext({} as AppContextData);
 
 export function AppProvider({ children }: AppContextProps) {
-  const { isModalKeybindOpen } = useModal();
-  const { isMovingFiles, nextImgAfterCopy } = useSettings();
-  const { keybinds, updateKeyPreview } = useKeybinds();
-  const { pushToFileStack, getLastStackFile, popFileStack, clearFileStack } =
-    useFileStack();
+  const isModalKeybindOpen = useModal((s) => s.isModalKeybindOpen);
+
+  const isMovingFiles = useSettings((s) => s.isMovingFiles);
+  const nextImgAfterCopy = useSettings((s) => s.nextImgAfterCopy);
+
+  const keybinds = useKeybinds((s) => s.keybinds);
+  const updateKeyPreview = useKeybinds((s) => s.updateKeyPreview);
+
+  const pushToFileStack = useFileStack((s) => s.pushToFileStack);
+  const getLastStackFile = useFileStack((s) => s.getLastStackFile);
+  const popFileStack = useFileStack((s) => s.popFileStack);
+  const clearFileStack = useFileStack((s) => s.clearFileStack);
 
   const [files, setFiles] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);

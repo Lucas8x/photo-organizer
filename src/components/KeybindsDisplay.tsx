@@ -5,9 +5,13 @@ import { Button } from '../ui/Button';
 import { KeybindPreview } from './KeybindPreview';
 
 export function KeybindsDisplay() {
-  const { isModalKeybindOpen, setIsModalKeybindOpen } = useModal();
-  const { keybinds, deleteKeybind, clearAll } = useKeybinds();
-  const { showingFolderPreviews } = useSettings();
+  const isModalKeybindOpen = useModal((s) => s.isModalKeybindOpen);
+  const setIsModalKeybindOpen = useModal((s) => s.setIsModalKeybindOpen);
+
+  const keybinds = useKeybinds((s) => s.keybinds);
+  const deleteKeybind = useKeybinds((s) => s.deleteKeybind);
+
+  const showingFolderPreviews = useSettings((s) => s.showingFolderPreviews);
 
   const [editKeybind, setEditKeybind] = useState<{
     key: string;

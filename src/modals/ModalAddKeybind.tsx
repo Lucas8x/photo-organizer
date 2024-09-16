@@ -18,7 +18,7 @@ export function ModalAddKeybind({
   initialKeybind = '',
   initialOutputPath = '',
 }: Props) {
-  const { addKeybind } = useKeybinds();
+  const addKeybind = useKeybinds((s) => s.addKeybind);
 
   const [keybind, setKeybind] = useState(initialKeybind);
   const [outputPath, setOutputPath] = useState(initialOutputPath);

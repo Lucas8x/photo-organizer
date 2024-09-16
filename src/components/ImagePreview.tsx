@@ -7,7 +7,7 @@ import { useJoyride } from '../store';
 
 export function ImagePreview() {
   const { currentImagePath, currentIndex, files, currentFolderPath } = useApp();
-  const { isJoyrideRunning } = useJoyride();
+  const isJoyrideRunning = useJoyride((s) => s.isJoyrideRunning);
 
   const url = useMemo(
     () =>

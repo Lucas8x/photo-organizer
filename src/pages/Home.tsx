@@ -8,7 +8,7 @@ import { useJoyride } from '../store';
 
 export function Home() {
   const { currentImagePath } = useApp();
-  const { isJoyrideRunning } = useJoyride();
+  const isJoyrideRunning = useJoyride((s) => s.isJoyrideRunning);
 
   return (
     <div className="flex w-full max-w-full flex-col items-center justify-between overflow-hidden bg-zinc-800">
