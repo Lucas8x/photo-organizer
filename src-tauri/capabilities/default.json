@@ -1,0 +1,26 @@
+{
+  "identifier": "desktop-capability",
+  "local": true,
+  "platforms": ["windows"],
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+    "fs:allow-read-dir",
+    "fs:allow-copy-file",
+    "fs:allow-remove",
+    "fs:allow-rename",
+    "fs:allow-exists",
+    {
+      "identifier": "fs:scope",
+      "allow": ["*/**"]
+    },
+    "shell:allow-open",
+    "shell:default",
+    "dialog:allow-open",
+    "dialog:default",
+    "process:allow-restart",
+    "fs:default",
+    "process:default",
+    "updater:default"
+  ]
+}

@@ -1,99 +1,63 @@
 {
+  "productName": "photo-organizer",
+  "mainBinaryName": "photo-organizer",
+  "version": "../package.json",
+  "identifier": "com.lucas8x.photo-organizer",
   "build": {
     "beforeDevCommand": "npm run dev",
     "beforeBuildCommand": "npm run build",
-    "devPath": "http://localhost:1420",
-    "distDir": "../dist"
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420"
   },
-  "package": {
-    "productName": "photo-organizer",
-    "version": "../package.json"
-  },
-  "tauri": {
-    "allowlist": {
-      "all": false,
-      "shell": {
-        "all": false,
-        "open": true
-      },
-      "dialog": {
-        "all": false,
-        "ask": false,
-        "confirm": false,
-        "message": false,
-        "open": true,
-        "save": false
-      },
-      "fs": {
-        "all": false,
-        "copyFile": true,
-        "createDir": false,
-        "exists": true,
-        "readDir": true,
-        "readFile": false,
-        "removeDir": false,
-        "removeFile": true,
-        "renameFile": true,
-        "scope": ["*/**"],
-        "writeFile": false
-      },
-      "process": {
-        "all": false,
-        "exit": false,
-        "relaunch": true,
-        "relaunchDangerousAllowSymlinkMacos": false
-      },
-      "path": {
-        "all": true
-      },
-      "protocol": {
-        "asset": true,
-        "assetScope": ["**"]
+  "bundle": {
+    "active": true,
+    "windows": {
+      "webviewInstallMode": {
+        "silent": true,
+        "type": "downloadBootstrapper"
       }
+    },
+    "copyright": "Copyright 2024 Lucas Emanuel",
+    "category": "Utility",
+    "shortDescription": "Organize your photos choosing destination folder with keybinds",
+    "longDescription": "Organize your photos choosing destination folder with keybinds",
+    "targets": ["appimage", "msi"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "createUpdaterArtifacts": true
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI4ODEwNUFDMTQ3QTg0MTkKUldRWmhIb1VyQVdCS01LKzk0R25Wa29mT1EybTVGeG10UDVyNElDdWdhWVVzOGJ1MjYza25BUi8K",
+      "windows": {
+        "installMode": "passive",
+        "installerArgs": []
+      },
+      "endpoints": [
+        "https://raw.githubusercontent.com/Lucas8x/photo-organizer/main/latest.json"
+      ]
+    }
+  },
+  "app": {
+    "security": {
+      "assetProtocol": {
+        "scope": ["**"],
+        "enable": true
+      },
+      "csp": null
     },
     "windows": [
       {
         "title": "Photo Organizer",
         "width": 800,
-        "height": 600
+        "height": 600,
+        "useHttpsScheme": true
       }
-    ],
-    "security": {
-      "csp": null
-    },
-    "bundle": {
-      "active": true,
-      "identifier": "com.lucas8x.photo-organizer",
-      "copyright": "Copyright 2024 Lucas Emanuel",
-      "category": "Utility",
-      "shortDescription": "Organize your photos choosing destination folder with keybinds",
-      "longDescription": "Organize your photos choosing destination folder with keybinds",
-      "targets": ["appimage", "msi", "updater"],
-      "icon": [
-        "icons/32x32.png",
-        "icons/128x128.png",
-        "icons/128x128@2x.png",
-        "icons/icon.icns",
-        "icons/icon.ico"
-      ],
-      "windows": {
-        "webviewInstallMode": {
-          "silent": true,
-          "type": "offlineInstaller"
-        }
-      }
-    },
-    "updater": {
-      "active": true,
-      "dialog": false,
-      "endpoints": [
-        "https://raw.githubusercontent.com/Lucas8x/photo-organizer/main/latest.json"
-      ],
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI4ODEwNUFDMTQ3QTg0MTkKUldRWmhIb1VyQVdCS01LKzk0R25Wa29mT1EybTVGeG10UDVyNElDdWdhWVVzOGJ1MjYza25BUi8K",
-      "windows": {
-        "installMode": "passive",
-        "installerArgs": []
-      }
-    }
+    ]
   }
 }

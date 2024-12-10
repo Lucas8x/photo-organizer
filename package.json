@@ -1,7 +1,7 @@
 {
   "name": "photo-organizer",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Organize your photos choosing destination folder with keybinds",
   "author": "Lucas Emanuel <lucasemanuel8x@gmail.com>",
   "type": "module",
@@ -31,7 +31,12 @@
   ],
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.0.6",
-    "@tauri-apps/api": "^1",
+    "@tauri-apps/api": "2.0.0",
+    "@tauri-apps/plugin-dialog": "~2",
+    "@tauri-apps/plugin-fs": "~2",
+    "@tauri-apps/plugin-process": "~2",
+    "@tauri-apps/plugin-shell": "~2",
+    "@tauri-apps/plugin-updater": "~2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hotkeys-hook": "^4.5.0",
@@ -42,7 +47,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^1",
+    "@tauri-apps/cli": "^2.1.0",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^7.1.0",

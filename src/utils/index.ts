@@ -1,22 +1,18 @@
-import { fs, path } from '@tauri-apps/api';
-import { type FileEntry } from '@tauri-apps/api/fs';
+import * as fs from '@tauri-apps/plugin-fs';
 import { toast } from 'react-toastify';
 import { FILE_TYPES } from '../constants';
 
 export function getPathBasename(path: string): string {
-  return path.replace('\\', '/').split('/').reverse()[0] || '';
+  return path.replace('\\', '/')?.split('/').reverse()[0] || '';
 }
 
 export function getFileExtension(fileName: string): string {
   return fileName.slice(((fileName.lastIndexOf('.') - 1) >>> 0) + 2);
 }
 
-export function filterFiles(
-  files: FileEntry[],
-  validExtensions: string[],
-): fs.FileEntry[] {
-  return files.filter((file) =>
-    validExtensions.includes(getFileExtension(file.path)),
+export function filterFiles(files: fs.DirEntry[]) {
+  return files.filter(
+    (i) => i.isFile && FILE_TYPES.includes(getFileExtension(i.name)),
   );
 }
 
@@ -24,7 +20,7 @@ export async function getNewestFilePath(folderPath: string): Promise<string> {
   const folderFiles = await fs.readDir(folderPath);
   if (folderFiles.length === 0) return '';
 
-  const filteredFiles = filterFiles(folderFiles, FILE_TYPES);
+  const filteredFiles = filterFiles(folderFiles);
   if (filteredFiles.length === 0) return '';
 
   /* const arr = files
@@ -39,14 +35,14 @@ export async function getNewestFilePath(folderPath: string): Promise<string> {
     })
     .sort((a, b) => (b?.mtime || 0) - (a?.mtime || 0));*/
 
-  return filteredFiles[0].path;
+  return filteredFiles[0].name;
 }
 
 export async function loadFolderFiles(path: string): Promise<string[]> {
   try {
     const files = await fs.readDir(path);
-    const filteredFiles = filterFiles(files, FILE_TYPES);
-    return filteredFiles.map((f) => f.path);
+    const filteredFiles = filterFiles(files).map((f) => f.name);
+    return filteredFiles;
   } catch (error) {
     toast.error('Unable to read files in this folder.');
     console.error(error);
@@ -88,7 +84,7 @@ export async function fileAction({
     }
 
     if (action === 'move') {
-      await fs.renameFile(src, dest);
+      await fs.rename(src, dest);
     } else {
       await fs.copyFile(src, dest);
     }
@@ -109,7 +105,7 @@ export async function fileAction({
 
 export async function deleteFile(path: string) {
   try {
-    await fs.removeFile(path);
+    await fs.remove(path);
     return {
       success: true,
       error: null,
@@ -121,4 +117,14 @@ export async function deleteFile(path: string) {
       error,
     };
   }
+}
+
+export async function loadLastFolder() {
+  const latestPath = localStorage.getItem('latestPath');
+  if (!latestPath) return;
+
+  const exists = await fs.exists(latestPath);
+  if (!exists) return;
+
+  return latestPath;
 }

@@ -24,7 +24,7 @@ export function KeybindsDisplay() {
   return (
     <>
       <div
-        className="flex w-full flex-col items-center gap-3 bg-zinc-900 py-4"
+        className="flex w-full flex-col items-center gap-3 bg-zinc-900 py-2"
         id="joyride-keybinds"
       >
         {hasKeys ? (

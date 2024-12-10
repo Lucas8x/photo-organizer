@@ -1,4 +1,4 @@
-import { fs, path } from '@tauri-apps/api';
+import { path } from '@tauri-apps/api';
 import {
   ReactNode,
   createContext,
@@ -10,9 +10,13 @@ import {
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'react-toastify';
-import { useKeybinds, useModal, useSettings } from '../store';
-import { fileAction, loadFolderFiles, deleteFile } from '../utils';
-import { useFileStack } from '../store/useFileStack';
+import { useFileStack, useKeybinds, useModal, useSettings } from '../store';
+import {
+  fileAction,
+  loadFolderFiles,
+  deleteFile,
+  loadLastFolder,
+} from '../utils';
 
 interface AppContextProps {
   children: ReactNode;
@@ -47,8 +51,11 @@ export function AppProvider({ children }: AppContextProps) {
   const [currentFolderPath, setCurrentFolderPath] = useState('');
 
   const currentImagePath = useMemo(
-    () => files[currentIndex],
-    [files, currentIndex],
+    () =>
+      files.length > 0
+        ? `${currentFolderPath}\\${files[currentIndex]}`
+        : undefined,
+    [currentFolderPath, files, currentIndex],
   );
 
   const changeFolder = useCallback(
@@ -66,16 +73,8 @@ export function AppProvider({ children }: AppContextProps) {
   );
 
   const nextImage = useCallback(() => {
-    setCurrentIndex((s) => {
-      const isLastImage = s === files.length - 1;
-
-      if (isMovingFiles) {
-        return isLastImage ? 0 : s;
-      }
-
-      return s + 1 >= files.length ? 0 : s + 1;
-    });
-  }, [files.length, isMovingFiles]);
+    setCurrentIndex((s) => (s + 1 >= files.length ? 0 : s + 1));
+  }, [files.length]);
 
   const previousImage = useCallback(
     () => setCurrentIndex((s) => (s === 0 ? files.length - 1 : s - 1)),
@@ -85,7 +84,7 @@ export function AppProvider({ children }: AppContextProps) {
   const handleKeybind = useCallback(
     async (key: string) => {
       const destinationFolder = keybinds[key]?.path;
-      if (!destinationFolder) return;
+      if (!destinationFolder || !currentImagePath) return;
 
       const destinationPath = await path.join(
         destinationFolder,
@@ -100,8 +99,8 @@ export function AppProvider({ children }: AppContextProps) {
 
       if (success) {
         if (isMovingFiles) {
-          setFiles((s) => s.filter((f) => f !== currentImagePath));
-          nextImage();
+          setFiles((s) => s.filter((f) => f !== files[currentIndex]));
+          setCurrentIndex((s) => (s >= files.length - 1 ? s - 1 : s));
         } else {
           nextImgAfterCopy && nextImage();
         }
@@ -127,13 +126,15 @@ export function AppProvider({ children }: AppContextProps) {
       }
     },
     [
-      nextImage,
       keybinds,
       currentImagePath,
       isMovingFiles,
       updateKeyPreview,
-      nextImgAfterCopy,
       pushToFileStack,
+      nextImage,
+      files,
+      currentIndex,
+      nextImgAfterCopy,
     ],
   );
 
@@ -148,8 +149,9 @@ export function AppProvider({ children }: AppContextProps) {
         const { success } = await deleteFile(lastPath);
 
         if (success) {
-          toast.success('Undone copy', { autoClose: 1000 });
           popFileStack();
+          setCurrentIndex((s) => s - 1);
+          toast.success('Undone copy', { autoClose: 1000 });
         }
       } else {
         const { success } = await fileAction({
@@ -158,8 +160,10 @@ export function AppProvider({ children }: AppContextProps) {
           dest: originalPath,
         });
 
+        const basename = await path.basename(originalPath);
+
         if (success) {
-          setFiles((s) => [...s, lastPath]);
+          setFiles((s) => [basename, ...s]);
           toast.success('Undone move', { autoClose: 1000 });
           popFileStack();
         }
@@ -206,17 +210,11 @@ export function AppProvider({ children }: AppContextProps) {
   );
 
   useEffect(() => {
-    async function loadLatestFolder() {
-      const latestPath = localStorage.getItem('latestPath');
-      if (!latestPath) return;
-
-      const exists = await fs.exists(latestPath);
-      if (!exists) return;
-
-      changeFolder(latestPath);
-    }
-
-    loadLatestFolder();
+    (async () => {
+      const path = await loadLastFolder();
+      if (!path) return;
+      changeFolder(path);
+    })();
   }, [changeFolder]);
 
   return (

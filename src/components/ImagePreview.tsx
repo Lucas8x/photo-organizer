@@ -1,8 +1,8 @@
-import { shell, tauri } from '@tauri-apps/api';
+import { path } from '@tauri-apps/api';
+import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { useCallback, useMemo } from 'react';
 import { PREVIEW_IMAGE } from '../constants';
 import { useApp } from '../contexts/appContext';
-
 import { useJoyride } from '../store';
 
 export function ImagePreview() {
@@ -13,7 +13,7 @@ export function ImagePreview() {
     () =>
       isJoyrideRunning
         ? PREVIEW_IMAGE
-        : currentImagePath && tauri.convertFileSrc(currentImagePath),
+        : currentImagePath && convertFileSrc(currentImagePath),
     [isJoyrideRunning, currentImagePath],
   );
 
@@ -25,8 +25,9 @@ export function ImagePreview() {
 
   const handlePathClick = useCallback(async () => {
     if (!currentImagePath) return;
-    await tauri.invoke('show_in_folder', { path: currentImagePath });
-    //shell.open(currentImagePath);
+    await invoke('show_in_folder', {
+      path: await path.normalize(currentImagePath),
+    });
   }, [currentImagePath]);
 
   return (
@@ -35,10 +36,10 @@ export function ImagePreview() {
         <>
           <button
             className="flex items-center truncate text-center font-bold leading-8 text-white"
-            title="Click to show this image in file explorer"
+            title="Click here to show this image in file explorer."
             onClick={handlePathClick}
           >
-            {currentImagePath}
+            {currentImagePath?.split('\\').reverse()[0]}
           </button>
 
           <div className="relative flex h-full w-full items-center justify-center p-2">

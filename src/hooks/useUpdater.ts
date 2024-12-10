@@ -1,18 +1,18 @@
-import { relaunch } from '@tauri-apps/api/process';
-import { checkUpdate, installUpdate } from '@tauri-apps/api/updater';
+import { relaunch } from '@tauri-apps/plugin-process';
+import { check } from '@tauri-apps/plugin-updater';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-export function useUpdater(disableAutoVerify?: boolean) {
+export function useUpdater() {
   async function verifyUpdate() {
     const toastID = toast.loading('Checking for updates...', {
       position: 'bottom-right',
     });
 
     try {
-      const { shouldUpdate } = await checkUpdate();
+      const update = await check();
 
-      if (!shouldUpdate) {
+      if (!update?.available) {
         toast.dismiss(toastID);
         return;
       }
@@ -22,7 +22,7 @@ export function useUpdater(disableAutoVerify?: boolean) {
       });
 
       // Install the update. This will also restart the app on Windows!
-      await installUpdate();
+      await relaunch();
 
       toast.update(toastID, {
         render: 'Update installed. Reloading...',
@@ -43,9 +43,6 @@ export function useUpdater(disableAutoVerify?: boolean) {
   }
 
   useEffect(() => {
-    if (disableAutoVerify) return;
     verifyUpdate();
-  }, [disableAutoVerify]);
-
-  return { verifyUpdate };
+  }, []);
 }

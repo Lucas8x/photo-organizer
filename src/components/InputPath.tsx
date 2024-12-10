@@ -1,24 +1,24 @@
-import { dialog } from '@tauri-apps/api';
-import { KeyboardEvent, useRef, useState } from 'react';
+import * as dialog from '@tauri-apps/plugin-dialog';
+import { KeyboardEvent, useRef } from 'react';
 import { IoRefresh, IoFolderOutline } from 'react-icons/io5';
 
 interface InputPathProps {
   value?: string;
   onChange: (path: string) => void;
+  onRefresh?: () => void;
   hideRefreshButton?: boolean;
 }
 
 export function InputPath({
   value,
   onChange,
+  onRefresh,
   hideRefreshButton,
   ...props
 }: InputPathProps) {
-  const [inputValue, setInputValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
 
   function handleInputChange(value: string) {
-    setInputValue(value);
     onChange(value);
   }
 
@@ -29,19 +29,13 @@ export function InputPath({
 
     if (!selected || Array.isArray(selected)) return;
 
-    setInputValue(selected);
     onChange(selected);
   }
 
   function clickPress(event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       inputRef?.current?.blur();
     }
-  }
-
-  function handleRefresh() {
-    if (!inputValue) return;
-    onChange(inputValue);
   }
 
   return (
@@ -50,7 +44,7 @@ export function InputPath({
         className="flex w-full rounded-md border border-solid border-neutral-400 px-3 py-2 outline-none"
         ref={inputRef}
         placeholder="Enter folder path"
-        value={inputValue || value}
+        value={value}
         onChange={(e) => handleInputChange(e.target.value)}
         onKeyPress={clickPress}
         id="joyride-input"
@@ -64,18 +58,17 @@ export function InputPath({
         />
       </button>
 
-      {!hideRefreshButton && (
-        <button
-          className="text-white disabled:cursor-not-allowed disabled:opacity-50"
-          disabled={!inputValue}
-        >
-          <IoRefresh
-            className="size-6"
-            onClick={handleRefresh}
-            title="Refresh current folder"
-          />
-        </button>
-      )}
+      <button
+        className="text-white disabled:cursor-not-allowed disabled:opacity-50 data-[hidden]:hidden"
+        disabled={!value}
+        data-hidden={hideRefreshButton}
+      >
+        <IoRefresh
+          className="size-6"
+          onClick={onRefresh}
+          title="Refresh current folder"
+        />
+      </button>
     </div>
   );
 }

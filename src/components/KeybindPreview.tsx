@@ -1,10 +1,9 @@
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { shell, tauri } from '@tauri-apps/api';
-import { convertFileSrc } from '@tauri-apps/api/tauri';
+import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { useMemo, useState } from 'react';
 import { LuImageOff } from 'react-icons/lu';
-import { getPathBasename } from '../utils';
 import { IoTrash, IoFolder, IoPencilSharp } from 'react-icons/io5';
+import { getPathBasename } from '../utils';
 
 interface Props {
   keybind: string;
@@ -27,15 +26,15 @@ export function KeybindPreview({
 
   const pathName = useMemo(() => getPathBasename(path), [path]);
 
-  const url = useMemo(
-    () => previewPath && convertFileSrc(previewPath),
-    [previewPath],
-  );
+  const url = useMemo(() => {
+    if (!showPreview) return;
+    setImgError(false);
+    return previewPath && convertFileSrc(previewPath);
+  }, [showPreview, previewPath]);
 
   async function handleOpenFolder() {
     if (!path) return;
-    await tauri.invoke('show_in_folder', { path });
-    //shell.open(path);
+    await invoke('show_in_folder', { path });
   }
 
   return (
@@ -67,7 +66,7 @@ export function KeybindPreview({
             </span>
 
             <span className="w-min text-white" title="Open folder">
-              {pathName}
+              {pathName.split('\\').slice(-2).join('/')}
             </span>
           </div>
         </button>

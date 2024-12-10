@@ -30,6 +30,7 @@ export function Header() {
           <InputPath
             value={currentFolderPath}
             onChange={changeFolder}
+            onRefresh={() => changeFolder(currentFolderPath)}
             //id="joyride-input"
           />
 
