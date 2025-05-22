@@ -5,11 +5,14 @@
   "windows": ["main"],
   "permissions": [
     "core:default",
+    "core:window:allow-set-fullscreen",
+    "fs:default",
     "fs:allow-read-dir",
     "fs:allow-copy-file",
     "fs:allow-remove",
     "fs:allow-rename",
     "fs:allow-exists",
+    "fs:allow-app-meta",
     {
       "identifier": "fs:scope",
       "allow": ["*/**"]
@@ -19,7 +22,6 @@
     "dialog:allow-open",
     "dialog:default",
     "process:allow-restart",
-    "fs:default",
     "process:default",
     "updater:default"
   ]

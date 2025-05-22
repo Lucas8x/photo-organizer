@@ -1,25 +1,50 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'selector',
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  plugins: [],
+  plugins: [require('tailwindcss-animate')],
   theme: {
     extend: {
       keyframes: {
         slideDownAndFade: {
-          from: { opacity: '0', transform: 'translateY(-2px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
+          from: {
+            opacity: '0',
+            transform: 'translateY(-2px)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
         },
         slideLeftAndFade: {
-          from: { opacity: '0', transform: 'translateX(2px)' },
-          to: { opacity: '1', transform: 'translateX(0)' },
+          from: {
+            opacity: '0',
+            transform: 'translateX(2px)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateX(0)',
+          },
         },
         slideUpAndFade: {
-          from: { opacity: '0', transform: 'translateY(2px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
+          from: {
+            opacity: '0',
+            transform: 'translateY(2px)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
         },
         slideRightAndFade: {
-          from: { opacity: '0', transform: 'translateX(-2px)' },
-          to: { opacity: '1', transform: 'translateX(0)' },
+          from: {
+            opacity: '0',
+            transform: 'translateX(-2px)',
+          },
+          to: {
+            opacity: '1',
+            transform: 'translateX(0)',
+          },
         },
       },
       animation: {
@@ -31,6 +56,12 @@ export default {
         slideRightAndFade:
           'slideRightAndFade 400ms cubic-bezier(0.16, 1, 0.3, 1)',
       },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+      },
+      colors: {},
     },
   },
 };

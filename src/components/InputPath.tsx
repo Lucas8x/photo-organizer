@@ -1,26 +1,38 @@
 import * as dialog from '@tauri-apps/plugin-dialog';
-import { KeyboardEvent, useRef } from 'react';
+import React, { KeyboardEvent, useRef } from 'react';
 import { IoRefresh, IoFolderOutline } from 'react-icons/io5';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Input } from '@/ui/input';
+import { Button } from '@/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/ui/tooltip';
+import { cn } from '@/lib/utils';
 
-interface InputPathProps {
+type InputPathProps = Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'value' | 'onChange'
+> & {
   value?: string;
   onChange: (path: string) => void;
   onRefresh?: () => void;
   hideRefreshButton?: boolean;
-}
+  className?: string;
+};
 
 export function InputPath({
   value,
   onChange,
   onRefresh,
   hideRefreshButton,
+  className,
   ...props
 }: InputPathProps) {
+  const intl = useIntl();
   const inputRef = useRef<HTMLInputElement>(null);
-
-  function handleInputChange(value: string) {
-    onChange(value);
-  }
 
   async function openDialog() {
     const selected = await dialog.open({
@@ -39,36 +51,60 @@ export function InputPath({
   }
 
   return (
-    <div className="flex items-center gap-3">
-      <input
-        className="flex w-full rounded-md border border-solid border-neutral-400 px-3 py-2 outline-none"
+    <div
+      className={cn('flex w-full items-center gap-3', className)}
+      id="joyride-folder-input"
+    >
+      <Input
         ref={inputRef}
-        placeholder="Enter folder path"
         value={value}
-        onChange={(e) => handleInputChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={intl.formatMessage({ id: 'folder.input.placeholder' })}
+        required
         onKeyPress={clickPress}
-        id="joyride-input"
         {...props}
       />
 
-      <button onClick={openDialog}>
-        <IoFolderOutline
-          className="size-6 text-white"
-          title="Open system folder selection dialog"
-        />
-      </button>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={openDialog}
+              className="aspect-square"
+            >
+              <IoFolderOutline className="size-6 dark:text-white" />
+            </Button>
+          </TooltipTrigger>
 
-      <button
-        className="text-white disabled:cursor-not-allowed disabled:opacity-50 data-[hidden]:hidden"
-        disabled={!value}
-        data-hidden={hideRefreshButton}
-      >
-        <IoRefresh
-          className="size-6"
-          onClick={onRefresh}
-          title="Refresh current folder"
-        />
-      </button>
+          <TooltipContent>
+            <FormattedMessage id="folder.input.folder.dialog" />
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
+      {!hideRefreshButton && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={onRefresh}
+                className="aspect-square"
+                disabled={!value}
+              >
+                <IoRefresh className="size-6" />
+              </Button>
+            </TooltipTrigger>
+
+            <TooltipContent>
+              <FormattedMessage id="folder.input.refresh" />
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      )}
     </div>
   );
 }

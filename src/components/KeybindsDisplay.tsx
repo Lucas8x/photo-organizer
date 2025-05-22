@@ -1,15 +1,17 @@
 import { useState } from 'react';
+import { FormattedMessage } from 'react-intl';
+import { useShallow } from 'zustand/react/shallow';
 import { ModalAddKeybind } from '../modals/ModalAddKeybind';
-import { useKeybinds, useModal, useSettings } from '../store';
-import { Button } from '../ui/Button';
+import { useJoyride, useKeybinds, useSettings } from '../store';
+import { Button } from '../ui/button';
 import { KeybindPreview } from './KeybindPreview';
+import { cn } from '@/lib/utils';
 
 export function KeybindsDisplay() {
-  const isModalKeybindOpen = useModal((s) => s.isModalKeybindOpen);
-  const setIsModalKeybindOpen = useModal((s) => s.setIsModalKeybindOpen);
-
-  const keybinds = useKeybinds((s) => s.keybinds);
+  const keybinds = useKeybinds(useShallow((s) => Object.entries(s.keybinds)));
   const deleteKeybind = useKeybinds((s) => s.deleteKeybind);
+
+  const isJoyrideRunning = useJoyride((s) => s.isJoyrideRunning);
 
   const showingFolderPreviews = useSettings((s) => s.showingFolderPreviews);
 
@@ -18,47 +20,65 @@ export function KeybindsDisplay() {
     path: string;
   }>();
 
-  const keybindsArr = Object.entries(keybinds);
-  const hasKeys = keybindsArr.length > 0;
+  const hasKeys = keybinds.length > 0;
 
   return (
     <>
       <div
-        className="flex w-full flex-col items-center gap-3 bg-zinc-900 py-2"
+        className="flex w-full flex-col items-center gap-3 bg-white py-2 dark:bg-zinc-900"
         id="joyride-keybinds"
       >
-        {hasKeys ? (
-          <div className="flex flex-wrap justify-center gap-x-5 gap-y-3">
-            {keybindsArr.map(([key, { path, previewPath }]) => (
-              <KeybindPreview
-                key={key}
-                keybind={key}
-                path={path}
-                previewPath={previewPath}
-                showPreview={showingFolderPreviews}
-                /* onEdit={() => {
-                  setEditKeybind({ key, path });
-                  setIsModalKeybindOpen(true);
-                }} */
-                onDelete={() => deleteKeybind(key)}
-              />
-            ))}
-          </div>
-        ) : (
-          <span className="font-bold text-white">Please register keybinds</span>
-        )}
+        <div
+          className={cn('flex flex-wrap justify-center gap-x-5 gap-y-3', {
+            hidden: !hasKeys && !isJoyrideRunning,
+          })}
+        >
+          {keybinds.map(([key, { path, previewPath }]) => (
+            <KeybindPreview
+              key={`${key}-${path}-${previewPath}`}
+              keybind={key}
+              path={path}
+              previewPath={previewPath}
+              showPreview={showingFolderPreviews}
+              onEdit={() => setEditKeybind({ key, path })}
+              onDelete={() => deleteKeybind(key)}
+            />
+          ))}
 
-        <Button variant="primary" onClick={() => setIsModalKeybindOpen(true)}>
-          Create keybind
+          <div
+            id="joyride-example-keybind"
+            className={cn({
+              hidden: !isJoyrideRunning,
+            })}
+          >
+            <KeybindPreview
+              keybind="A"
+              path="C:\photos\Family"
+              previewPath=""
+              showPreview
+              onDelete={() => null}
+            />
+          </div>
+        </div>
+
+        <span
+          className={cn('font-bold dark:text-white', {
+            hidden: hasKeys || isJoyrideRunning,
+          })}
+        >
+          <FormattedMessage id="keybind.not.defined" />
+        </span>
+
+        <Button onClick={() => setEditKeybind({ key: '', path: '' })}>
+          <FormattedMessage id="keybind.add" />
         </Button>
       </div>
 
-      {isModalKeybindOpen && (
+      {editKeybind && (
         <ModalAddKeybind
-          initialKeybind={editKeybind?.key}
-          initialOutputPath={editKeybind?.path}
+          initialKeybind={editKeybind.key}
+          initialOutputPath={editKeybind.path}
           close={() => {
-            setIsModalKeybindOpen(false);
             setEditKeybind(undefined);
           }}
         />

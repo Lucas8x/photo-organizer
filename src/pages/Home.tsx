@@ -1,31 +1,45 @@
-import packageJson from '../../package.json';
-import { BasicControls } from '../components/BasicControls';
 import { Header } from '../components/Header';
 import { ImagePreview } from '../components/ImagePreview';
 import { KeybindsDisplay } from '../components/KeybindsDisplay';
-import { useApp } from '../contexts/appContext';
-import { useJoyride } from '../store';
+import { FooterBar } from '../components/FooterBar';
+import { useKeyboardShortcuts, useStoredKeybinds } from '@/hooks';
+import { useFiles } from '@/store';
+import { SideButton } from '@/components/SideButton';
+import { AppJoyride } from '@/components/AppJoyride';
 
 export function Home() {
-  const { currentImagePath } = useApp();
-  const isJoyrideRunning = useJoyride((s) => s.isJoyrideRunning);
+  const decreaseIndex = useFiles((s) => s.decreaseIndex);
+  const increaseIndex = useFiles((s) => s.increaseIndex);
 
   return (
-    <div className="flex w-full max-w-full flex-col items-center justify-between overflow-hidden bg-zinc-800">
-      <Header />
+    <>
+      <div className="flex w-full max-w-full flex-col items-center justify-between overflow-hidden bg-neutral-100 dark:bg-zinc-800">
+        <Header />
 
-      <div className="flex h-full w-full flex-col justify-between p-2">
-        <ImagePreview />
-        {(currentImagePath || isJoyrideRunning) && <BasicControls />}
+        <div className="flex h-full w-full">
+          <SideButton tooltipID="controls.previous" onClick={decreaseIndex}>
+            {'<'}
+          </SideButton>
+
+          <PreviewWrapper />
+
+          <SideButton tooltipID="controls.next" onClick={increaseIndex}>
+            {'>'}
+          </SideButton>
+        </div>
+
+        <KeybindsDisplay />
+        <FooterBar />
       </div>
 
-      <KeybindsDisplay />
-
-      <div className="relative w-full">
-        <span className="absolute bottom-0 right-0 text-xs font-bold leading-none text-white">
-          v{packageJson.version}
-        </span>
-      </div>
-    </div>
+      <AppJoyride />
+    </>
   );
+}
+
+function PreviewWrapper() {
+  useKeyboardShortcuts();
+  useStoredKeybinds();
+
+  return <ImagePreview />;
 }

@@ -4,8 +4,8 @@
   "version": "../package.json",
   "identifier": "com.lucas8x.photo-organizer",
   "build": {
-    "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run build",
+    "beforeDevCommand": "bun run dev",
+    "beforeBuildCommand": "bun run build",
     "frontendDist": "../dist",
     "devUrl": "http://localhost:1420"
   },
@@ -17,7 +17,7 @@
         "type": "downloadBootstrapper"
       }
     },
-    "copyright": "Copyright 2024 Lucas Emanuel",
+    "copyright": "Copyright 2025 Lucas Emanuel",
     "category": "Utility",
     "shortDescription": "Organize your photos choosing destination folder with keybinds",
     "longDescription": "Organize your photos choosing destination folder with keybinds",
@@ -33,13 +33,14 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDI4ODEwNUFDMTQ3QTg0MTkKUldRWmhIb1VyQVdCS01LKzk0R25Wa29mT1EybTVGeG10UDVyNElDdWdhWVVzOGJ1MjYza25BUi8K",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDRBOEIzQ0E1RjI4QzkwQTIKUldTaWtJenlwVHlMU2xkNjk0cTkxRXEwRTF0WVkzbXduYTV0UW82K29OQUF4VWlab3haMm5lemQK",
       "windows": {
         "installMode": "passive",
         "installerArgs": []
       },
       "endpoints": [
-        "https://raw.githubusercontent.com/Lucas8x/photo-organizer/main/latest.json"
+        "https://raw.githubusercontent.com/Lucas8x/photo-organizer/main/latest.json",
+        "https://github.com/Lucas8x/photo-organizer/releases/latest/download/latest.json"
       ]
     }
   },
@@ -56,7 +57,9 @@
         "title": "Photo Organizer",
         "width": 800,
         "height": 600,
-        "useHttpsScheme": true
+        "useHttpsScheme": true,
+        "resizable": true,
+        "fullscreen": false
       }
     ]
   }

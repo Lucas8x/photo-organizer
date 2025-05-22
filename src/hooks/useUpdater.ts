@@ -1,13 +1,19 @@
 import { relaunch } from '@tauri-apps/plugin-process';
 import { check } from '@tauri-apps/plugin-updater';
 import { useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
 
 export function useUpdater() {
-  async function verifyUpdate() {
-    const toastID = toast.loading('Checking for updates...', {
-      position: 'bottom-right',
-    });
+  const intl = useIntl();
+
+  async function checkUpdate() {
+    const toastID = toast.loading(
+      intl.formatMessage({ id: 'updater.checking' }),
+      {
+        position: 'bottom-right',
+      },
+    );
 
     try {
       const update = await check();
@@ -18,14 +24,14 @@ export function useUpdater() {
       }
 
       toast.update(toastID, {
-        render: 'An update is available. Downloading...',
+        render: intl.formatMessage({ id: 'updater.downloading' }),
       });
 
       // Install the update. This will also restart the app on Windows!
       await relaunch();
 
       toast.update(toastID, {
-        render: 'Update installed. Reloading...',
+        render: intl.formatMessage({ id: 'updater.installed' }),
         type: 'success',
         isLoading: false,
         autoClose: 5000,
@@ -33,16 +39,17 @@ export function useUpdater() {
       });
     } catch (error) {
       toast.update(toastID, {
-        render: "Couldn't check for updates.",
+        render: intl.formatMessage({ id: 'updater.error' }),
         type: 'error',
         isLoading: false,
         autoClose: 3000,
       });
+
       console.error(error);
     }
   }
 
   useEffect(() => {
-    verifyUpdate();
+    checkUpdate();
   }, []);
 }

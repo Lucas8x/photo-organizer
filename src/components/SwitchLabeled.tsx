@@ -1,18 +1,35 @@
-import { Switch } from './Switch';
+import { FormattedMessage } from 'react-intl';
+import { Switch } from '@/ui/switch';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/ui/tooltip';
 
-interface Props {
-  text: string;
-  title?: string;
-  onChange: () => void;
-  checked: boolean;
-  disabled?: boolean;
-}
+type Props = React.ComponentProps<typeof Switch> & {
+  textID: string;
+  tooltipID?: string;
+};
 
-export function SwitchLabeled({ text, title, ...rest }: Props) {
+export function SwitchLabeled({ textID, tooltipID, ...rest }: Props) {
   return (
-    <div className="flex flex-col items-center gap-1" title={title}>
-      <span className="text-center text-sm font-bold text-white">{text}</span>
-      <Switch {...rest} />
-    </div>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <div className="flex flex-col items-center gap-1">
+            <span className="text-center text-sm font-bold dark:text-white">
+              <FormattedMessage id={textID} />
+            </span>
+
+            <Switch {...rest} />
+          </div>
+        </TooltipTrigger>
+
+        <TooltipContent>
+          <FormattedMessage id={tooltipID} />
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

@@ -9,7 +9,7 @@ type FileEntry = {
 type FileStackState = {
   stack: FileEntry[];
   getLastStackFile: () => FileEntry | undefined;
-  pushToFileStack: (entry: FileEntry) => void;
+  pushToFileStack: (file: FileEntry) => void;
   popFileStack: () => void;
   clearFileStack: () => void;
 };
@@ -24,10 +24,9 @@ export const useFileStack = create<FileStackState>((set, get) => ({
     }
   },
 
-  pushToFileStack: (file: FileEntry) =>
-    set((state) => ({ stack: [...state.stack, file] })),
+  pushToFileStack: (file) => set((s) => ({ stack: [...s.stack, file] })),
 
-  popFileStack: () => set((state) => ({ stack: state.stack.slice(0, -1) })),
+  popFileStack: () => set((s) => ({ stack: s.stack.slice(0, -1) })),
 
   clearFileStack: () => set(() => ({ stack: [] })),
 }));

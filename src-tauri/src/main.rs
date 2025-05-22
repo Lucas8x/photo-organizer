@@ -4,6 +4,18 @@
 use std::process::Command;
 
 #[tauri::command]
+fn log_to_backend(level: String, message: String) {
+    match level.as_str() {
+        "error" => eprintln!("[WebView][ERROR]: {}", message),
+        "warn" => eprintln!("[WebView][WARN]: {}", message),
+        "info" => println!("[WebView][INFO]: {}", message),
+        "debug" => println!("[WebView][DEBUG]: {}", message),
+        _ => println!("[WebView]: {}", message),
+    }
+}
+
+
+#[tauri::command]
 fn show_in_folder(path: String) {
     #[cfg(target_os = "windows")]
     {
@@ -21,7 +33,7 @@ fn main() {
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_dialog::init())
-        .invoke_handler(tauri::generate_handler![show_in_folder])
+        .invoke_handler(tauri::generate_handler![show_in_folder, log_to_backend])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

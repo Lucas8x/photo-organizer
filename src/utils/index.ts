@@ -1,4 +1,5 @@
 import * as fs from '@tauri-apps/plugin-fs';
+import { path } from '@tauri-apps/api';
 import { toast } from 'react-toastify';
 import { FILE_TYPES } from '../constants';
 
@@ -12,7 +13,11 @@ export function getFileExtension(fileName: string): string {
 
 export function filterFiles(files: fs.DirEntry[]) {
   return files.filter(
-    (i) => i.isFile && FILE_TYPES.includes(getFileExtension(i.name)),
+    (i) =>
+      i.isFile &&
+      FILE_TYPES.includes(
+        getFileExtension(i.name) as (typeof FILE_TYPES)[number],
+      ),
   );
 }
 
@@ -23,19 +28,30 @@ export async function getNewestFilePath(folderPath: string): Promise<string> {
   const filteredFiles = filterFiles(folderFiles);
   if (filteredFiles.length === 0) return '';
 
-  /* const arr = files
-    .map((file) => {
-      const stats = fs.statSync(path.join(folderPath, file));
-      if (stats.isFile()) {
-        return {
-          path: file,
-          mtime: stats.mtime.getTime(),
-        };
-      }
-    })
-    .sort((a, b) => (b?.mtime || 0) - (a?.mtime || 0));*/
+  const arr = [];
 
-  return filteredFiles[0].name;
+  for (const file of filteredFiles) {
+    const { isFile, mtime } = await fs.stat(
+      await path.join(folderPath, file.name),
+    );
+
+    if (!isFile) continue;
+
+    arr.push({
+      path: file.name,
+      mtime: mtime?.getTime() || 0,
+    });
+  }
+
+  const img = arr.sort((a, b) => a.mtime - b.mtime)?.[0];
+
+  if (!img) {
+    return '';
+  }
+
+  return await path.join(folderPath, img.path);
+
+  //return await path.join(folderPath, filteredFiles[0].name);
 }
 
 export async function loadFolderFiles(path: string): Promise<string[]> {
@@ -50,76 +66,7 @@ export async function loadFolderFiles(path: string): Promise<string[]> {
   }
 }
 
-type FileAction = 'copy' | 'move';
-
-type Props = {
-  action?: FileAction;
-  src: string;
-  dest: string;
-};
-
-type ReturnType = {
-  success: boolean;
-  error: string | null;
-};
-
-export async function fileAction({
-  action = 'copy',
-  src,
-  dest,
-}: Props): Promise<ReturnType> {
-  try {
-    if (!src) {
-      throw new Error('No source path provided.');
-    }
-
-    if (!dest) {
-      throw new Error('No destination path provided.');
-    }
-
-    const exists = await fs.exists(dest);
-
-    if (exists) {
-      throw new Error('File already exists.');
-    }
-
-    if (action === 'move') {
-      await fs.rename(src, dest);
-    } else {
-      await fs.copyFile(src, dest);
-    }
-
-    return {
-      success: true,
-      error: null,
-    };
-  } catch (error) {
-    const msg = error instanceof Error ? error.message : String(error);
-    console.error(`[fileAction]`, error);
-    return {
-      success: false,
-      error: msg,
-    };
-  }
-}
-
-export async function deleteFile(path: string) {
-  try {
-    await fs.remove(path);
-    return {
-      success: true,
-      error: null,
-    };
-  } catch (error) {
-    console.error(`[deleteFile]`, error);
-    return {
-      success: false,
-      error,
-    };
-  }
-}
-
-export async function loadLastFolder() {
+export async function getLatestPath() {
   const latestPath = localStorage.getItem('latestPath');
   if (!latestPath) return;
 
@@ -127,4 +74,17 @@ export async function loadLastFolder() {
   if (!exists) return;
 
   return latestPath;
+}
+
+export function changeKeyKeepOrder<T>(
+  obj: T,
+  oldKey: string,
+  newKey: string,
+  value: unknown,
+) {
+  return Object.fromEntries(
+    Object.entries(obj).map(([key, val]) =>
+      key === oldKey ? [newKey, value] : [key, val],
+    ),
+  ) as T;
 }

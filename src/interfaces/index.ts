@@ -13,9 +13,9 @@ interface IKeybinds {
 }
 
 interface IUpdateKeybindParams {
-  previousKey: string;
-  key: string;
   path: string;
+  previousKey: string;
+  newKey?: string;
 }
 
 interface IUpdateKeyPreviewParams {

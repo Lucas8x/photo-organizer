@@ -1,3 +1,4 @@
+export * from './useFiles';
 export * from './useFileStack';
 export * from './useJoyride';
 export * from './useKeybinds';

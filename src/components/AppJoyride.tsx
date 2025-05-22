@@ -1,73 +1,95 @@
-import { useCallback } from 'react';
-import Joyride, { CallBackProps, STATUS, Step, Styles } from 'react-joyride';
+import { FormattedMessage, useIntl } from 'react-intl';
+import Joyride, { STATUS } from 'react-joyride';
 import { useJoyride } from '../store';
-
-const STYLES: Partial<Styles> = {
-  options: {
-    zIndex: 10000,
-  },
-};
-
-const STEPS: Step[] = [
-  {
-    content: <h3>Welcome :)</h3>,
-    locale: { skip: <strong>Skip</strong> },
-    showSkipButton: true,
-    placement: 'center',
-    target: 'body',
-  },
-  {
-    content: <h3>First select some image folder</h3>,
-    spotlightPadding: 10,
-    target: '#joyride-input',
-  },
-  {
-    content: <h3>Images will show here</h3>,
-    spotlightPadding: 10,
-    target: '#joyride-image',
-  },
-  {
-    content: <h3>Control images with these keys</h3>,
-    spotlightPadding: 10,
-    target: '#joyride-controls',
-  },
-  {
-    content: <h3>Register your folders keybind here</h3>,
-    spotlightPadding: 0,
-    target: '#joyride-keybinds',
-  },
-];
 
 const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
 
 export function AppJoyride() {
-  const { isJoyrideRunning, setIsJoyrideRunning } = useJoyride();
-
-  const handleJoyrideCallback = useCallback(
-    (data: CallBackProps) => {
-      const { status, index } = data;
-
-      if (finishedStatuses.includes(status)) {
-        setIsJoyrideRunning(false);
-      }
-    },
-    [setIsJoyrideRunning],
-  );
+  const intl = useIntl();
+  const isJoyrideRunning = useJoyride((s) => s.isJoyrideRunning);
+  const setIsJoyrideRunning = useJoyride((s) => s.setIsJoyrideRunning);
 
   return (
-    /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-    /* @ts-ignore */
     <Joyride
-      disableScrolling
-      callback={handleJoyrideCallback}
-      continuous
-      hideCloseButton
       run={isJoyrideRunning}
+      callback={(p) => {
+        if (finishedStatuses.includes(p.status)) {
+          setIsJoyrideRunning(false);
+        }
+      }}
+      steps={[
+        {
+          content: (
+            <h3 className="font-semibold">
+              <FormattedMessage id="joyride.welcome" /> 😊
+            </h3>
+          ),
+          placement: 'center',
+          target: 'body',
+        },
+        {
+          content: (
+            <h3 className="font-semibold">
+              <FormattedMessage id="joyride.select" />
+            </h3>
+          ),
+          spotlightPadding: 10,
+          target: '#joyride-folder-input',
+        },
+        {
+          content: (
+            <h3 className="font-semibold">
+              <FormattedMessage id="joyride.image" />
+            </h3>
+          ),
+          spotlightPadding: 10,
+          target: '#joyride-image',
+        },
+        {
+          content: (
+            <h3 className="font-semibold">
+              <FormattedMessage id="joyride.controls" />
+            </h3>
+          ),
+          placement: 'center',
+          target: 'body',
+        },
+        {
+          content: (
+            <h3 className="font-semibold">
+              <FormattedMessage id="joyride.register" />
+            </h3>
+          ),
+          spotlightPadding: 0,
+          target: '#joyride-keybinds',
+        },
+        {
+          content: (
+            <h3 className="font-semibold">
+              <FormattedMessage id="joyride.press" />
+            </h3>
+          ),
+          spotlightPadding: 10,
+          target: '#joyride-example-keybind',
+        },
+      ]}
+      styles={{
+        options: {
+          zIndex: 10000,
+        },
+      }}
+      locale={{
+        back: intl.formatMessage({ id: 'joyride.back' }),
+        next: intl.formatMessage({ id: 'joyride.next' }),
+        skip: intl.formatMessage({ id: 'joyride.skip' }),
+        last: intl.formatMessage({ id: 'joyride.last' }),
+      }}
+      continuous
+      disableScrolling
+      hideCloseButton
       scrollToFirstStep
       showProgress
       showSkipButton
-      steps={STEPS}
-      styles={STYLES}
     />
   );
 }

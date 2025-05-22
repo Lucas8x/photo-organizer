@@ -1,13 +1,13 @@
-import { toast } from 'react-toastify';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
-import { getNewestFilePath } from '../utils';
+import { changeKeyKeepOrder, getNewestFilePath } from '../utils';
 
 type KeybindsState = {
   keybinds: IKeybinds;
-  addKeybind: (data: IKeybind) => Promise<boolean>;
+  addKeybind: (params: IKeybind) => Promise<boolean>;
+  updateKeybind: (params: IUpdateKeybindParams) => Promise<boolean>;
   deleteKeybind: (key: string) => void;
-  updateKeyPreview: (data: IUpdateKeyPreviewParams) => void;
+  updateKeyPreview: (params: IUpdateKeyPreviewParams) => void;
   clearAll: () => void;
 };
 
@@ -16,9 +16,8 @@ export const useKeybinds = create<KeybindsState>()(
     (set, get) => ({
       keybinds: {},
 
-      addKeybind: async ({ key, path }: IKeybind) => {
+      addKeybind: async ({ key, path }) => {
         if (get().keybinds[key]) {
-          toast.error('This keybind already exist.');
           return false;
         }
 
@@ -34,47 +33,51 @@ export const useKeybinds = create<KeybindsState>()(
           },
         }));
 
-        toast.success('Keybind registered.');
         return true;
       },
 
-      /* updateKeybind: async ({
-        previousKey,
-        key,
-        path,
-      }: IUpdateKeybindParams) => {
-        if (!get().keybinds[key]) {
-          toast.error('This keybind does not exist.');
+      updateKeybind: async ({ path, previousKey, newKey }) => {
+        const { keybinds } = get();
+
+        if (!previousKey || !keybinds[previousKey]) {
           return false;
         }
 
-        const oldKeybind = get().keybinds[previousKey];
-        const sameKey = previousKey === key;
-        const samePath = oldKeybind.path === path;
+        const previewPath = await getNewestFilePath(path);
 
-        const previewPath = samePath
-          ? oldKeybind.previewPath
-          : await getNewestFilePath(path);
-
-        set((s) => {
-          !sameKey && delete s.keybinds[previousKey];
-
-          return {
+        if ((previousKey && !newKey) || previousKey === newKey) {
+          console.log(`Keybind > ${previousKey} < updated path to: ${path}`);
+          set((s) => ({
             keybinds: {
               ...s.keybinds,
-              [key]: {
+              [previousKey]: {
                 path,
                 previewPath,
               },
             },
-          };
-        });
+          }));
 
-        toast.success('Keybind updated.');
-        return true;
-      }, */
+          return true;
+        }
 
-      deleteKeybind: (key: string) => {
+        if (newKey && newKey !== previousKey && !keybinds[newKey]) {
+          console.log(
+            `Keybind > ${previousKey} < updated to > ${newKey} < and path: ${path}`,
+          );
+          set((s) => ({
+            keybinds: changeKeyKeepOrder(s.keybinds, previousKey, newKey, {
+              path,
+              previewPath,
+            }),
+          }));
+
+          return true;
+        }
+
+        return false;
+      },
+
+      deleteKeybind: (key) => {
         set((s) => {
           delete s.keybinds[key];
           return {
@@ -83,7 +86,9 @@ export const useKeybinds = create<KeybindsState>()(
         });
       },
 
-      updateKeyPreview: ({ key, previewPath }: IUpdateKeyPreviewParams) => {
+      updateKeyPreview: ({ key, previewPath }) => {
+        if (!previewPath) return;
+
         set((s) => ({
           keybinds: {
             ...s.keybinds,

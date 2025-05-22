@@ -16,21 +16,21 @@ export function QuickSettingsDisplay() {
   return (
     <div className="flex items-center justify-around">
       <SwitchLabeled
-        text="Copy / Move"
-        title="Switch between copy or move images"
-        onChange={toggleIsMovingFiles}
+        textID="quickSettings.copy_move"
+        tooltipID="quickSettings.copy_move.description"
+        onCheckedChange={toggleIsMovingFiles}
         checked={isMovingFiles}
       />
       <SwitchLabeled
-        text="Next image after Copy"
-        title="Go to next image after press keybind"
-        onChange={toggleNextImgAfterCopy}
+        textID="quickSettings.next_img"
+        tooltipID="quickSettings.next_img.description"
+        onCheckedChange={toggleNextImgAfterCopy}
         checked={nextImgAfterCopy}
       />
       <SwitchLabeled
-        text="Folder Preview"
-        title="Switch keybind folder preview"
-        onChange={toggleShowingFolderPreviews}
+        textID="quickSettings.folder_preview"
+        tooltipID="quickSettings.folder_preview.description"
+        onCheckedChange={toggleShowingFolderPreviews}
         checked={showingFolderPreviews}
       />
     </div>
