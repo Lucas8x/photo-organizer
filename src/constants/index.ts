@@ -1,16 +1,16 @@
 export const RESERVED_KEYS = ['ArrowLeft', 'ArrowRight', 'F11'] as const;
 
 export const FILE_TYPES = [
-  'jpg',
-  'jpeg',
-  'png',
-  'gif',
-  'bmp',
-  'jfif',
-  'webp',
-  'svg',
   'avif',
+  'bmp',
+  'gif',
   'ico',
+  'jfif',
+  'jpeg',
+  'jpg',
+  'png',
+  'svg',
+  'webp',
 ] as const;
 // incompatible
 // 'tiff'

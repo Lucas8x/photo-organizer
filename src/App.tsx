@@ -1,18 +1,17 @@
-import { useEffect } from 'react';
-import { IntlProvider } from 'react-intl';
-import { HotkeysProvider } from 'react-hotkeys-hook';
-import { ToastContainer } from 'react-toastify';
-import { BrowserRouter, Routes, Route } from 'react-router';
 import { getCurrentWindow } from '@tauri-apps/api/window';
-
-import { useFiles, useSettings } from './store';
+import { useEffect } from 'react';
+import { HotkeysProvider } from 'react-hotkeys-hook';
+import { IntlProvider } from 'react-intl';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { ToastContainer } from 'react-toastify';
+import { useUpdater } from './hooks';
+import { LOCALES } from './locales';
+import { messages } from './locales/messages';
 import { Home } from './pages/Home';
 import { Settings } from './pages/Settings';
 import { TestPage } from './pages/Test';
-import { LOCALES } from './locales';
-import { messages } from './locales/messages';
+import { useFiles, useSettings } from './store';
 import { hookWebviewLog } from './utils/hookWebviewLog';
-import { useUpdater } from './hooks';
 
 import 'react-toastify/dist/ReactToastify.css';
 

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { createComputed } from 'zustand-computed';
-import { useFileStack } from './useFileStack';
 import { getLatestPath, loadFolderFiles } from '@/utils';
+import { useFileStack } from './useFileStack';
 
 type FileState = {
   files: string[];
