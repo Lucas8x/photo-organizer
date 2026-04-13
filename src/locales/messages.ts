@@ -117,6 +117,7 @@ export const messages = {
     'joyride.back': 'Back',
     'joyride.skip': 'Skip',
     'joyride.next': 'Next',
+    'joyride.last': 'Finish',
     'joyride.finish': 'Finish',
     'joyride.welcome': 'Welcome',
     'joyride.select': 'First select a image folder.',
@@ -151,7 +152,7 @@ export const messages = {
     'quickSettings.copy_move': 'Copiar ou Mover',
     'quickSettings.copy_move.description':
       'Mudar entre copiar ou mover imagens ao pressionar a tecla de atalho.',
-    'quickSettings.next_img': 'Pular após copiar.',
+    'quickSettings.next_img': 'Pular após copiar',
     'quickSettings.next_img.description':
       'Ir para a próxima imagem depois de pressionar a tecla da pasta.',
     'quickSettings.folder_preview': 'Miniatura da pasta',
