@@ -1,3 +1,6 @@
+# Tauri
+src-tauri/gen/
+
 # Logs
 logs
 *.log
