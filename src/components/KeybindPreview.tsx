@@ -1,18 +1,18 @@
-import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { useMemo, useState } from 'react';
+import { IoFolder, IoPencilSharp, IoTrash } from 'react-icons/io5';
 import { LuImageOff } from 'react-icons/lu';
 import { FormattedMessage } from 'react-intl';
-import { IoTrash, IoFolder, IoPencilSharp } from 'react-icons/io5';
-import { getPathBasename } from '../utils';
-import { Dialog, DialogTrigger } from '@/ui/dialog';
 import { ModalConfirmation } from '@/modals/ModalConfirmation';
+import { Dialog, DialogTrigger } from '@/ui/dialog';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/ui/tooltip';
+import { getPathBasename } from '../utils';
 
 interface Props {
   keybind: string;
@@ -34,7 +34,7 @@ export function KeybindPreview({
   const [imgError, setImgError] = useState(previewPath === undefined);
 
   const url = useMemo(() => {
-    if (!showPreview) return;
+    if (!showPreview) return null;
     setImgError(false);
     return previewPath && convertFileSrc(previewPath);
   }, [showPreview, previewPath]);
@@ -52,6 +52,7 @@ export function KeybindPreview({
             <DropdownMenu.Trigger asChild>
               <TooltipTrigger asChild>
                 <button
+                  type="button"
                   className="flex items-center gap-2 outline-none"
                   aria-label="Keybind actions"
                 >
@@ -59,7 +60,7 @@ export function KeybindPreview({
                     className="flex size-11 items-center justify-center rounded-md bg-neutral-200 data-[hidden=true]:hidden dark:bg-zinc-700"
                     data-hidden={!showPreview}
                   >
-                    {imgError ? (
+                    {imgError || !url ? (
                       <LuImageOff className="size-6 dark:text-neutral-200" />
                     ) : (
                       <img

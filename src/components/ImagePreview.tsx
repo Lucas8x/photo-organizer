@@ -43,6 +43,7 @@ export function ImagePreview() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
+                  type='button'
                   className="flex items-center truncate text-center font-bold leading-8 data-[hidden=true]:hidden dark:text-white"
                   onClick={handlePathClick}
                   data-hidden={hideImageName}
