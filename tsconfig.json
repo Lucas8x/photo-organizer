@@ -7,7 +7,6 @@
     "skipLibCheck": true,
     "sourceMap": false,
 
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
