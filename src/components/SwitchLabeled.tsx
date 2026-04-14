@@ -17,8 +17,8 @@ export function SwitchLabeled({ textID, tooltipID, ...rest }: Props) {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex flex-col items-center gap-1">
-            <span className="text-center text-sm font-bold dark:text-white">
+          <div className='flex flex-col items-center gap-1'>
+            <span className='text-center text-sm font-bold dark:text-white'>
               <FormattedMessage id={textID} />
             </span>
 

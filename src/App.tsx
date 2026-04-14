@@ -40,7 +40,7 @@ export default function App() {
   return (
     <>
       <ToastContainer
-        theme="colored"
+        theme='colored'
         pauseOnFocusLoss={false}
         pauseOnHover={false}
       />
@@ -63,9 +63,9 @@ function Main() {
     <HotkeysProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/test" element={<TestPage />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/settings' element={<Settings />} />
+          <Route path='/test' element={<TestPage />} />
         </Routes>
       </BrowserRouter>
     </HotkeysProvider>

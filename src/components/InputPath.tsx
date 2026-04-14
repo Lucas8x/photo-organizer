@@ -53,7 +53,7 @@ export function InputPath({
   return (
     <div
       className={cn('flex w-full items-center gap-3', className)}
-      id="joyride-folder-input"
+      id='joyride-folder-input'
     >
       <Input
         ref={inputRef}
@@ -69,17 +69,17 @@ export function InputPath({
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant="outline"
-              size="icon"
+              variant='outline'
+              size='icon'
               onClick={openDialog}
-              className="aspect-square"
+              className='aspect-square'
             >
-              <IoFolderOutline className="size-6 dark:text-white" />
+              <IoFolderOutline className='size-6 dark:text-white' />
             </Button>
           </TooltipTrigger>
 
           <TooltipContent>
-            <FormattedMessage id="folder.input.folder.dialog" />
+            <FormattedMessage id='folder.input.folder.dialog' />
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -89,18 +89,18 @@ export function InputPath({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant="outline"
-                size="icon"
+                variant='outline'
+                size='icon'
                 onClick={onRefresh}
-                className="aspect-square"
+                className='aspect-square'
                 disabled={!value}
               >
-                <IoRefresh className="size-6" />
+                <IoRefresh className='size-6' />
               </Button>
             </TooltipTrigger>
 
             <TooltipContent>
-              <FormattedMessage id="folder.input.refresh" />
+              <FormattedMessage id='folder.input.refresh' />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

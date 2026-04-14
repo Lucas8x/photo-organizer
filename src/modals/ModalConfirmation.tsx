@@ -34,18 +34,18 @@ export function ModalConfirmation(props: Props) {
 
       <DialogFooter>
         <DialogClose asChild>
-          <Button type="button" variant="outline">
-            <FormattedMessage id="modal.close" />
+          <Button type='button' variant='outline'>
+            <FormattedMessage id='modal.close' />
           </Button>
         </DialogClose>
 
         <DialogClose asChild>
           <Button
-            type="submit"
+            type='submit'
             onClick={props.onConfirm}
             {...props.confirmButtonProps}
           >
-            <FormattedMessage id="modal.confirm" />
+            <FormattedMessage id='modal.confirm' />
           </Button>
         </DialogClose>
       </DialogFooter>

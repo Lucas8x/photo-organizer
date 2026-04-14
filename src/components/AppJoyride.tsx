@@ -20,8 +20,8 @@ export function AppJoyride() {
       steps={[
         {
           content: (
-            <h3 className="font-semibold">
-              <FormattedMessage id="joyride.welcome" /> 😊
+            <h3 className='font-semibold'>
+              <FormattedMessage id='joyride.welcome' /> 😊
             </h3>
           ),
           placement: 'center',
@@ -29,8 +29,8 @@ export function AppJoyride() {
         },
         {
           content: (
-            <h3 className="font-semibold">
-              <FormattedMessage id="joyride.select" />
+            <h3 className='font-semibold'>
+              <FormattedMessage id='joyride.select' />
             </h3>
           ),
           spotlightPadding: 10,
@@ -38,8 +38,8 @@ export function AppJoyride() {
         },
         {
           content: (
-            <h3 className="font-semibold">
-              <FormattedMessage id="joyride.image" />
+            <h3 className='font-semibold'>
+              <FormattedMessage id='joyride.image' />
             </h3>
           ),
           spotlightPadding: 10,
@@ -47,8 +47,8 @@ export function AppJoyride() {
         },
         {
           content: (
-            <h3 className="font-semibold">
-              <FormattedMessage id="joyride.controls" />
+            <h3 className='font-semibold'>
+              <FormattedMessage id='joyride.controls' />
             </h3>
           ),
           placement: 'center',
@@ -56,8 +56,8 @@ export function AppJoyride() {
         },
         {
           content: (
-            <h3 className="font-semibold">
-              <FormattedMessage id="joyride.register" />
+            <h3 className='font-semibold'>
+              <FormattedMessage id='joyride.register' />
             </h3>
           ),
           spotlightPadding: 0,
@@ -65,8 +65,8 @@ export function AppJoyride() {
         },
         {
           content: (
-            <h3 className="font-semibold">
-              <FormattedMessage id="joyride.press" />
+            <h3 className='font-semibold'>
+              <FormattedMessage id='joyride.press' />
             </h3>
           ),
           spotlightPadding: 10,

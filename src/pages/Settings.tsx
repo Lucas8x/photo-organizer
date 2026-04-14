@@ -60,53 +60,53 @@ export function Settings() {
   const resetSettings = useSettings((s) => s.resetSettings);
 
   return (
-    <div className="flex h-full w-full max-w-full flex-col dark:text-white">
-      <div className="flex h-full w-full flex-col gap-4 overflow-y-auto bg-white p-4 dark:bg-zinc-900">
-        <div className="flex items-center gap-2 text-xl">
+    <div className='flex h-full w-full max-w-full flex-col dark:text-white'>
+      <div className='flex h-full w-full flex-col gap-4 overflow-y-auto bg-white p-4 dark:bg-zinc-900'>
+        <div className='flex items-center gap-2 text-xl'>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link to="/">
+                <Link to='/'>
                   <IoArrowBack />
                 </Link>
               </TooltipTrigger>
               <TooltipContent>
-                <FormattedMessage id="back" />
+                <FormattedMessage id='back' />
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
-          <h1 className="font-bold">
-            <FormattedMessage id="settings" />
+          <h1 className='font-bold'>
+            <FormattedMessage id='settings' />
           </h1>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className='flex flex-col gap-4'>
           <SettingItem.Root>
             <div>
               <SettingItem.Title>
-                <FormattedMessage id="theme" />
+                <FormattedMessage id='theme' />
               </SettingItem.Title>
 
               <SettingItem.Description>
-                <FormattedMessage id="theme.description" />
+                <FormattedMessage id='theme.description' />
               </SettingItem.Description>
             </div>
 
             <Select onValueChange={changeTheme} value={theme}>
-              <SelectTrigger className="w-44">
-                <SelectValue placeholder="Select a theme" />
+              <SelectTrigger className='w-44'>
+                <SelectValue placeholder='Select a theme' />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>
-                    <FormattedMessage id="theme" />
+                    <FormattedMessage id='theme' />
                   </SelectLabel>
                   {THEMES.map((theme) => (
                     <SelectItem
                       key={theme}
                       value={theme}
-                      className="cursor-pointer"
+                      className='cursor-pointer'
                     >
                       <FormattedMessage id={`theme.${theme}`} />
                     </SelectItem>
@@ -119,27 +119,27 @@ export function Settings() {
           <SettingItem.Root>
             <div>
               <SettingItem.Title>
-                <FormattedMessage id="language" />
+                <FormattedMessage id='language' />
               </SettingItem.Title>
               <SettingItem.Description>
-                <FormattedMessage id="language.description" />
+                <FormattedMessage id='language.description' />
               </SettingItem.Description>
             </div>
 
             <Select onValueChange={changeLanguage} value={language}>
-              <SelectTrigger className="w-44">
-                <SelectValue placeholder="Select a language" />
+              <SelectTrigger className='w-44'>
+                <SelectValue placeholder='Select a language' />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>
-                    <FormattedMessage id="language" />
+                    <FormattedMessage id='language' />
                   </SelectLabel>
                   {LANGUAGES.map((language) => (
                     <SelectItem
                       key={language.id}
                       value={language.id}
-                      className="cursor-pointer"
+                      className='cursor-pointer'
                     >
                       {language.name}
                     </SelectItem>
@@ -188,10 +188,10 @@ export function Settings() {
           <SettingItem.Root>
             <div>
               <SettingItem.Title>
-                <FormattedMessage id="image.name.hide" />
+                <FormattedMessage id='image.name.hide' />
               </SettingItem.Title>
               <SettingItem.Description>
-                <FormattedMessage id="image.name.hide.description" />
+                <FormattedMessage id='image.name.hide.description' />
               </SettingItem.Description>
             </div>
 
@@ -204,10 +204,10 @@ export function Settings() {
           <SettingItem.Root>
             <div>
               <SettingItem.Title>
-                <FormattedMessage id="image.count.hide" />
+                <FormattedMessage id='image.count.hide' />
               </SettingItem.Title>
               <SettingItem.Description>
-                <FormattedMessage id="image.count.hide.description" />
+                <FormattedMessage id='image.count.hide.description' />
               </SettingItem.Description>
             </div>
 
@@ -220,10 +220,10 @@ export function Settings() {
           <SettingItem.Root>
             <div>
               <SettingItem.Title>
-                <FormattedMessage id="quickSettings.header.hide" />
+                <FormattedMessage id='quickSettings.header.hide' />
               </SettingItem.Title>
               <SettingItem.Description>
-                <FormattedMessage id="quickSettings.header.hide.description" />
+                <FormattedMessage id='quickSettings.header.hide.description' />
               </SettingItem.Description>
             </div>
 
@@ -236,10 +236,10 @@ export function Settings() {
           <SettingItem.Root>
             <div>
               <SettingItem.Title>
-                <FormattedMessage id="quickSettings.copy_move" />
+                <FormattedMessage id='quickSettings.copy_move' />
               </SettingItem.Title>
               <SettingItem.Description>
-                <FormattedMessage id="quickSettings.copy_move.description" />
+                <FormattedMessage id='quickSettings.copy_move.description' />
               </SettingItem.Description>
             </div>
 
@@ -252,10 +252,10 @@ export function Settings() {
           <SettingItem.Root>
             <div>
               <SettingItem.Title>
-                <FormattedMessage id="quickSettings.next_img" />
+                <FormattedMessage id='quickSettings.next_img' />
               </SettingItem.Title>
               <SettingItem.Description>
-                <FormattedMessage id="quickSettings.next_img.description" />
+                <FormattedMessage id='quickSettings.next_img.description' />
               </SettingItem.Description>
             </div>
 
@@ -268,10 +268,10 @@ export function Settings() {
           <SettingItem.Root>
             <div>
               <SettingItem.Title>
-                <FormattedMessage id="quickSettings.folder_preview" />
+                <FormattedMessage id='quickSettings.folder_preview' />
               </SettingItem.Title>
               <SettingItem.Description>
-                <FormattedMessage id="quickSettings.folder_preview.description" />
+                <FormattedMessage id='quickSettings.folder_preview.description' />
               </SettingItem.Description>
             </div>
 
@@ -283,15 +283,15 @@ export function Settings() {
         </div>
 
         <ModalConfirmation
-          titleID="modal.settings.reset.title"
-          descriptionID="modal.settings.reset.description"
+          titleID='modal.settings.reset.title'
+          descriptionID='modal.settings.reset.description'
           onConfirm={resetSettings}
           confirmButtonProps={{
             variant: 'destructive',
           }}
         >
-          <Button className="w-fit" variant="destructive">
-            <FormattedMessage id="settings.reset.btn" />
+          <Button className='w-fit' variant='destructive'>
+            <FormattedMessage id='settings.reset.btn' />
           </Button>
         </ModalConfirmation>
       </div>

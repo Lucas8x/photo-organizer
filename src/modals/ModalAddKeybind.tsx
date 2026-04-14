@@ -91,21 +91,21 @@ export function ModalAddKeybind({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            <FormattedMessage id="modal.create.keybind.title" />
+            <FormattedMessage id='modal.create.keybind.title' />
           </DialogTitle>
           <DialogDescription>
-            <FormattedMessage id="modal.create.keybind.description" />
+            <FormattedMessage id='modal.create.keybind.description' />
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="keybind" className="text-right">
-              <FormattedMessage id="modal.create.input.keybind.label" />
+        <div className='flex flex-col gap-4'>
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='keybind' className='text-right'>
+              <FormattedMessage id='modal.create.input.keybind.label' />
             </Label>
             <Input
-              className="col-span-3"
-              id="keybind"
+              className='col-span-3'
+              id='keybind'
               value={keybind}
               onKeyDown={({ key }) => handleKeyDown(key)}
               placeholder={intl.formatMessage({
@@ -116,34 +116,34 @@ export function ModalAddKeybind({
             />
           </div>
 
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="folder-path-input" className="text-right">
-              <FormattedMessage id="modal.create.input.path.label" />
+          <div className='grid grid-cols-4 items-center gap-4'>
+            <Label htmlFor='folder-path-input' className='text-right'>
+              <FormattedMessage id='modal.create.input.path.label' />
             </Label>
             <InputPath
-              className="col-span-3"
+              className='col-span-3'
               value={outputPath}
               onChange={setOutputPath}
               hideRefreshButton
-              autoComplete="off"
+              autoComplete='off'
             />
           </div>
         </div>
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant="outline" onClick={close}>
-              <FormattedMessage id="modal.close" />
+            <Button variant='outline' onClick={close}>
+              <FormattedMessage id='modal.close' />
             </Button>
           </DialogClose>
 
           <DialogClose asChild>
             <Button
-              type="submit"
+              type='submit'
               onClick={handleConfirm}
               disabled={!keybind || !outputPath}
             >
-              <FormattedMessage id="modal.confirm" />
+              <FormattedMessage id='modal.confirm' />
             </Button>
           </DialogClose>
         </DialogFooter>

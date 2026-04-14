@@ -22,7 +22,7 @@ export function Header() {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <header className="flex w-full flex-col bg-white dark:bg-zinc-900">
+    <header className='flex w-full flex-col bg-white dark:bg-zinc-900'>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -33,7 +33,7 @@ export function Header() {
                   'border-b': collapsed,
                 },
               )}
-              variant="ghost"
+              variant='ghost'
               onClick={() => setCollapsed((s) => !s)}
             >
               {collapsed ? <IoChevronUp /> : <IoChevronDown />}
@@ -54,8 +54,8 @@ export function Header() {
           'pb-4': hideHeaderQuickSettings,
         })}
       >
-        <span className="font-bold dark:text-white">
-          <FormattedMessage id="header.title" />
+        <span className='font-bold dark:text-white'>
+          <FormattedMessage id='header.title' />
         </span>
 
         <InputPath

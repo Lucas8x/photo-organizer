@@ -45,28 +45,28 @@ export function ImageCountInput() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex cursor-pointer items-center gap-2">
+          <div className='flex cursor-pointer items-center gap-2'>
             <button
               className={cn('h-6', {
                 hidden: !isOpen,
               })}
               onClick={() => setIsOpen(false)}
             >
-              <X className="h-4 w-4 dark:text-zinc-400" />
+              <X className='h-4 w-4 dark:text-zinc-400' />
             </button>
 
-            <div className="flex items-center" onClick={() => setIsOpen(true)}>
+            <div className='flex items-center' onClick={() => setIsOpen(true)}>
               <Input
                 className={cn('h-6', {
                   hidden: !isOpen,
                 })}
-                type="number"
+                type='number'
                 value={value}
                 placeholder={(
                   currentIndex + (files.length > 0 ? 1 : 0)
                 ).toString()}
                 max={files.length}
-                min="1"
+                min='1'
                 onKeyDown={(e) => handleKey(e.key)}
                 onChange={(e) => setValue(parseInt(e.target.value))}
               />
@@ -81,13 +81,13 @@ export function ImageCountInput() {
                   : '-'}
               </span>
 
-              <span className="font-bold dark:text-white">/{files.length}</span>
+              <span className='font-bold dark:text-white'>/{files.length}</span>
             </div>
           </div>
         </TooltipTrigger>
 
         <TooltipContent>
-          <FormattedMessage id="image.count.tooltip" />
+          <FormattedMessage id='image.count.tooltip' />
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

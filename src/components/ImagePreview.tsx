@@ -4,13 +4,13 @@ import { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { PREVIEW_IMAGE } from '@/constants/imagePlaceholder';
 import { useFiles, useJoyride, useSettings } from '@/store';
-import { ImageCountInput } from './ImageCountInput';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/ui/tooltip';
+import { ImageCountInput } from './ImageCountInput';
 
 export function ImagePreview() {
   const isJoyrideRunning = useJoyride((s) => s.isJoyrideRunning);
@@ -36,15 +36,15 @@ export function ImagePreview() {
   }, [currentImagePath]);
 
   return (
-    <div className="flex h-full w-full py-1">
+    <div className='flex h-full w-full py-1'>
       {canShowImage ? (
-        <div className="flex h-full w-full flex-col items-center gap-2">
+        <div className='flex h-full w-full flex-col items-center gap-2'>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
                   type='button'
-                  className="flex items-center truncate text-center font-bold leading-8 data-[hidden=true]:hidden dark:text-white"
+                  className='flex items-center truncate text-center font-bold leading-8 data-[hidden=true]:hidden dark:text-white'
                   onClick={handlePathClick}
                   data-hidden={hideImageName}
                 >
@@ -52,24 +52,24 @@ export function ImagePreview() {
                 </button>
               </TooltipTrigger>
               <TooltipContent>
-                <FormattedMessage id="show.in.file.explorer" />
+                <FormattedMessage id='show.in.file.explorer' />
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
-          <div className="relative flex h-full w-full items-center justify-center p-2">
+          <div className='relative flex h-full w-full items-center justify-center p-2'>
             <img
-              className="absolute h-full rounded-md object-contain"
+              className='absolute h-full rounded-md object-contain'
               src={isJoyrideRunning ? PREVIEW_IMAGE : url}
-              alt=""
-              id="joyride-image"
+              alt=''
+              id='joyride-image'
             />
           </div>
 
           <ImageCountInput />
         </div>
       ) : (
-        <span className="flex w-full flex-col items-center self-center font-bold dark:text-white">
+        <span className='flex w-full flex-col items-center self-center font-bold dark:text-white'>
           <FormattedMessage
             id={
               currentFolderPath && files.length === 0
@@ -78,7 +78,7 @@ export function ImagePreview() {
             }
           />
           {(!currentFolderPath || files.length === 0) && (
-            <span className="rotate-90">{':('}</span>
+            <span className='rotate-90'>{':('}</span>
           )}
         </span>
       )}

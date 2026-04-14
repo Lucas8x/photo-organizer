@@ -14,22 +14,22 @@ export function QuickSettingsDisplay() {
   );
 
   return (
-    <div className="flex items-center justify-around">
+    <div className='flex items-center justify-around'>
       <SwitchLabeled
-        textID="quickSettings.copy_move"
-        tooltipID="quickSettings.copy_move.description"
+        textID='quickSettings.copy_move'
+        tooltipID='quickSettings.copy_move.description'
         onCheckedChange={toggleIsMovingFiles}
         checked={isMovingFiles}
       />
       <SwitchLabeled
-        textID="quickSettings.next_img"
-        tooltipID="quickSettings.next_img.description"
+        textID='quickSettings.next_img'
+        tooltipID='quickSettings.next_img.description'
         onCheckedChange={toggleNextImgAfterCopy}
         checked={nextImgAfterCopy}
       />
       <SwitchLabeled
-        textID="quickSettings.folder_preview"
-        tooltipID="quickSettings.folder_preview.description"
+        textID='quickSettings.folder_preview'
+        tooltipID='quickSettings.folder_preview.description'
         onCheckedChange={toggleShowingFolderPreviews}
         checked={showingFolderPreviews}
       />

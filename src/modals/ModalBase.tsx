@@ -6,7 +6,7 @@ interface Props {
 
 export function ModalBase({ children }: Props) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-zinc-950/60">
+    <div className='fixed inset-0 flex items-center justify-center bg-zinc-950/60'>
       {children}
     </div>
   );

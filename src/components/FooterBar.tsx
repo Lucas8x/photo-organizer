@@ -18,8 +18,8 @@ import packageJson from '../../package.json';
 
 export function FooterBar() {
   return (
-    <footer className="flex min-h-6 w-full justify-between border-t border-neutral-300 bg-white px-2 dark:border-zinc-500 dark:bg-zinc-900 dark:text-white">
-      <div className="flex items-center gap-2 antialiased">
+    <footer className='flex min-h-6 w-full justify-between border-t border-neutral-300 bg-white px-2 dark:border-zinc-500 dark:bg-zinc-900 dark:text-white'>
+      <div className='flex items-center gap-2 antialiased'>
         {/* <ModalAbout>
             <button title="About">
               <IoInformationCircleOutline size={18} />
@@ -29,13 +29,13 @@ export function FooterBar() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Link to="/settings">
-                <IoSettingsOutline className="motion-safe:hover:animate-spin" />
+              <Link to='/settings'>
+                <IoSettingsOutline className='motion-safe:hover:animate-spin' />
               </Link>
             </TooltipTrigger>
 
             <TooltipContent>
-              <FormattedMessage id="settings" />
+              <FormattedMessage id='settings' />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -47,17 +47,17 @@ export function FooterBar() {
         )} */}
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className='flex items-center gap-2'>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className="text-xs font-bold leading-none">
+              <span className='text-xs font-bold leading-none'>
                 v{packageJson.version}
               </span>
             </TooltipTrigger>
 
             <TooltipContent>
-              <FormattedMessage id="current.version" />
+              <FormattedMessage id='current.version' />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -75,7 +75,7 @@ export function FooterBar() {
             </TooltipTrigger>
 
             <TooltipContent>
-              <FormattedMessage id="github.repository" />
+              <FormattedMessage id='github.repository' />
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
