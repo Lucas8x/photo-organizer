@@ -53,7 +53,7 @@ export function KeybindPreview({
               <TooltipTrigger asChild>
                 <button
                   type='button'
-                  className='flex items-center gap-2 outline-none'
+                  className='flex items-center gap-2 outline-hidden'
                   aria-label='Keybind actions'
                 >
                   <div
@@ -94,12 +94,12 @@ export function KeybindPreview({
 
         <DropdownMenu.Portal>
           <DropdownMenu.Content
-            className='flex min-w-60 flex-col gap-1 rounded-md bg-white px-1 py-2 shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),_0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)] will-change-[opacity,transform] data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade'
+            className='flex min-w-60 flex-col gap-1 rounded-md bg-white px-1 py-2 shadow-[0px_10px_38px_-10px_rgba(22,23,24,0.35),0px_10px_20px_-15px_rgba(22,23,24,0.2)] will-change-[opacity,transform] data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade data-[side=right]:animate-slideLeftAndFade data-[side=top]:animate-slideDownAndFade'
             sideOffset={5}
             side='top'
           >
             <DropdownMenu.Item
-              className='group relative flex h-6 cursor-pointer select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-black outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-green-600 data-[highlighted]:font-bold data-[disabled]:text-zinc-500 data-[highlighted]:text-white'
+              className='group relative flex h-6 cursor-pointer select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-black outline-hidden data-disabled:pointer-events-none data-highlighted:bg-green-600 data-highlighted:font-bold data-disabled:text-zinc-500 data-highlighted:text-white'
               onClick={handleOpenFolder}
             >
               <IoFolder className='size-4' />
@@ -108,7 +108,7 @@ export function KeybindPreview({
 
             {onEdit && (
               <DropdownMenu.Item
-                className='group relative flex h-6 cursor-pointer select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-black outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-yellow-600 data-[highlighted]:font-bold data-[disabled]:text-zinc-500 data-[highlighted]:text-white'
+                className='group relative flex h-6 cursor-pointer select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-black outline-hidden data-disabled:pointer-events-none data-highlighted:bg-yellow-600 data-highlighted:font-bold data-disabled:text-zinc-500 data-highlighted:text-white'
                 onClick={onEdit}
               >
                 <IoPencilSharp className='size-4' />
@@ -117,7 +117,7 @@ export function KeybindPreview({
             )}
 
             <DialogTrigger asChild>
-              <DropdownMenu.Item className='group relative flex h-6 cursor-pointer select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-red-600 outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-red-700 data-[highlighted]:font-bold data-[disabled]:text-zinc-500 data-[highlighted]:text-white'>
+              <DropdownMenu.Item className='group relative flex h-6 cursor-pointer select-none items-center gap-2 rounded-md px-4 py-4 text-sm leading-none text-red-600 outline-hidden data-disabled:pointer-events-none data-highlighted:bg-red-700 data-highlighted:font-bold data-disabled:text-zinc-500 data-highlighted:text-white'>
                 <IoTrash className='size-4' />
                 <FormattedMessage id='dropdown.delete.keybind' />
               </DropdownMenu.Item>

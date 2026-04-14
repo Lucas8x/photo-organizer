@@ -28,7 +28,7 @@ export function Header() {
           <TooltipTrigger asChild>
             <Button
               className={cn(
-                'flex h-4 justify-center border-b-neutral-300 outline-none dark:border-b-zinc-700 dark:text-white',
+                'flex h-4 justify-center border-b-neutral-300 outline-hidden dark:border-b-zinc-700 dark:text-white',
                 {
                   'border-b': collapsed,
                 },
