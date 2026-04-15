@@ -63,22 +63,15 @@
     "zustand-computed": "^2.0.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.11",
     "@tauri-apps/cli": "^2.10.1",
     "@types/node": "^22.10.7",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@typescript-eslint/eslint-plugin": "^7.1.0",
-    "@typescript-eslint/parser": "^7.1.0",
     "@vitejs/plugin-react": "^6",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "postcss": "^8.4.35",
-    "prettier": "^3.8.2",
-    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
+    "ultracite": "7.5.9",
     "vite": "^8"
   }
 }
