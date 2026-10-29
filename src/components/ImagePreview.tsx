@@ -39,7 +39,7 @@ export function ImagePreview() {
   }, [currentImagePath]);
 
   return (
-    <div className='flex h-full w-full py-1'>
+    <div className='flex h-full w-full overflow-hidden py-1'>
       {canShowImage ? (
         <div className='flex h-full w-full flex-col items-center gap-2'>
           <TooltipProvider>
