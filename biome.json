@@ -20,6 +20,11 @@
       "jsxQuoteStyle": "single"
     }
   },
+  "css": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
   "linter": {
     "rules": {
       "correctness": {
