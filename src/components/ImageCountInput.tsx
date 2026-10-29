@@ -51,18 +51,23 @@ export function ImageCountInput() {
                 hidden: !isOpen,
               })}
               onClick={() => setIsOpen(false)}
+              type='button'
             >
               <X className='h-4 w-4 dark:text-zinc-400' />
             </button>
 
-            <div className='flex items-center' onClick={() => setIsOpen(true)}>
+            <button
+              className='flex items-center'
+              onClick={() => setIsOpen(true)}
+              type='button'
+            >
               <Input
                 className={cn('h-6', {
                   hidden: !isOpen,
                 })}
                 max={files.length}
                 min='1'
-                onChange={(e) => setValue(Number.parseInt(e.target.value))}
+                onChange={(e) => setValue(Number.parseInt(e.target.value, 10))}
                 onKeyDown={(e) => handleKey(e.key)}
                 placeholder={(
                   currentIndex + (files.length > 0 ? 1 : 0)
@@ -82,7 +87,7 @@ export function ImageCountInput() {
               </span>
 
               <span className='font-bold dark:text-white'>/{files.length}</span>
-            </div>
+            </button>
           </div>
         </TooltipTrigger>
 

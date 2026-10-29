@@ -1,11 +1,11 @@
 import { AppJoyride } from '@/components/AppJoyride';
+import { FooterBar } from '@/components/FooterBar';
+import { Header } from '@/components/Header';
+import { ImagePreview } from '@/components/ImagePreview';
+import { KeybindsDisplay } from '@/components/KeybindsDisplay';
 import { SideButton } from '@/components/SideButton';
 import { useKeyboardShortcuts, useStoredKeybinds } from '@/hooks';
 import { useFiles } from '@/store';
-import { FooterBar } from '../components/FooterBar';
-import { Header } from '../components/Header';
-import { ImagePreview } from '../components/ImagePreview';
-import { KeybindsDisplay } from '../components/KeybindsDisplay';
 
 export function Home() {
   const decreaseIndex = useFiles((s) => s.decreaseIndex);

@@ -1,13 +1,19 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import type {
+  Keybind,
+  KeybindsList,
+  UpdateKeybindParams,
+  UpdateKeyPreviewParams,
+} from '@/@types';
 import { changeKeyKeepOrder, getNewestFilePath } from '../utils';
 
 type KeybindsState = {
-  keybinds: IKeybinds;
-  addKeybind: (params: IKeybind) => Promise<boolean>;
-  updateKeybind: (params: IUpdateKeybindParams) => Promise<boolean>;
+  keybinds: KeybindsList;
+  addKeybind: (params: Keybind) => Promise<boolean>;
+  updateKeybind: (params: UpdateKeybindParams) => Promise<boolean>;
   deleteKeybind: (key: string) => void;
-  updateKeyPreview: (params: IUpdateKeyPreviewParams) => void;
+  updateKeyPreview: (params: UpdateKeyPreviewParams) => void;
   clearAll: () => void;
 };
 

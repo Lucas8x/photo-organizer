@@ -1,24 +1,22 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-interface IKeybind {
+export type Keybind = {
   key: string;
   path: string;
-}
+};
 
-interface IKeybinds {
+export type KeybindsList = {
   [id: string]: {
     path: string;
     previewPath?: string;
   };
-}
+};
 
-interface IUpdateKeybindParams {
+export type UpdateKeybindParams = {
   newKey?: string;
   path: string;
   previousKey: string;
-}
+};
 
-interface IUpdateKeyPreviewParams {
+export type UpdateKeyPreviewParams = {
   key: string;
   previewPath: string;
-}
+};

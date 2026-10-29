@@ -1,4 +1,4 @@
-import * as fs from '@tauri-apps/plugin-fs';
+import { copyFile, exists, rename } from '@tauri-apps/plugin-fs';
 
 type FileAction = 'copy' | 'move';
 
@@ -27,16 +27,14 @@ export async function fileAction({
       throw new Error('No destination path provided.');
     }
 
-    const exists = await fs.exists(dest);
-
-    if (exists) {
+    if (await exists(dest)) {
       throw new Error('File already exists.');
     }
 
     if (action === 'move') {
-      await fs.rename(src, dest);
+      await rename(src, dest);
     } else {
-      await fs.copyFile(src, dest);
+      await copyFile(src, dest);
     }
 
     return {

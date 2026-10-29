@@ -1,8 +1,8 @@
-import * as fs from '@tauri-apps/plugin-fs';
+import { remove } from '@tauri-apps/plugin-fs';
 
 export async function deleteFile(path: string) {
   try {
-    await fs.remove(path);
+    await remove(path);
 
     return {
       success: true,

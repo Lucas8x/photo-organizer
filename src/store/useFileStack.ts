@@ -17,12 +17,7 @@ type FileStackState = {
 export const useFileStack = create<FileStackState>((set, get) => ({
   stack: [],
 
-  getLastStackFile: () => {
-    const { stack } = get();
-    if (stack.length > 0) {
-      return stack[stack.length - 1];
-    }
-  },
+  getLastStackFile: () => get().stack.at(-1),
 
   pushToFileStack: (file) => set((s) => ({ stack: [...s.stack, file] })),
 

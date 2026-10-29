@@ -1,7 +1,8 @@
+/** biome-ignore-all lint/complexity/noExcessiveCognitiveComplexity: <ok> */
 import { path } from '@tauri-apps/api';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'react-toastify';
-import { CONFLICT_HANDLE_OPTIONS } from '@/constants';
+//import { CONFLICT_HANDLE_OPTIONS } from '@/constants';
 import { fileAction } from '@/functions/fileActions';
 import { getIntlShape } from '@/locales/getIntlShape';
 import {
@@ -51,8 +52,8 @@ export function useStoredKeybinds() {
     if (success) {
       if (isMovingFiles) {
         removeFile(files[index]);
-      } else {
-        nextImgAfterCopy && increaseIndex();
+      } else if (nextImgAfterCopy) {
+        increaseIndex();
       }
 
       toast.success(

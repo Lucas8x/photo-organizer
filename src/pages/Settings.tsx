@@ -32,8 +32,8 @@ export function Settings() {
   const language = useSettings((s) => s.language);
   const changeLanguage = useSettings((s) => s.changeLanguage);
 
-  const conflictHandling = useSettings((s) => s.conflictHandling);
-  const changeConflictHandling = useSettings((s) => s.changeConflictHandling);
+  /* const conflictHandling = useSettings((s) => s.conflictHandling);
+  const changeConflictHandling = useSettings((s) => s.changeConflictHandling); */
 
   const hideImageName = useSettings((s) => s.hideImageName);
   const toggleHideImageName = useSettings((s) => s.toggleHideImageName);
@@ -102,13 +102,13 @@ export function Settings() {
                   <SelectLabel>
                     <FormattedMessage id='theme' />
                   </SelectLabel>
-                  {THEMES.map((theme) => (
+                  {THEMES.map((themeItem) => (
                     <SelectItem
                       className='cursor-pointer'
-                      key={theme}
-                      value={theme}
+                      key={themeItem}
+                      value={themeItem}
                     >
-                      <FormattedMessage id={`theme.${theme}`} />
+                      <FormattedMessage id={`theme.${themeItem}`} />
                     </SelectItem>
                   ))}
                 </SelectGroup>
@@ -135,13 +135,13 @@ export function Settings() {
                   <SelectLabel>
                     <FormattedMessage id='language' />
                   </SelectLabel>
-                  {LANGUAGES.map((language) => (
+                  {LANGUAGES.map((langItem) => (
                     <SelectItem
                       className='cursor-pointer'
-                      key={language.id}
-                      value={language.id}
+                      key={langItem.id}
+                      value={langItem.id}
                     >
-                      {language.name}
+                      {langItem.name}
                     </SelectItem>
                   ))}
                 </SelectGroup>

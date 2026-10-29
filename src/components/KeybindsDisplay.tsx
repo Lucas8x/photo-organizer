@@ -17,7 +17,7 @@ export function KeybindsDisplay() {
   const [editKeybind, setEditKeybind] = useState<{
     key: string;
     path: string;
-  }>();
+  } | null>(null);
 
   const keybindsArr = Object.entries(keybinds);
   const hasKeys = keybindsArr.length > 0;
@@ -72,10 +72,10 @@ export function KeybindsDisplay() {
         </Button>
       </div>
 
-      {editKeybind && (
+      {!!editKeybind && (
         <ModalAddKeybind
           close={() => {
-            setEditKeybind(undefined);
+            setEditKeybind(null);
           }}
           initialKeybind={editKeybind.key}
           initialOutputPath={editKeybind.path}

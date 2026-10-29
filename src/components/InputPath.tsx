@@ -1,4 +1,4 @@
-import * as dialog from '@tauri-apps/plugin-dialog';
+import { open } from '@tauri-apps/plugin-dialog';
 import type React from 'react';
 import { type KeyboardEvent, useRef } from 'react';
 import { IoFolderOutline, IoRefresh } from 'react-icons/io5';
@@ -36,7 +36,7 @@ export function InputPath({
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function openDialog() {
-    const selected = await dialog.open({
+    const selected = await open({
       directory: true,
     });
 
@@ -49,7 +49,7 @@ export function InputPath({
 
   function clickPress(event: KeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Enter') {
-      inputRef?.current?.blur();
+      inputRef.current?.blur();
     }
   }
 
