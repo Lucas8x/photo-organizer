@@ -12,7 +12,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "format": "prettier ./src --write"
+    "check": "ultracite check",
+    "format": "bunx @biomejs/biome format --write",
+    "fix": "ultracite fix"
   },
   "license": "MIT",
   "homepage": "https://github.com/Lucas8x/photo-organizer",
@@ -63,7 +65,7 @@
     "zustand-computed": "^2.0.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.11",
+    "@biomejs/biome": "2.6.4",
     "@tauri-apps/cli": "^2.10.1",
     "@types/node": "^22.10.7",
     "@types/react": "^19.0.0",
@@ -71,7 +73,7 @@
     "@vitejs/plugin-react": "^6",
     "tailwindcss": "^4.2.2",
     "typescript": "^6.0.2",
-    "ultracite": "7.5.9",
+    "ultracite": "8.1.0",
     "vite": "^8"
   }
 }

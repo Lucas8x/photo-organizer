@@ -1,0 +1,56 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": [
+    "ultracite/biome/core",
+    "ultracite/biome/react",
+    "ultracite/biome/type-aware"
+  ],
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["src/**", "!!src/ui", "!!src/lib"]
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "single"
+    }
+  },
+  "linter": {
+    "rules": {
+      "correctness": {
+        "noUnusedImports": {
+          "level": "warn",
+          "fix": "none"
+        }
+      },
+      "style": {
+        "useConsistentTypeDefinitions": {
+          "level": "warn",
+          "options": {
+            "style": "type"
+          }
+        }
+      },
+      "nursery": {
+        "useTailwindSortedClasses": {
+          "level": "info"
+        }
+      }
+    }
+  },
+  "assist": {
+    "enabled": true,
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "useSortedKeys": "off",
+        "useSortedPackageJson": "off"
+      }
+    }
+  }
+}
