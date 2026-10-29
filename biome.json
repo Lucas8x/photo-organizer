@@ -30,6 +30,11 @@
       "quoteStyle": "single"
     }
   },
+  "yaml": {
+    "formatter": {
+      "quoteStyle": "single"
+    }
+  },
   "linter": {
     "rules": {
       "correctness": {
@@ -44,7 +49,11 @@
           "options": {
             "style": "type"
           }
-        }
+        },
+        "useFilenamingConvention": "off"
+      },
+      "performance": {
+        "noJsxPropsBind": "off"
       },
       "nursery": {
         "useTailwindSortedClasses": {
