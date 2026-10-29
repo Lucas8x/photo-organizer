@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { cn } from '@/lib/utils';
+import { Button } from '@/ui/button';
 import { ModalAddKeybind } from '../modals/ModalAddKeybind';
 import { useJoyride, useKeybinds, useSettings } from '../store';
-import { Button } from '../ui/button';
 import { KeybindPreview } from './KeybindPreview';
 
 export function KeybindsDisplay() {
@@ -30,31 +30,31 @@ export function KeybindsDisplay() {
       >
         <div
           className={cn('flex flex-wrap justify-center gap-x-5 gap-y-3', {
-            hidden: !hasKeys && !isJoyrideRunning,
+            hidden: !(hasKeys || isJoyrideRunning),
           })}
         >
           {keybindsArr.map(([key, { path, previewPath }]) => (
             <KeybindPreview
               key={`${key}-${path}-${previewPath}`}
               keybind={key}
+              onDelete={() => deleteKeybind(key)}
+              onEdit={() => setEditKeybind({ key, path })}
               path={path}
               previewPath={previewPath}
               showPreview={showingFolderPreviews}
-              onEdit={() => setEditKeybind({ key, path })}
-              onDelete={() => deleteKeybind(key)}
             />
           ))}
 
           <div
-            id='joyride-example-keybind'
             className={cn({ hidden: !isJoyrideRunning })}
+            id='joyride-example-keybind'
           >
             <KeybindPreview
               keybind='A'
+              onDelete={() => null}
               path='C:\photos\Family'
               previewPath=''
               showPreview
-              onDelete={() => null}
             />
           </div>
         </div>
@@ -74,11 +74,11 @@ export function KeybindsDisplay() {
 
       {editKeybind && (
         <ModalAddKeybind
-          initialKeybind={editKeybind.key}
-          initialOutputPath={editKeybind.path}
           close={() => {
             setEditKeybind(undefined);
           }}
+          initialKeybind={editKeybind.key}
+          initialOutputPath={editKeybind.path}
         />
       )}
     </>

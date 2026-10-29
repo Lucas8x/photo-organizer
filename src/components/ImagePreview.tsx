@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useImageSize: <variable dimenions> */
 import { path } from '@tauri-apps/api';
 import { convertFileSrc, invoke } from '@tauri-apps/api/core';
 import { useCallback, useMemo } from 'react';
@@ -25,11 +26,13 @@ export function ImagePreview() {
 
   const url = useMemo(
     () => currentImagePath && convertFileSrc(currentImagePath),
-    [currentImagePath],
+    [currentImagePath]
   );
 
   const handlePathClick = useCallback(async () => {
-    if (!currentImagePath) return;
+    if (!currentImagePath) {
+      return;
+    }
     await invoke('show_in_folder', {
       path: await path.normalize(currentImagePath),
     });
@@ -43,10 +46,10 @@ export function ImagePreview() {
             <Tooltip>
               <TooltipTrigger asChild>
                 <button
-                  type='button'
-                  className='flex items-center truncate text-center font-bold leading-8 data-[hidden=true]:hidden dark:text-white'
-                  onClick={handlePathClick}
+                  className='flex items-center truncate text-center leading-8 font-bold data-[hidden=true]:hidden dark:text-white'
                   data-hidden={hideImageName}
+                  onClick={handlePathClick}
+                  type='button'
                 >
                   {currentImagePath?.split('\\').reverse()[0]}
                 </button>
@@ -59,10 +62,10 @@ export function ImagePreview() {
 
           <div className='relative flex h-full w-full items-center justify-center p-2'>
             <img
+              alt='preview'
               className='absolute h-full rounded-md object-contain'
-              src={isJoyrideRunning ? PREVIEW_IMAGE : url}
-              alt=''
               id='joyride-image'
+              src={isJoyrideRunning ? PREVIEW_IMAGE : url}
             />
           </div>
 

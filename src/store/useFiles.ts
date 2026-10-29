@@ -41,7 +41,9 @@ export const useFiles = create<FileState>()(
 
       localStorage.setItem('latestPath', path);
 
-      if (!path) return;
+      if (!path) {
+        return;
+      }
 
       const files = await loadFolderFiles(path);
       set({ files });
@@ -49,7 +51,9 @@ export const useFiles = create<FileState>()(
 
     loadLatestFolder: async () => {
       const path = await getLatestPath();
-      if (!path) return;
+      if (!path) {
+        return;
+      }
       get().changeFolder(path);
     },
 
@@ -84,5 +88,5 @@ export const useFiles = create<FileState>()(
       }
       set({ index });
     },
-  })),
+  }))
 );

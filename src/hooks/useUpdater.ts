@@ -12,7 +12,7 @@ export function useUpdater() {
       intl.formatMessage({ id: 'updater.checking' }),
       {
         position: 'bottom-right',
-      },
+      }
     );
 
     try {

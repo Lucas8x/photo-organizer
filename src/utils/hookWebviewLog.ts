@@ -1,6 +1,6 @@
 import { invoke } from '@tauri-apps/api/core';
 
-const levels: (keyof Console)[] = [
+const levels = [
   // 'log',
   'info',
   // 'warn',
@@ -9,11 +9,10 @@ const levels: (keyof Console)[] = [
 ];
 
 export function hookWebviewLog() {
-  levels.forEach((level) => {
+  for (const level of levels) {
     const original = console[level];
 
-    //@ts-expect-error
-    console[level] = (...args) => {
+    console[level] = (...args: unknown[]) => {
       original.apply(console, args);
 
       const serialized = args.map(serialize).join(' ');
@@ -23,7 +22,7 @@ export function hookWebviewLog() {
         message: serialized,
       });
     };
-  });
+  }
 }
 
 function serialize(arg: unknown): string {
@@ -32,7 +31,7 @@ function serialize(arg: unknown): string {
   }
   try {
     return JSON.stringify(arg);
-  } catch (_) {
+  } catch {
     return String(arg);
   }
 }

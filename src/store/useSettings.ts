@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import {
-  persist,
   createJSONStorage,
+  persist,
   subscribeWithSelector,
 } from 'zustand/middleware';
-import { LOCALES } from '@/locales';
 import { CONFLICT_HANDLE_OPTIONS, THEMES } from '@/constants';
+import { LOCALES } from '@/locales';
 import { updateHtmlTheme } from '@/utils/changeHtmlTheme';
 
 type SettingsVariables = {
@@ -30,7 +30,7 @@ type SettingsFunctions = {
   toggleHideImageName: () => void;
   toggleHideImageCount: () => void;
   changeConflictHandling: (
-    id: (typeof CONFLICT_HANDLE_OPTIONS)[keyof typeof CONFLICT_HANDLE_OPTIONS],
+    id: (typeof CONFLICT_HANDLE_OPTIONS)[keyof typeof CONFLICT_HANDLE_OPTIONS]
   ) => void;
   resetSettings: () => void;
 };
@@ -109,9 +109,9 @@ export const useSettings = create<SettingsVariables & SettingsFunctions>()(
       {
         name: 'settings',
         storage: createJSONStorage(() => localStorage),
-      },
-    ),
-  ),
+      }
+    )
+  )
 );
 
 useSettings.subscribe((s) => s.theme, updateHtmlTheme, {

@@ -9,7 +9,7 @@ export async function deleteFile(path: string) {
       error: null,
     };
   } catch (error) {
-    console.error(`[deleteFile]`, error);
+    console.error('[deleteFile]', error);
 
     return {
       success: false,

@@ -1,6 +1,6 @@
-import { useFiles, useModal } from '@/store';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { undo } from '@/functions/undo';
+import { useFiles, useModal } from '@/store';
 
 export function useKeyboardShortcuts() {
   const blockHotkeys = useModal((s) => s.blockHotkeys);
@@ -13,7 +13,7 @@ export function useKeyboardShortcuts() {
     {
       enabled: !blockHotkeys,
     },
-    [],
+    []
   );
 
   useHotkeys(
@@ -22,7 +22,7 @@ export function useKeyboardShortcuts() {
     {
       enabled: !blockHotkeys,
     },
-    [],
+    []
   );
 
   useHotkeys(
@@ -31,6 +31,6 @@ export function useKeyboardShortcuts() {
     {
       enabled: !blockHotkeys,
     },
-    [],
+    []
   );
 }

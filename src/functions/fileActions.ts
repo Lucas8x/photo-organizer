@@ -45,7 +45,7 @@ export async function fileAction({
     };
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
-    console.error(`[fileAction]`, error);
+    console.error('[fileAction]', error);
     return {
       success: false,
       error: msg,

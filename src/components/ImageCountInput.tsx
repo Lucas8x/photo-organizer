@@ -1,9 +1,9 @@
+import { X } from 'lucide-react';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
-import { X } from 'lucide-react';
-import { useFiles, useSettings } from '@/store';
 import { cn } from '@/lib/utils';
+import { useFiles, useSettings } from '@/store';
 import { Input } from '@/ui/input';
 import {
   Tooltip,
@@ -60,15 +60,15 @@ export function ImageCountInput() {
                 className={cn('h-6', {
                   hidden: !isOpen,
                 })}
-                type='number'
-                value={value}
+                max={files.length}
+                min='1'
+                onChange={(e) => setValue(Number.parseInt(e.target.value))}
+                onKeyDown={(e) => handleKey(e.key)}
                 placeholder={(
                   currentIndex + (files.length > 0 ? 1 : 0)
                 ).toString()}
-                max={files.length}
-                min='1'
-                onKeyDown={(e) => handleKey(e.key)}
-                onChange={(e) => setValue(parseInt(e.target.value))}
+                type='number'
+                value={value}
               />
 
               <span
@@ -76,9 +76,9 @@ export function ImageCountInput() {
                   hidden: isOpen,
                 })}
               >
-                {currentIndex !== undefined
-                  ? currentIndex + (files.length > 0 ? 1 : 0)
-                  : '-'}
+                {currentIndex === undefined
+                  ? '-'
+                  : currentIndex + (files.length > 0 ? 1 : 0)}
               </span>
 
               <span className='font-bold dark:text-white'>/{files.length}</span>

@@ -1,11 +1,11 @@
 import { FormattedMessage } from 'react-intl';
+import { Button } from '@/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/ui/tooltip';
-import { Button } from '@/ui/button';
 
 type Props = {
   children: React.ReactNode;
@@ -21,8 +21,8 @@ export function SideButton(p: Props) {
         <TooltipTrigger asChild>
           <Button
             className='h-full p-2 focus-visible:ring-0 dark:text-white dark:hover:bg-neutral-400/10'
-            variant='ghost'
             onClick={p.onClick}
+            variant='ghost'
           >
             {p.children}
           </Button>

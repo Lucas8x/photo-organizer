@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import { FormattedMessage } from 'react-intl';
-import { useFiles, useSettings } from '@/store';
-import { InputPath } from './InputPath';
-import { QuickSettingsDisplay } from './QuickSettingsDisplay';
 import { cn } from '@/lib/utils';
+import { useFiles, useSettings } from '@/store';
 import { Button } from '@/ui/button';
 import {
   Tooltip,
@@ -12,6 +10,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/ui/tooltip';
+import { InputPath } from './InputPath';
+import { QuickSettingsDisplay } from './QuickSettingsDisplay';
 
 export function Header() {
   const currentFolderPath = useFiles((s) => s.currentFolderPath);
@@ -31,10 +31,10 @@ export function Header() {
                 'flex h-4 justify-center border-b-neutral-300 outline-hidden dark:border-b-zinc-700 dark:text-white',
                 {
                   'border-b': collapsed,
-                },
+                }
               )}
-              variant='ghost'
               onClick={() => setCollapsed((s) => !s)}
+              variant='ghost'
             >
               {collapsed ? <IoChevronUp /> : <IoChevronDown />}
             </Button>
@@ -49,7 +49,7 @@ export function Header() {
       </TooltipProvider>
 
       <div
-        className={cn('flex flex-col gap-2 px-4 pb-2 pt-1', {
+        className={cn('flex flex-col gap-2 px-4 pt-1 pb-2', {
           hidden: collapsed,
           'pb-4': hideHeaderQuickSettings,
         })}
@@ -59,9 +59,9 @@ export function Header() {
         </span>
 
         <InputPath
-          value={currentFolderPath}
           onChange={changeFolder}
           onRefresh={() => changeFolder(currentFolderPath)}
+          value={currentFolderPath}
         />
 
         {!hideHeaderQuickSettings && <QuickSettingsDisplay />}

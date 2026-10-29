@@ -39,7 +39,7 @@ export const useKeybinds = create<KeybindsState>()(
       updateKeybind: async ({ path, previousKey, newKey }) => {
         const { keybinds } = get();
 
-        if (!previousKey || !keybinds[previousKey]) {
+        if (!(previousKey && keybinds[previousKey])) {
           return false;
         }
 
@@ -62,7 +62,7 @@ export const useKeybinds = create<KeybindsState>()(
 
         if (newKey && newKey !== previousKey && !keybinds[newKey]) {
           console.log(
-            `Keybind > ${previousKey} < updated to > ${newKey} < and path: ${path}`,
+            `Keybind > ${previousKey} < updated to > ${newKey} < and path: ${path}`
           );
           set((s) => ({
             keybinds: changeKeyKeepOrder(s.keybinds, previousKey, newKey, {
@@ -87,7 +87,9 @@ export const useKeybinds = create<KeybindsState>()(
       },
 
       updateKeyPreview: ({ key, previewPath }) => {
-        if (!previewPath) return;
+        if (!previewPath) {
+          return;
+        }
 
         set((s) => ({
           keybinds: {
@@ -109,6 +111,6 @@ export const useKeybinds = create<KeybindsState>()(
     {
       name: 'keybinds',
       storage: createJSONStorage(() => localStorage),
-    },
-  ),
+    }
+  )
 );

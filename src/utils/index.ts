@@ -1,47 +1,48 @@
-import * as fs from '@tauri-apps/plugin-fs';
 import { path } from '@tauri-apps/api';
+import { type DirEntry, exists, readDir, stat } from '@tauri-apps/plugin-fs';
 import { toast } from 'react-toastify';
 import { FILE_TYPES } from '../constants';
 
-export function getPathBasename(path: string): string {
-  return path.replace('\\', '/')?.split('/').reverse()[0] || '';
+export function getPathBasename(pathName: string): string {
+  return pathName.replace('\\', '/')?.split('/').reverse()[0] || '';
 }
 
 export function getFileExtension(fileName: string): string {
-  return fileName.slice(((fileName.lastIndexOf('.') - 1) >>> 0) + 2);
+  const extensionIndex = fileName.lastIndexOf('.');
+  return extensionIndex === -1 ? '' : fileName.slice(extensionIndex + 1);
 }
 
-export function filterFiles(files: fs.DirEntry[]) {
+export function filterFiles(files: DirEntry[]) {
   return files.filter(
     (i) =>
       i.isFile &&
       FILE_TYPES.includes(
-        getFileExtension(i.name) as (typeof FILE_TYPES)[number],
-      ),
+        getFileExtension(i.name) as (typeof FILE_TYPES)[number]
+      )
   );
 }
 
 export async function getNewestFilePath(folderPath: string): Promise<string> {
-  const folderFiles = await fs.readDir(folderPath);
-  if (folderFiles.length === 0) return '';
+  const folderFiles = await readDir(folderPath);
+  if (folderFiles.length === 0) {
+    return '';
+  }
 
   const filteredFiles = filterFiles(folderFiles);
-  if (filteredFiles.length === 0) return '';
-
-  const arr = [];
-
-  for (const file of filteredFiles) {
-    const { isFile, mtime } = await fs.stat(
-      await path.join(folderPath, file.name),
-    );
-
-    if (!isFile) continue;
-
-    arr.push({
-      path: file.name,
-      mtime: mtime?.getTime() || 0,
-    });
+  if (filteredFiles.length === 0) {
+    return '';
   }
+
+  const fileStats = await Promise.all(
+    filteredFiles.map(async (file) => {
+      const filePath = await path.join(folderPath, file.name);
+      const { isFile, mtime } = await stat(filePath);
+      return isFile ? { path: file.name, mtime: mtime?.getTime() || 0 } : null;
+    })
+  );
+  const arr = fileStats.filter(
+    (file): file is { path: string; mtime: number } => file !== null
+  );
 
   const img = arr.sort((a, b) => a.mtime - b.mtime)?.[0];
 
@@ -54,9 +55,9 @@ export async function getNewestFilePath(folderPath: string): Promise<string> {
   //return await path.join(folderPath, filteredFiles[0].name);
 }
 
-export async function loadFolderFiles(path: string): Promise<string[]> {
+export async function loadFolderFiles(pathName: string): Promise<string[]> {
   try {
-    const files = await fs.readDir(path);
+    const files = await readDir(pathName);
     const filteredFiles = filterFiles(files).map((f) => f.name);
     return filteredFiles;
   } catch (error) {
@@ -68,23 +69,26 @@ export async function loadFolderFiles(path: string): Promise<string[]> {
 
 export async function getLatestPath() {
   const latestPath = localStorage.getItem('latestPath');
-  if (!latestPath) return;
+  if (!latestPath) {
+    return;
+  }
 
-  const exists = await fs.exists(latestPath);
-  if (!exists) return;
+  if (!(await exists(latestPath))) {
+    return;
+  }
 
   return latestPath;
 }
 
-export function changeKeyKeepOrder<T>(
+export function changeKeyKeepOrder<T extends object>(
   obj: T,
   oldKey: string,
   newKey: string,
-  value: unknown,
+  value: unknown
 ) {
   return Object.fromEntries(
     Object.entries(obj).map(([key, val]) =>
-      key === oldKey ? [newKey, value] : [key, val],
-    ),
+      key === oldKey ? [newKey, value] : [key, val]
+    )
   ) as T;
 }

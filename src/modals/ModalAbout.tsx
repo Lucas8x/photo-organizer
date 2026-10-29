@@ -1,14 +1,14 @@
 import { FormattedMessage } from 'react-intl';
+import { Button } from '@/ui/button';
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose,
 } from '@/ui/dialog';
-import { Button } from '@/ui/button';
 
 type ModalAboutProps = {
   children: React.ReactNode;
@@ -25,10 +25,10 @@ export function ModalAbout({ children }: ModalAboutProps) {
         </DialogHeader>
 
         <div className='flex max-h-40 flex-col space-y-4 overflow-y-auto'>
-          <Item title={'Title'} text={''} />
-          <Item title={'Title'} text={''} />
-          <Item title={'Title'} text={''} />
-          <Item title={'Title'} text={''} />
+          <Item text={''} title={'Title'} />
+          <Item text={''} title={'Title'} />
+          <Item text={''} title={'Title'} />
+          <Item text={''} title={'Title'} />
         </div>
 
         <DialogFooter>

@@ -1,6 +1,6 @@
 import { path } from '@tauri-apps/api';
 import { toast } from 'react-toastify';
-import { useFiles, useFileStack } from '@/store';
+import { useFileStack, useFiles } from '@/store';
 import { deleteFile } from './deleteFile';
 import { fileAction } from './fileActions';
 

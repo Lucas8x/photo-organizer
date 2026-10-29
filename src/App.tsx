@@ -40,15 +40,15 @@ export default function App() {
   return (
     <>
       <ToastContainer
-        theme='colored'
         pauseOnFocusLoss={false}
         pauseOnHover={false}
+        theme='colored'
       />
 
       <IntlProvider
-        messages={messages[language]}
-        locale={language}
         defaultLocale={LOCALES.ENGLISH}
+        locale={language}
+        messages={messages[language] as Record<string, string>}
       >
         <Main />
       </IntlProvider>
@@ -63,9 +63,9 @@ function Main() {
     <HotkeysProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/settings' element={<Settings />} />
-          <Route path='/test' element={<TestPage />} />
+          <Route element={<Home />} path='/' />
+          <Route element={<Settings />} path='/settings' />
+          <Route element={<TestPage />} path='/test' />
         </Routes>
       </BrowserRouter>
     </HotkeysProvider>

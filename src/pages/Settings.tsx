@@ -1,9 +1,13 @@
 import { IoArrowBack } from 'react-icons/io5';
-import { Link } from 'react-router';
 import { FormattedMessage } from 'react-intl';
-import { SettingItem } from '@/components/SettingItem';
+import { Link } from 'react-router';
 import { FooterBar } from '@/components/FooterBar';
-import { Switch } from '@/ui/switch';
+import { SettingItem } from '@/components/SettingItem';
+import { CONFLICT_HANDLE_OPTIONS, THEMES } from '@/constants';
+import { LANGUAGES } from '@/locales';
+import { ModalConfirmation } from '@/modals/ModalConfirmation';
+import { useSettings } from '@/store';
+import { Button } from '@/ui/button';
 import {
   Select,
   SelectContent,
@@ -13,11 +17,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/ui/select';
-import { THEMES, CONFLICT_HANDLE_OPTIONS } from '@/constants';
-import { LANGUAGES } from '@/locales';
-import { useSettings } from '@/store';
-import { Button } from '@/ui/button';
-import { ModalConfirmation } from '@/modals/ModalConfirmation';
+import { Switch } from '@/ui/switch';
 import {
   Tooltip,
   TooltipContent,
@@ -43,7 +43,7 @@ export function Settings() {
 
   const hideHeaderQuickSettings = useSettings((s) => s.hideHeaderQuickSettings);
   const toggleHideHeaderQuickSettings = useSettings(
-    (s) => s.toggleHideHeaderQuickSettings,
+    (s) => s.toggleHideHeaderQuickSettings
   );
 
   const isMovingFiles = useSettings((s) => s.isMovingFiles);
@@ -54,7 +54,7 @@ export function Settings() {
 
   const showingFolderPreviews = useSettings((s) => s.showingFolderPreviews);
   const toggleShowingFolderPreviews = useSettings(
-    (s) => s.toggleShowingFolderPreviews,
+    (s) => s.toggleShowingFolderPreviews
   );
 
   const resetSettings = useSettings((s) => s.resetSettings);
@@ -104,9 +104,9 @@ export function Settings() {
                   </SelectLabel>
                   {THEMES.map((theme) => (
                     <SelectItem
+                      className='cursor-pointer'
                       key={theme}
                       value={theme}
-                      className='cursor-pointer'
                     >
                       <FormattedMessage id={`theme.${theme}`} />
                     </SelectItem>
@@ -137,9 +137,9 @@ export function Settings() {
                   </SelectLabel>
                   {LANGUAGES.map((language) => (
                     <SelectItem
+                      className='cursor-pointer'
                       key={language.id}
                       value={language.id}
-                      className='cursor-pointer'
                     >
                       {language.name}
                     </SelectItem>
@@ -283,12 +283,12 @@ export function Settings() {
         </div>
 
         <ModalConfirmation
-          titleID='modal.settings.reset.title'
-          descriptionID='modal.settings.reset.description'
-          onConfirm={resetSettings}
           confirmButtonProps={{
             variant: 'destructive',
           }}
+          descriptionID='modal.settings.reset.description'
+          onConfirm={resetSettings}
+          titleID='modal.settings.reset.title'
         >
           <Button className='w-fit' variant='destructive'>
             <FormattedMessage id='settings.reset.btn' />

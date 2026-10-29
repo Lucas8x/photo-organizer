@@ -1,5 +1,5 @@
-import { useSettings } from '@/store';
 import { createIntl, createIntlCache } from 'react-intl';
+import { useSettings } from '@/store';
 import { messages } from './messages';
 
 const cache = createIntlCache();
@@ -10,8 +10,8 @@ export function getIntlShape() {
   return createIntl(
     {
       locale: language,
-      messages: messages[language],
+      messages: messages[language] as Record<string, string>,
     },
-    cache,
+    cache
   );
 }

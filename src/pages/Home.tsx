@@ -1,11 +1,11 @@
+import { AppJoyride } from '@/components/AppJoyride';
+import { SideButton } from '@/components/SideButton';
+import { useKeyboardShortcuts, useStoredKeybinds } from '@/hooks';
+import { useFiles } from '@/store';
+import { FooterBar } from '../components/FooterBar';
 import { Header } from '../components/Header';
 import { ImagePreview } from '../components/ImagePreview';
 import { KeybindsDisplay } from '../components/KeybindsDisplay';
-import { FooterBar } from '../components/FooterBar';
-import { useKeyboardShortcuts, useStoredKeybinds } from '@/hooks';
-import { useFiles } from '@/store';
-import { SideButton } from '@/components/SideButton';
-import { AppJoyride } from '@/components/AppJoyride';
 
 export function Home() {
   const decreaseIndex = useFiles((s) => s.decreaseIndex);
@@ -17,13 +17,13 @@ export function Home() {
         <Header />
 
         <div className='flex h-full w-full'>
-          <SideButton tooltipID='controls.previous' onClick={decreaseIndex}>
+          <SideButton onClick={decreaseIndex} tooltipID='controls.previous'>
             {'<'}
           </SideButton>
 
           <PreviewWrapper />
 
-          <SideButton tooltipID='controls.next' onClick={increaseIndex}>
+          <SideButton onClick={increaseIndex} tooltipID='controls.next'>
             {'>'}
           </SideButton>
         </div>

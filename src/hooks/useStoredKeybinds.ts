@@ -2,15 +2,15 @@ import { path } from '@tauri-apps/api';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { toast } from 'react-toastify';
 import { CONFLICT_HANDLE_OPTIONS } from '@/constants';
+import { fileAction } from '@/functions/fileActions';
+import { getIntlShape } from '@/locales/getIntlShape';
 import {
-  useFiles,
   useFileStack,
+  useFiles,
   useKeybinds,
   useModal,
   useSettings,
 } from '@/store';
-import { getIntlShape } from '@/locales/getIntlShape';
-import { fileAction } from '@/functions/fileActions';
 
 export function useStoredKeybinds() {
   const intl = getIntlShape();
@@ -33,11 +33,13 @@ export function useStoredKeybinds() {
 
   async function handleKeybind(key: string) {
     const destinationFolder = keybinds[key]?.path;
-    if (!destinationFolder || !currentImagePath) return;
+    if (!(destinationFolder && currentImagePath)) {
+      return;
+    }
 
     const destinationPath = await path.join(
       destinationFolder,
-      await path.basename(currentImagePath),
+      await path.basename(currentImagePath)
     );
 
     const { success, error } = await fileAction({
@@ -57,7 +59,7 @@ export function useStoredKeybinds() {
         intl.formatMessage({
           id: isMovingFiles ? 'toast.moved' : 'toast.copied',
         }),
-        { autoClose: 1000 },
+        { autoClose: 1000 }
       );
 
       updateKeyPreview({
@@ -82,8 +84,8 @@ export function useStoredKeybinds() {
             action: intl.formatMessage({
               id: isMovingFiles ? 'toast.action.move' : 'toast.action.copy',
             }),
-          },
-        ),
+          }
+        )
       );
       //`Unable to ${isMovingFiles ? 'move' : 'copy'} this image. ${error}`,
     }
@@ -95,6 +97,6 @@ export function useStoredKeybinds() {
     {
       enabled: !blockHotkeys,
     },
-    [keybinds, handleKeybind],
+    [keybinds, handleKeybind]
   );
 }

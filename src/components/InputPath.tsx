@@ -1,16 +1,17 @@
 import * as dialog from '@tauri-apps/plugin-dialog';
-import React, { KeyboardEvent, useRef } from 'react';
-import { IoRefresh, IoFolderOutline } from 'react-icons/io5';
+import type React from 'react';
+import { type KeyboardEvent, useRef } from 'react';
+import { IoFolderOutline, IoRefresh } from 'react-icons/io5';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Input } from '@/ui/input';
+import { cn } from '@/lib/utils';
 import { Button } from '@/ui/button';
+import { Input } from '@/ui/input';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/ui/tooltip';
-import { cn } from '@/lib/utils';
 
 type InputPathProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -39,7 +40,9 @@ export function InputPath({
       directory: true,
     });
 
-    if (!selected || Array.isArray(selected)) return;
+    if (!selected || Array.isArray(selected)) {
+      return;
+    }
 
     onChange(selected);
   }
@@ -56,12 +59,12 @@ export function InputPath({
       id='joyride-folder-input'
     >
       <Input
-        ref={inputRef}
-        value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder={intl.formatMessage({ id: 'folder.input.placeholder' })}
-        required
         onKeyPress={clickPress}
+        placeholder={intl.formatMessage({ id: 'folder.input.placeholder' })}
+        ref={inputRef}
+        required
+        value={value}
         {...props}
       />
 
@@ -69,10 +72,10 @@ export function InputPath({
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              variant='outline'
-              size='icon'
-              onClick={openDialog}
               className='aspect-square'
+              onClick={openDialog}
+              size='icon'
+              variant='outline'
             >
               <IoFolderOutline className='size-6 dark:text-white' />
             </Button>
@@ -89,11 +92,11 @@ export function InputPath({
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant='outline'
-                size='icon'
-                onClick={onRefresh}
                 className='aspect-square'
                 disabled={!value}
+                onClick={onRefresh}
+                size='icon'
+                variant='outline'
               >
                 <IoRefresh className='size-6' />
               </Button>

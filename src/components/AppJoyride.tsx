@@ -11,12 +11,24 @@ export function AppJoyride() {
 
   return (
     <Joyride
-      run={isJoyrideRunning}
       callback={(p) => {
         if (finishedStatuses.includes(p.status)) {
           setIsJoyrideRunning(false);
         }
       }}
+      continuous
+      disableScrolling
+      hideCloseButton
+      locale={{
+        back: intl.formatMessage({ id: 'joyride.back' }),
+        next: intl.formatMessage({ id: 'joyride.next' }),
+        skip: intl.formatMessage({ id: 'joyride.skip' }),
+        last: intl.formatMessage({ id: 'joyride.last' }),
+      }}
+      run={isJoyrideRunning}
+      scrollToFirstStep
+      showProgress
+      showSkipButton
       steps={[
         {
           content: (
@@ -75,21 +87,9 @@ export function AppJoyride() {
       ]}
       styles={{
         options: {
-          zIndex: 10000,
+          zIndex: 10_000,
         },
       }}
-      locale={{
-        back: intl.formatMessage({ id: 'joyride.back' }),
-        next: intl.formatMessage({ id: 'joyride.next' }),
-        skip: intl.formatMessage({ id: 'joyride.skip' }),
-        last: intl.formatMessage({ id: 'joyride.last' }),
-      }}
-      continuous
-      disableScrolling
-      hideCloseButton
-      scrollToFirstStep
-      showProgress
-      showSkipButton
     />
   );
 }

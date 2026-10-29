@@ -1,20 +1,20 @@
 import { open } from '@tauri-apps/plugin-shell';
-import { FormattedMessage } from 'react-intl';
 import {
+  IoAperture,
+  IoInformationCircleOutline,
   IoLogoGithub,
   IoSettingsOutline,
-  IoInformationCircleOutline,
-  IoAperture,
 } from 'react-icons/io5';
+import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router';
+import { ModalAbout } from '@/modals/ModalAbout';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/ui/tooltip';
-import { ModalAbout } from '@/modals/ModalAbout';
-import packageJson from '../../package.json';
+import packageJson from '../../package.json' with { type: 'json' };
 
 export function FooterBar() {
   return (
@@ -51,7 +51,7 @@ export function FooterBar() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className='text-xs font-bold leading-none'>
+              <span className='text-xs leading-none font-bold'>
                 v{packageJson.version}
               </span>
             </TooltipTrigger>

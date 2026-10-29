@@ -1,12 +1,7 @@
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { InputPath } from '../components/InputPath';
-import { RESERVED_KEYS } from '../constants';
-import { useKeybinds } from '../store';
-import { Button } from '../ui/button';
-import { Label } from '@/ui/label';
-import { Input } from '@/ui/input';
+import { toast } from 'react-toastify';
+import { Button } from '@/ui/button';
 import {
   Dialog,
   DialogClose,
@@ -17,6 +12,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/ui/dialog';
+import { Input } from '@/ui/input';
+import { Label } from '@/ui/label';
+import { InputPath } from '../components/InputPath';
+import { RESERVED_KEYS } from '../constants';
+import { useKeybinds } from '../store';
 
 type ModalAddKeybindProps = {
   initialKeybind?: string;
@@ -58,7 +58,7 @@ export function ModalAddKeybind({
           id: success
             ? 'store.keybinds.edit.success'
             : 'store.keybinds.edit.old.error',
-        }),
+        })
       );
 
       if (success) {
@@ -78,7 +78,7 @@ export function ModalAddKeybind({
         id: success
           ? 'store.keybinds.create.success'
           : 'store.keybinds.create.exist.error',
-      }),
+      })
     );
 
     if (success) {
@@ -87,7 +87,7 @@ export function ModalAddKeybind({
   }
 
   return (
-    <Dialog open onOpenChange={(open) => !open && close()}>
+    <Dialog onOpenChange={(open) => !open && close()} open>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
@@ -100,48 +100,48 @@ export function ModalAddKeybind({
 
         <div className='flex flex-col gap-4'>
           <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='keybind' className='text-right'>
+            <Label className='text-right' htmlFor='keybind'>
               <FormattedMessage id='modal.create.input.keybind.label' />
             </Label>
             <Input
               className='col-span-3'
               id='keybind'
-              value={keybind}
               onKeyDown={({ key }) => handleKeyDown(key)}
               placeholder={intl.formatMessage({
                 id: 'modal.create.keybind.placeholder',
               })}
               readOnly
               required
+              value={keybind}
             />
           </div>
 
           <div className='grid grid-cols-4 items-center gap-4'>
-            <Label htmlFor='folder-path-input' className='text-right'>
+            <Label className='text-right' htmlFor='folder-path-input'>
               <FormattedMessage id='modal.create.input.path.label' />
             </Label>
             <InputPath
-              className='col-span-3'
-              value={outputPath}
-              onChange={setOutputPath}
-              hideRefreshButton
               autoComplete='off'
+              className='col-span-3'
+              hideRefreshButton
+              onChange={setOutputPath}
+              value={outputPath}
             />
           </div>
         </div>
 
         <DialogFooter>
           <DialogClose asChild>
-            <Button variant='outline' onClick={close}>
+            <Button onClick={close} variant='outline'>
               <FormattedMessage id='modal.close' />
             </Button>
           </DialogClose>
 
           <DialogClose asChild>
             <Button
-              type='submit'
+              disabled={!(keybind && outputPath)}
               onClick={handleConfirm}
-              disabled={!keybind || !outputPath}
+              type='submit'
             >
               <FormattedMessage id='modal.confirm' />
             </Button>
