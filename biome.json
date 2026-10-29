@@ -20,6 +20,11 @@
       "jsxQuoteStyle": "single"
     }
   },
+  "html": {
+    "formatter": {
+      "selfCloseVoidElements": "always"
+    }
+  },
   "css": {
     "formatter": {
       "quoteStyle": "single"
