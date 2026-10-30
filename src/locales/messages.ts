@@ -89,7 +89,7 @@ export const messages = {
     'store.keybinds.edit.success': 'Keybind successfully updated.',
 
     'updater.checking': 'Checking for updates...',
-    'updater.downloading': 'An update is available. Downloading...',
+    'updater.downloading': 'Downloading update... {progress}',
     'updater.installed': 'Update installed. Reloading...',
     'updater.error': "Couldn't check for updates.",
 
@@ -215,8 +215,8 @@ export const messages = {
     'store.keybinds.edit.success': 'Atalho atualizado com sucesso.',
 
     'updater.checking': 'Verificando atualização...',
-    'updater.downloading': 'Atualização disponível. Baixando...',
-    'updater.installed': 'Atualização instalada. Recarregando...',
+    'updater.downloading': 'Baixando atualização... {progress}',
+    'updater.installed': 'Atualização instalada. Reiniciando...',
     'updater.error': 'Não foi possível verificar atualização.',
 
     conflictLabel: 'Ação',

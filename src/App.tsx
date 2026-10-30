@@ -13,8 +13,6 @@ import { TestPage } from './pages/Test';
 import { useFiles, useSettings } from './store';
 import { hookWebviewLog } from './utils/hookWebviewLog';
 
-import 'react-toastify/dist/ReactToastify.css';
-
 if (import.meta.env.MODE === 'development') {
   hookWebviewLog();
 }
@@ -42,6 +40,7 @@ export default function App() {
       <ToastContainer
         pauseOnFocusLoss={false}
         pauseOnHover={false}
+        progressClassName='bg-green-500'
         theme='colored'
       />
 
