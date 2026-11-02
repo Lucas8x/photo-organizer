@@ -1,5 +1,5 @@
 import { FormattedMessage, useIntl } from 'react-intl';
-import Joyride, { STATUS } from 'react-joyride';
+import { Joyride, STATUS } from 'react-joyride';
 import { useJoyride } from '../store';
 
 const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
@@ -11,24 +11,26 @@ export function AppJoyride() {
 
   return (
     <Joyride
-      callback={(p) => {
-        if (finishedStatuses.includes(p.status)) {
-          setIsJoyrideRunning(false);
-        }
-      }}
       continuous
-      disableScrolling
-      hideCloseButton
       locale={{
         back: intl.formatMessage({ id: 'joyride.back' }),
         next: intl.formatMessage({ id: 'joyride.next' }),
         skip: intl.formatMessage({ id: 'joyride.skip' }),
         last: intl.formatMessage({ id: 'joyride.last' }),
       }}
+      onEvent={(p) => {
+        if (finishedStatuses.includes(p.status)) {
+          setIsJoyrideRunning(false);
+        }
+      }}
+      options={{
+        zIndex: 10_000,
+        skipScroll: true,
+        buttons: ['skip', 'back', 'primary'],
+        showProgress: true,
+      }}
       run={isJoyrideRunning}
       scrollToFirstStep
-      showProgress
-      showSkipButton
       steps={[
         {
           content: (
@@ -85,11 +87,6 @@ export function AppJoyride() {
           target: '#joyride-example-keybind',
         },
       ]}
-      styles={{
-        options: {
-          zIndex: 10_000,
-        },
-      }}
     />
   );
 }
