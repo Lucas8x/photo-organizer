@@ -93,8 +93,8 @@ export const useKeybinds = create<KeybindsState>()(
       },
 
       updateKeyPreview: ({ key, previewPath }) => {
-        if (!previewPath) {
-          return;
+        if (!(key && previewPath && get().keybinds[key])) {
+          return false;
         }
 
         set((s) => ({
@@ -106,6 +106,8 @@ export const useKeybinds = create<KeybindsState>()(
             },
           },
         }));
+
+        return true;
       },
 
       clearAll: () => {

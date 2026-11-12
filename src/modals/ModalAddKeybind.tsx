@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
+import { KeybindInput } from '@/components/KeybindInput';
 import { Button } from '@/ui/button';
 import {
   Dialog,
@@ -10,12 +11,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/ui/dialog';
-import { Input } from '@/ui/input';
 import { Label } from '@/ui/label';
 import { InputPath } from '../components/InputPath';
-import { RESERVED_KEYS } from '../constants';
 import { useKeybinds } from '../store';
 
 type ModalAddKeybindProps = {
@@ -37,16 +35,10 @@ export function ModalAddKeybind({
   const [keybind, setKeybind] = useState(initialKeybind);
   const [outputPath, setOutputPath] = useState(initialOutputPath);
 
-  function handleKeyDown(key: string) {
-    if (RESERVED_KEYS.includes(key as (typeof RESERVED_KEYS)[number])) {
-      toast.error(intl.formatMessage({ id: 'modal.create.keybind.reserved' }));
-      return;
-    }
-    setKeybind(key);
-  }
-
   async function handleConfirm() {
-    if (initialKeybind || initialOutputPath) {
+    const isUpdatingKey = initialKeybind || initialOutputPath;
+
+    if (isUpdatingKey) {
       const success = await updateKeybind({
         previousKey: initialKeybind,
         newKey: keybind,
@@ -100,18 +92,19 @@ export function ModalAddKeybind({
 
         <div className='flex flex-col gap-4'>
           <div className='grid grid-cols-4 items-center gap-4'>
-            <Label className='text-right' htmlFor='keybind'>
+            <Label className='text-right' htmlFor='keybind-input'>
               <FormattedMessage id='modal.create.input.keybind.label' />
             </Label>
-            <Input
+            <KeybindInput
+              autoFocus
               className='col-span-3'
-              id='keybind'
-              onKeyDown={({ key }) => handleKeyDown(key)}
+              focusOnReset
+              onChange={(keys) => setKeybind(keys)}
+              onReset={() => setKeybind('')}
               placeholder={intl.formatMessage({
                 id: 'modal.create.keybind.placeholder',
               })}
-              readOnly
-              required
+              resetPosition='right'
               value={keybind}
             />
           </div>

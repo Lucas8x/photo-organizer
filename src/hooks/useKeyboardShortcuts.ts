@@ -1,36 +1,34 @@
 import { useHotkeys } from 'react-hotkeys-hook';
 import { undo } from '@/functions/undo';
-import { useFiles, useModal } from '@/store';
+import { useAppControls, useFiles } from '@/store';
 
 export function useKeyboardShortcuts() {
-  const blockHotkeys = useModal((s) => s.blockHotkeys);
   const decreaseIndex = useFiles((s) => s.decreaseIndex);
   const increaseIndex = useFiles((s) => s.increaseIndex);
+  const actionToKeybind = useAppControls((s) => s.actionsToKeybinds);
 
   useHotkeys(
-    'ArrowLeft',
+    actionToKeybind['previous.image'],
     decreaseIndex,
-    {
-      enabled: !blockHotkeys,
-    },
-    []
+    { scopes: 'editor', description: 'Move to the previous image.' },
+    [actionToKeybind['previous.image'], decreaseIndex]
   );
 
   useHotkeys(
-    'ArrowRight',
+    actionToKeybind['next.image'],
     increaseIndex,
-    {
-      enabled: !blockHotkeys,
-    },
-    []
+    { scopes: 'editor', description: 'Move to the next image.' },
+    [actionToKeybind['next.image'], increaseIndex]
   );
 
   useHotkeys(
-    'ctrl+z',
+    actionToKeybind.undo,
     undo,
     {
-      enabled: !blockHotkeys,
+      scopes: 'editor',
+      description: 'Undo last action (move or copy)',
+      preventDefault: true,
     },
-    []
+    [actionToKeybind.undo]
   );
 }

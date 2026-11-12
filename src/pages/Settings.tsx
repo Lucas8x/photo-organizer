@@ -1,12 +1,14 @@
 import { IoArrowBack } from 'react-icons/io5';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'react-router';
+import { toast } from 'react-toastify';
 import { FooterBar } from '@/components/FooterBar';
+import { KeybindInput } from '@/components/KeybindInput';
 import { SettingItem } from '@/components/SettingItem';
 import { CONFLICT_HANDLE_OPTIONS, THEMES } from '@/constants';
 import { LANGUAGES } from '@/locales';
 import { ModalConfirmation } from '@/modals/ModalConfirmation';
-import { useSettings } from '@/store';
+import { type AppAction, useAppControls, useSettings } from '@/store';
 import { Button } from '@/ui/button';
 import {
   Select,
@@ -26,6 +28,8 @@ import {
 } from '@/ui/tooltip';
 
 export function Settings() {
+  const intl = useIntl();
+
   const theme = useSettings((s) => s.theme);
   const changeTheme = useSettings((s) => s.changeTheme);
 
@@ -59,10 +63,36 @@ export function Settings() {
 
   const resetSettings = useSettings((s) => s.resetSettings);
 
+  const appKeybinds = useAppControls((s) => s.actionsToKeybinds);
+  const setAppKeybind = useAppControls((s) => s.setKeybind);
+  const restoreAppKeybind = useAppControls((s) => s.restoreKeybind);
+
+  function handleChangeAppKeybind(action: AppAction, keys: string) {
+    if (setAppKeybind(action, keys)) {
+      toast.success(
+        intl.formatMessage({
+          id: 'store.keybinds.edit.success',
+        }),
+        { autoClose: 1500 }
+      );
+    }
+  }
+
+  function handleResetAppKeybind(action: AppAction) {
+    if (restoreAppKeybind(action)) {
+      toast.success(
+        intl.formatMessage({
+          id: 'store.keybinds.edit.success',
+        }),
+        { autoClose: 1500 }
+      );
+    }
+  }
+
   return (
     <div className='flex h-full w-full max-w-full flex-col dark:text-white'>
       <div className='flex h-full w-full flex-col gap-4 overflow-y-auto bg-white p-4 dark:bg-zinc-900'>
-        <div className='flex items-center gap-2 text-xl'>
+        <nav className='flex items-center gap-2 text-xl'>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -79,7 +109,7 @@ export function Settings() {
           <h1 className='font-bold'>
             <FormattedMessage id='settings' />
           </h1>
-        </div>
+        </nav>
 
         <div className='flex flex-col gap-4'>
           <SettingItem.Root>
@@ -278,6 +308,64 @@ export function Settings() {
             <Switch
               checked={showingFolderPreviews}
               onCheckedChange={toggleShowingFolderPreviews}
+            />
+          </SettingItem.Root>
+
+          <h2 className='border-b pb-1 font-semibold'>App keybinds</h2>
+
+          <SettingItem.Root>
+            <div>
+              <SettingItem.Title>
+                <FormattedMessage id='left.keybind' />
+              </SettingItem.Title>
+
+              <SettingItem.Description>
+                <FormattedMessage id='left.keybind.description' />
+              </SettingItem.Description>
+            </div>
+
+            <KeybindInput
+              onChange={(keys) =>
+                handleChangeAppKeybind('previous.image', keys)
+              }
+              onReset={() => handleResetAppKeybind('previous.image')}
+              value={appKeybinds['previous.image']}
+            />
+          </SettingItem.Root>
+
+          <SettingItem.Root>
+            <div>
+              <SettingItem.Title>
+                <FormattedMessage id='right.keybind' />
+              </SettingItem.Title>
+
+              <SettingItem.Description>
+                <FormattedMessage id='right.keybind.description' />
+              </SettingItem.Description>
+            </div>
+
+            <KeybindInput
+              onChange={(keys) => handleChangeAppKeybind('next.image', keys)}
+              onReset={() => handleResetAppKeybind('next.image')}
+              value={appKeybinds['next.image']}
+            />
+          </SettingItem.Root>
+
+          <SettingItem.Root>
+            <div>
+              <SettingItem.Title>
+                <FormattedMessage id='undo.keybind' />
+              </SettingItem.Title>
+
+              <SettingItem.Description>
+                <FormattedMessage id='undo.keybind.description' />
+              </SettingItem.Description>
+            </div>
+
+            <KeybindInput
+              onChange={(keys) => handleChangeAppKeybind('undo', keys)}
+              onReset={() => handleResetAppKeybind('undo')}
+              value={appKeybinds.undo}
             />
           </SettingItem.Root>
         </div>

@@ -32,6 +32,14 @@ export const messages = {
     'quickSettings.folder_preview.description':
       'Toggle folder preview display.',
 
+    'left.keybind': 'Left keybind',
+    'left.keybind.description': 'Keybind that move to previous image.',
+    'right.keybind': 'Right keybind',
+    'right.keybind.description': 'Keybind that move to next image.',
+    'undo.keybind': 'Undo keybind',
+    'undo.keybind.description':
+      'Keybind that undo the last action (move or copy).',
+
     'show.in.file.explorer': 'Click here to show this image in file explorer.',
     'no.images.found': 'No images found',
     'no.folder.selected': 'No folder selected',
@@ -158,6 +166,14 @@ export const messages = {
     'quickSettings.folder_preview': 'Miniatura da pasta',
     'quickSettings.folder_preview.description':
       'Alterna visualização da miniatura das pastas.',
+
+    'left.keybind': 'Atalho de imagem anterior',
+    'left.keybind.description': 'Tecla que move para a imagem anterior.',
+    'right.keybind': 'Atalho de proxima imagem',
+    'right.keybind.description': 'Tecla que move para a próxima imagem.',
+    'undo.keybind': 'Atalho de desfazer',
+    'undo.keybind.description':
+      'Tecla que desfaz a última ação (mover ou copiar).',
 
     'show.in.file.explorer':
       'Clique aqui para mostrar esta imagem no explorador de arquivos.',

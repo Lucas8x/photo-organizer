@@ -1,22 +1,13 @@
-/** biome-ignore-all lint/complexity/noExcessiveCognitiveComplexity: <ok> */
 import { path } from '@tauri-apps/api';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
 //import { CONFLICT_HANDLE_OPTIONS } from '@/constants';
 import { fileAction } from '@/functions/fileActions';
-import { getIntlShape } from '@/locales/getIntlShape';
-import {
-  useFileStack,
-  useFiles,
-  useKeybinds,
-  useModal,
-  useSettings,
-} from '@/store';
+import { useFileStack, useFiles, useKeybinds, useSettings } from '@/store';
 
 export function useStoredKeybinds() {
-  const intl = getIntlShape();
-
-  const blockHotkeys = useModal((s) => s.blockHotkeys);
+  const intl = useIntl();
 
   const isMovingFiles = useSettings((s) => s.isMovingFiles);
   const nextImgAfterCopy = useSettings((s) => s.nextImgAfterCopy);
@@ -32,6 +23,7 @@ export function useStoredKeybinds() {
   const removeFile = useFiles((s) => s.removeFile);
   const increaseIndex = useFiles((s) => s.increaseIndex);
 
+  // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: <ok>
   async function handleKeybind(key: string) {
     const destinationFolder = keybinds[key]?.path;
     if (!(destinationFolder && currentImagePath)) {
@@ -94,9 +86,13 @@ export function useStoredKeybinds() {
 
   useHotkeys(
     Object.keys(keybinds),
-    (e) => handleKeybind(e.key),
+    (_, h) => {
+      handleKeybind(h.hotkey);
+    },
     {
-      enabled: !blockHotkeys,
+      scopes: 'editor',
+      splitKey: '+',
+      useKey: true,
     },
     [keybinds, handleKeybind]
   );

@@ -59,7 +59,7 @@ function Main() {
   useUpdater();
 
   return (
-    <HotkeysProvider>
+    <HotkeysProvider initiallyActiveScopes={['editor']}>
       <BrowserRouter>
         <Routes>
           <Route element={<Home />} path='/' />
