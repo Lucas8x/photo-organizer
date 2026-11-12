@@ -13,6 +13,7 @@ type AppControlStore = {
   actionsToKeybinds: Record<AppAction, string>;
   setKeybind: (action: AppAction, keybind: string) => boolean;
   restoreKeybind: (action: AppAction) => boolean;
+  resetControls: () => void;
 };
 
 export const useAppControls = create<AppControlStore>()(
@@ -46,6 +47,12 @@ export const useAppControls = create<AppControlStore>()(
           },
         }));
         return true;
+      },
+
+      resetControls: () => {
+        set({
+          actionsToKeybinds: DEFAULT_HOTKEYS,
+        });
       },
     }),
     {

@@ -66,6 +66,7 @@ export function Settings() {
   const appKeybinds = useAppControls((s) => s.actionsToKeybinds);
   const setAppKeybind = useAppControls((s) => s.setKeybind);
   const restoreAppKeybind = useAppControls((s) => s.restoreKeybind);
+  const resetAppControls = useAppControls((s) => s.resetControls);
 
   function handleChangeAppKeybind(action: AppAction, keys: string) {
     if (setAppKeybind(action, keys)) {
@@ -375,7 +376,10 @@ export function Settings() {
             variant: 'destructive',
           }}
           descriptionID='modal.settings.reset.description'
-          onConfirm={resetSettings}
+          onConfirm={() => {
+            resetSettings();
+            resetAppControls();
+          }}
           titleID='modal.settings.reset.title'
         >
           <Button className='w-fit' variant='destructive'>
