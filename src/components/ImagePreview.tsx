@@ -21,6 +21,7 @@ export function ImagePreview() {
   const currentFolderPath = useFiles((s) => s.currentFolderPath);
 
   const hideImageName = useSettings((s) => s.hideImageName);
+  const hideImageCount = useSettings((s) => s.hideImageCount);
 
   const canShowImage = currentImagePath || isJoyrideRunning;
 
@@ -69,7 +70,7 @@ export function ImagePreview() {
             />
           </div>
 
-          <ImageCountInput />
+          {!hideImageCount && <ImageCountInput />}
         </div>
       ) : (
         <span className='flex w-full flex-col items-center self-center font-bold dark:text-white'>

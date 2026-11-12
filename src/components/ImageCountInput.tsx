@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { toast } from 'react-toastify';
 import { cn } from '@/lib/utils';
-import { useFiles, useSettings } from '@/store';
+import { useFiles } from '@/store';
 import { Input } from '@/ui/input';
 import {
   Tooltip,
@@ -16,7 +16,6 @@ export function ImageCountInput() {
   const intl = useIntl();
   const currentIndex = useFiles((s) => s.index);
   const files = useFiles((s) => s.files);
-  const hideImageCount = useSettings((s) => s.hideImageCount);
   const setIndex = useFiles((s) => s.setIndex);
 
   const [isOpen, setIsOpen] = useState(false);
@@ -29,16 +28,24 @@ export function ImageCountInput() {
 
     if (key === 'Enter') {
       setIsOpen(false);
-      if (!value || value - 1 < 0 || value - 1 >= files.length) {
-        toast.error(intl.formatMessage({ id: 'toast.invalid.index.input' }));
+      if (!value) {
+        toast.error(intl.formatMessage({ id: 'toast.setindex.invalid' }));
+        return;
+      }
+
+      if (value - 1 < 0) {
+        toast.error(
+          intl.formatMessage({ id: 'toast.setindex.error.negative' })
+        );
+        return;
+      }
+
+      if (value - 1 >= files.length) {
+        toast.error(intl.formatMessage({ id: 'toast.setindex.error.toohigh' }));
         return;
       }
       setIndex(value - 1);
     }
-  }
-
-  if (hideImageCount) {
-    return null;
   }
 
   return (

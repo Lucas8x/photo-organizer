@@ -118,6 +118,9 @@ export const messages = {
     'toast.error': 'Unable to {action} this image.',
     'toast.action.move': 'move',
     'toast.action.copy': 'copy',
+    'toast.setindex.invalid': 'Entered value is invalid',
+    'toast.setindex.error.negative': 'Can not use negative number',
+    'toast.setindex.error.toohigh': 'Entered number is too high',
 
     'current.version': 'Current version',
     'github.repository': 'GitHub repository',
@@ -250,6 +253,9 @@ export const messages = {
     'toast.error': 'Nao foi possível {action} esta imagem.',
     'toast.action.move': 'mover',
     'toast.action.copy': 'copiar',
+    'toast.setindex.invalid': 'O valor inserido é inválido',
+    'toast.setindex.error.negative': 'Não é possível usar número negativo',
+    'toast.setindex.error.toohigh': 'O número inserido é alto demais',
 
     back: 'Voltar',
 
